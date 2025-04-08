@@ -165,9 +165,34 @@ This directory contains the PowerShell scripts that automate the various steps o
 
 
 
+## Legal Disclaimer
 
+**Please read this disclaimer carefully before using this software.**
 
+This project provides code that automates the process of extracting assets (3D models, sounds, and videos) from the PlayStation 3 version of "The Simpsons Game" (released in 2007). It is intended for personal use only, specifically for hobby projects, learning purposes, and research into the game.
 
-# Disclaimer
+**Key Points to Understand:**
 
-This project is an independent effort and is not affiliated with or endorsed by Electronic Arts or any other copyright holders of "The Simpsons Game". This tool is intended for personal use, research, and educational purposes only. Please respect the intellectual property rights of the game developers and publishers.
+* **Requires Ownership of the Game:** This tool requires you to possess your own legally obtained ISO copy of "The Simpsons Game" for the PlayStation 3. It does not provide access to the game files themselves.
+* **Automation of Existing Tools:** This code automates the use of existing, publicly available software designed for file extraction and conversion. Notably, it utilizes:
+    * **QuickBMS:** For extracting assets from the game's .STR archive files, using a script for "The Simpsons Game" that is publicly available and considered an official script by the creator of QuickBMS.
+    * **FFmpeg and VGMStream:** Standard, open-source tools for converting extracted audio and video files.
+    * **Blender and a Python Extension:** For converting extracted 3D models to the GLB format, utilizing freely available software and a random Extension.
+    * **Noesis:** While texture extraction is mentioned, please note that this currently requires manual steps using the Noesis tool, which is separate from this automated process.
+* **Respect Copyright:** The assets extracted from "The Simpsons Game" are copyrighted by Electronic Arts (EA) and Disney. This tool is provided solely to facilitate personal exploration and modification of assets from a game you legally own. You are solely responsible for ensuring your use of these assets complies with all applicable copyright laws and the game's End User License Agreement (EULA) or Terms of Service.
+* **No Distribution of Assets:** This project does not involve the distribution of any copyrighted game assets. It only provides the code to automate the extraction process from your own game files.
+* **Compliance with Takedown Requests:** The developer of this project respects the intellectual property rights of EA and Disney. If either Electronic Arts or Disney (or their legal representatives) requests the removal of this code, the developer will promptly comply.
+
+**By using this software, you acknowledge that you have read and understood this disclaimer and agree to use it responsibly and in accordance with all applicable laws and terms of service.**
+
+# DO NOT USE THIS FOR COMMERCIAL PURPOSES OR DISTRIBUTE ANY EXTRACTED ASSETS WITHOUT PERMISSION FROM THE COPYRIGHT HOLDERS.
+# NOTE: THESE NO CHANCE THEY WILL EVER GRANT PERMISSION
+
+The Simpsons characters themselves are primarily owned by The Walt Disney Company.
+
+Specifically, the characters were created by Matt Groening, and the television show "The Simpsons" was originally produced by Gracie Films and 20th Century Fox Television (which is now part of Disney Television Studios). Through its acquisition of 21st Century Fox, Disney now holds the primary ownership of the copyright and trademarks associated with The Simpsons franchise, including the characters.
+
+While Electronic Arts (EA) created the specific digital representations of these characters as assets within "The Simpsons Game, PS3 and Xbox360" the underlying intellectual property rights to the characters themselves belong to Disney. EA had a license to use these characters and the Simpsons brand to develop and publish their game
+
+so unless you want to be sued by Disney and EA, don't distribute any extracted assets ever not for free, for monet or for fun, not even to your friends. these all constitute copyright infringement and are illegal just about everywhere in the world.
+
