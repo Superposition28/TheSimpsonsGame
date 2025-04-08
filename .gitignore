@@ -1,0 +1,16 @@
+GameFiles
+*.ini
+.history
+Tools/noeises/exe
+.vscode
+
+*.log
+
+Tools/quickbms/*.exe
+Tools/quickbms/*.bat
+Tools/quickbms/*.ps1
+Tools/quickbms/*.txt
+
+old
+
+test
