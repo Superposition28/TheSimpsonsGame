@@ -21,7 +21,7 @@ This project aims to automate the process of extracting and converting assets fr
 
 Before you begin, ensure you have the following installed and set up:
 
-* **Operating System:** only tested on windows
+* **Operating System:** only tested on windows, should be possible on mac/linux with minimal changes
 * **PowerShell:** only tested on PowerShell 7.5.0
 * **.NET:** only tested on .NET 9.0.201
 * **dotnet-script:** ```dotnet tool install -g dotnet-script```
@@ -34,6 +34,7 @@ Before you begin, ensure you have the following installed and set up:
 * **vgmstream-cli:** Download [\[r1980\]](https://github.com/vgmstream/vgmstream/releases/tag/r1980) this is used for conversion of proprietary audio .snu into (.ogg, or any others)
 * **WinRar:** used by the initializer to automatically extract the iso file
 
+50GB of free space
 
 ## Getting Started
 ## Usage
@@ -74,6 +75,9 @@ so this step extracts these many files as a massive nested structure of folders
 [4] Flatten Directories (Powershell, Flatten.ps1)
 this slightly un-nests the str output structure by combining folders 
 
+this step was made to fix errors with blender not finding files in long paths
+but even this only reduced significantly the number of errors
+
 [5] Video Conversion (Powershell, 4_Video.ps1)
 converts the weird video format to a less weird one
 
@@ -83,8 +87,10 @@ converts the weird audio format to a less weird one
 [7] init Blender (C#, init.csx)
 gets the blender conversion process ready
 
+even with flattening
 due to the length of the directory structure i foolishly refuse to remove blender more often fails to locate the files
 i needed a workaround so i create symbolic links (advanced shortcuts) to each files folder
+even this only reduced the reduced number of errors
 
 Processes .preinstanced files in the nested structure and Generates a 'map' of assets file paths.
 Creates duplicate directory structures for .blend and .glb files based on .preinstanced files.
@@ -95,6 +101,7 @@ Saves the generated asset map to asset_mapping.json.
 [8] Blender Conversion (C#, blend.csx)
 converts each .preinstanced asset into .glb using blender4.3, the plugin or script stops working with 4.4
 
+currently only 5337 of 5533 assets are converted successfully, error unknown
 
 
 ### `GameFiles\Main\PS3_GAME\USRDIR`
