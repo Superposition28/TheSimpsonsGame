@@ -325,3 +325,14 @@ BlenderProcessingParallel(); // Call the parallel processing function
 Console.ForegroundColor = ConsoleColor.Green;
 Console.WriteLine("Processing complete (Parallel)."); // Updated output message
 Console.ResetColor();
+
+
+Console.ForegroundColor = ConsoleColor.DarkGray;
+Console.WriteLine("deleting temp files...");
+Console.ResetColor();
+
+// Delete TMP_TSG_FILES
+// reading the asset_mapping.json file to get the TMP_TSG_FILES path
+
+
+

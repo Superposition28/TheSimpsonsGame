@@ -1,0 +1,444 @@
+Folder PATH listing for volume Dev A:
+Volume serial number is 560F-B8F0
+A:.
+|   .gitignore
+|   asset_mapping.json
+|   Audio.md
+|   audio.py
+|   audiotree.md
+|   blank.blend
+|   config.ini
+|   init.ps1
+|   main.log
+|   main.ps1
+|   Readme.md
+|   stepbystep.md
+|   tree.tmp
+|
++---.vscode
+|       settings.json
+|       
+|           
++---GameFiles
+|   \---Main
+|       |   PS3_DISC.SFB
+|       |   
+|       +---PS3_GAME
+|       |   |   icon.svg
+|       |   |   icon.svg.import
+|       |   |   ICON0.PNG
+|       |   |   ICON0.PNG.import
+|       |   |   PARAM.SFO
+|       |   |   PIC0.PNG
+|       |   |   PIC0.PNG.import
+|       |   |   PIC1.PNG
+|       |   |   PIC1.PNG.import
+|       |   |   PIC2.PNG
+|       |   |   PIC2.PNG.import
+|       |   |   project.godot
+|       |   |   PS3LOGO.DAT
+|       |   |   
+|       |               
+|       \---PS3_UPDATE
+|               PS3UPDAT.PUP
+|               
+\---Tools
+    +---blender
+    |   |   io_import_simpson_game_ScriptMode.py
+    |   |   main.py
+    |   |   
+    |   \---old
+    |           io_import_simpson_game - Copy1.py
+    |           io_import_simpson_game.py
+    |           io_import_simpson_game_ScriptMode copy.py
+    |           io_import_simpson_game_ScriptMode copy1.py
+    |           main copy.py
+    |           main copy1.py
+    |           Step4_Assets_Blender.ps1
+    |           
+    +---noeises
+    |   |   tex_TheSimpsonsGame_PS3_txd.py
+    |   |   
+    |   \---exe
+    |       |   noegl_opengl.dll
+    |       |   noesis.dll
+    |       |   Noesis.exe
+    |       |   Noesis64.exe
+    |       |   noesiskinect.dll
+    |       |   pluginsource.zip
+    |       |   ReadMe.txt
+    |       |   
+    |       +---noex64
+    |       |       noegl_opengl.dll
+    |       |       noesis.dll
+    |       |       
+    |       +---optionalplugins
+    |       |   |   autodesk_fbx_2014.dll
+    |       |   |   autodesk_fbx_2017.dll
+    |       |   |   crunchimage.dll
+    |       |   |   tool_dicktools.dll
+    |       |   |   tool_tripicker.dll
+    |       |   |   
+    |       |   +---python
+    |       |   |       fmt_amiga_adf_misc.py
+    |       |   |       fmt_animalforestn64_srcobj.py
+    |       |   |       fmt_atari810_fms.py
+    |       |   |       fmt_atarijaguar_bpeg.py
+    |       |   |       fmt_atarijaguar_cry.py
+    |       |   |       fmt_atarijaguar_cybermorph.py
+    |       |   |       fmt_atarijaguar_lzj.py
+    |       |   |       fmt_atari_cad3d.py
+    |       |   |       fmt_atari_st.py
+    |       |   |       fmt_batmanforevertag_prj.py
+    |       |   |       fmt_catherine_pac.py
+    |       |   |       fmt_chulip_bin.py
+    |       |   |       fmt_cso.py
+    |       |   |       fmt_cue.py
+    |       |   |       fmt_cvresurrection.py
+    |       |   |       fmt_danganronpa_psp_dat.py
+    |       |   |       fmt_dc42.py
+    |       |   |       fmt_fds.py
+    |       |   |       fmt_fs_fat1216.py
+    |       |   |       fmt_fs_ntfs.py
+    |       |   |       fmt_fs_ps2apa.py
+    |       |   |       fmt_gdi.py
+    |       |   |       fmt_lovehinasa_image.py
+    |       |   |       fmt_macpaint.py
+    |       |   |       fmt_macres.py
+    |       |   |       fmt_macventure.py
+    |       |   |       fmt_nbajamsrc_img.py
+    |       |   |       fmt_p4g_arc.py
+    |       |   |       fmt_powerupbaseball_img.py
+    |       |   |       fmt_pso_bml.py
+    |       |   |       fmt_psx_cdxa.py
+    |       |   |       fmt_scumm_byl.py
+    |       |   |       fmt_segachannel_sa.py
+    |       |   |       fmt_specaafilter.py
+    |       |   |       fmt_tmnt_arcade.py
+    |       |   |       fmt_ultima8_flex.py
+    |       |   |       fmt_virginmd_chopper.py
+    |       |   |       tool_aladdin_leveldump.py
+    |       |   |       tool_applytopreview.py
+    |       |   |       tool_batchload_context.py
+    |       |   |       tool_batmanforevertag.py
+    |       |   |       tool_dicomheadermaker.py
+    |       |   |       tool_dicomseries.py
+    |       |   |       tool_dxtencode.py
+    |       |   |       tool_f2ainterface.py
+    |       |   |       tool_f2ainterface.txt
+    |       |   |       tool_f2ainterface_ti01.bin
+    |       |   |       tool_f2ainterface_ti02.bin
+    |       |   |       tool_ftrogue_dump.py
+    |       |   |       tool_gen_dump.py
+    |       |   |       tool_gen_dump_ARDUINO.ino
+    |       |   |       tool_gen_dump_USERMAIN.ASM
+    |       |   |       tool_gen_dump_USERMAIN.BIN
+    |       |   |       tool_gen_makecd.py
+    |       |   |       tool_gen_makecd_AUDIO00.BIN
+    |       |   |       tool_gen_makecd_INITPRGU.BIN
+    |       |   |       tool_gen_makecd_SCDMAIN.BIN
+    |       |   |       tool_gen_makecd_SCDSUB.BIN
+    |       |   |       tool_gen_makecd_USERMAIN.BIN
+    |       |   |       tool_gen_makecd_USERSRC.ZIP
+    |       |   |       tool_gen_makecd_USERSUBC.BIN
+    |       |   |       tool_lksnes_leveldump.py
+    |       |   |       tool_makenx_pac_split.py
+    |       |   |       tool_mjpegserver.py
+    |       |   |       tool_mkchardump.py
+    |       |   |       tool_modelserver.py
+    |       |   |       tool_neopick.py
+    |       |   |       tool_ngmd_dump.py
+    |       |   |       tool_preserve_view.py
+    |       |   |       tool_rawdecode.py
+    |       |   |       tool_roomba.py
+    |       |   |       tool_sethdrmode.py
+    |       |   |       tool_sfl_link.py
+    |       |   |       tool_snes_chop.py
+    |       |   |       tool_textmaker.py
+    |       |   |       tool_vrbrowser.py
+    |       |   |       
+    |       |   +---vr
+    |       |   |   |   noevr_openvr.dll
+    |       |   |   |   openvr_api.dll
+    |       |   |   |   vr.txt
+    |       |   |   |   
+    |       |   |   +---noex64
+    |       |   |   |       noevr_openvr.dll
+    |       |   |   |       openvr_api.dll
+    |       |   |   |       
+    |       |   |   \---openvr
+    |       |   |           noevr_actions.json
+    |       |   |           noevr_bindings_generic.json
+    |       |   |           noevr_bindings_vive_controller.json
+    |       |   |           
+    |       |   \---x64
+    |       |           tool_dicktools.dll
+    |       |           tool_tripicker.dll
+    |       |           
+    |       +---plugins
+    |       |   |   autodesk_fbx.dll
+    |       |   |   bayonetta.dll
+    |       |   |   dnf_2011.dll
+    |       |   |   doom_wad_maps.dll
+    |       |   |   ff9psx_img_mdl.dll
+    |       |   |   fxfighter_cmp.dll
+    |       |   |   gifimage.dll
+    |       |   |   image_exr.dll
+    |       |   |   metroidprime_pak.dll
+    |       |   |   motion_bvh.dll
+    |       |   |   NoesisPython.dll
+    |       |   |   noesis_misc.dll
+    |       |   |   noesis_mmf.dll
+    |       |   |   pcximage.dll
+    |       |   |   quakeiqm.dll
+    |       |   |   quakemd2.dll
+    |       |   |   raven_ef_mdr.dll
+    |       |   |   shadowhearts_pack.dll
+    |       |   |   ssthehades_gmi.dll
+    |       |   |   unrealengine2_psk_psa.dll
+    |       |   |   
+    |       |   +---python
+    |       |   |   |   core321.zip
+    |       |   |   |   data_quake2.py
+    |       |   |   |   fmt_astc_astc.py
+    |       |   |   |   fmt_bulletwitch_cpr.py
+    |       |   |   |   fmt_desertstrike_dsg.py
+    |       |   |   |   fmt_duke3d_grp_art.py
+    |       |   |   |   fmt_etc_pkm.py
+    |       |   |   |   fmt_gamebryo_nif.py
+    |       |   |   |   fmt_goldeneye_n64.py
+    |       |   |   |   fmt_pvrtc_pvr.py
+    |       |   |   |   fmt_quake2_bsp.py
+    |       |   |   |   fmt_quake2_wal.py
+    |       |   |   |   fmt_sof1pc_m32.py
+    |       |   |   |   fmt_ue4.py
+    |       |   |   |   fmt_uoclassic.py
+    |       |   |   |   fmt_ys_aia.py
+    |       |   |   |   inc_adpcm.py
+    |       |   |   |   inc_atarijaguar.py
+    |       |   |   |   inc_imgtools.py
+    |       |   |   |   inc_n64.py
+    |       |   |   |   inc_noesis.py
+    |       |   |   |   inc_romcom.py
+    |       |   |   |   noewin.py
+    |       |   |   |   tex_TheSimpsonsGame_PS3_txd.py
+    |       |   |   |   tool_windowtest.txt
+    |       |   |   |   __NPExample.txt
+    |       |   |   |   __NPReadMe.txt
+    |       |   |   |   
+    |       |   |   \---__pycache__
+    |       |   |           data_quake2.cpython-32.pyc
+    |       |   |           fmt_astc_astc.cpython-32.pyc
+    |       |   |           fmt_bulletwitch_cpr.cpython-32.pyc
+    |       |   |           fmt_desertstrike_dsg.cpython-32.pyc
+    |       |   |           fmt_duke3d_grp_art.cpython-32.pyc
+    |       |   |           fmt_etc_pkm.cpython-32.pyc
+    |       |   |           fmt_gamebryo_nif.cpython-32.pyc
+    |       |   |           fmt_goldeneye_n64.cpython-32.pyc
+    |       |   |           fmt_pvrtc_pvr.cpython-32.pyc
+    |       |   |           fmt_quake2_bsp.cpython-32.pyc
+    |       |   |           fmt_quake2_wal.cpython-32.pyc
+    |       |   |           fmt_sof1pc_m32.cpython-32.pyc
+    |       |   |           fmt_ue4.cpython-32.pyc
+    |       |   |           fmt_uoclassic.cpython-32.pyc
+    |       |   |           fmt_ys_aia.cpython-32.pyc
+    |       |   |           inc_adpcm.cpython-32.pyc
+    |       |   |           inc_atarijaguar.cpython-32.pyc
+    |       |   |           inc_imgtools.cpython-32.pyc
+    |       |   |           inc_n64.cpython-32.pyc
+    |       |   |           inc_noesis.cpython-32.pyc
+    |       |   |           inc_romcom.cpython-32.pyc
+    |       |   |           noewin.cpython-32.pyc
+    |       |   |           tex_TheSimpsonsGame_PS3_txd.cpython-32.pyc
+    |       |   |           
+    |       |   \---x64
+    |       |           autodesk_fbx.dll
+    |       |           bayonetta.dll
+    |       |           dnf_2011.dll
+    |       |           doom_wad_maps.dll
+    |       |           ff9psx_img_mdl.dll
+    |       |           fxfighter_cmp.dll
+    |       |           gifimage.dll
+    |       |           image_exr.dll
+    |       |           metroidprime_pak.dll
+    |       |           motion_bvh.dll
+    |       |           NoesisPython.dll
+    |       |           noesis_misc.dll
+    |       |           noesis_mmf.dll
+    |       |           pcximage.dll
+    |       |           quakeiqm.dll
+    |       |           quakemd2.dll
+    |       |           raven_ef_mdr.dll
+    |       |           shadowhearts_pack.dll
+    |       |           ssthehades_gmi.dll
+    |       |           unrealengine2_psk_psa.dll
+    |       |           
+    |       \---scenes
+    |           |   cf_t01.png
+    |           |   cf_t01_n.png
+    |           |   cf_t02.png
+    |           |   cf_t02_n.png
+    |           |   cf_t03.png
+    |           |   cf_t03_n.png
+    |           |   cf_t04.png
+    |           |   cf_t04_n.png
+    |           |   cf_t05.png
+    |           |   cf_t05_n.png
+    |           |   cf_t06.png
+    |           |   cf_t06_n.png
+    |           |   defaultcert.pem
+    |           |   march.noevmarch
+    |           |   noesis_ode.dll
+    |           |   palette64.raw
+    |           |   partialrun.noeroomba
+    |           |   physics.noesis
+    |           |   sample.noesis
+    |           |   sample_ball.DAE
+    |           |   sample_block.DAE
+    |           |   sample_boxroom.DAE
+    |           |   sample_elf01ff11.noesis
+    |           |   sample_guy.DAE
+    |           |   sample_guy.noekin
+    |           |   sample_hume01.ff11datset
+    |           |   sample_pbr_a.png
+    |           |   sample_pbr_ball_metal.noesis
+    |           |   sample_pbr_ball_spec.noesis
+    |           |   sample_pbr_e.dds
+    |           |   sample_pbr_e2.dds
+    |           |   sample_pbr_e2_irradiance.dds
+    |           |   sample_pbr_e2_prefiltered.dds
+    |           |   sample_pbr_e3.dds
+    |           |   sample_pbr_e3_irradiance.dds
+    |           |   sample_pbr_e3_prefiltered.dds
+    |           |   sample_pbr_e4.dds
+    |           |   sample_pbr_e4_irradiance.dds
+    |           |   sample_pbr_e4_prefiltered.dds
+    |           |   sample_pbr_e_irradiance.dds
+    |           |   sample_pbr_e_prefiltered.dds
+    |           |   sample_pbr_m.png
+    |           |   sample_pbr_m_a.png
+    |           |   sample_pbr_n.png
+    |           |   sample_pbr_o.png
+    |           |   sample_pbr_s.png
+    |           |   sample_pbr_sphere.fbx
+    |           |   sample_puppy.png
+    |           |   sample_spike.DAE
+    |           |   sample_texa.png
+    |           |   sample_texb.png
+    |           |   voxelize.noevox
+    |           |   
+    |           +---dicom
+    |           |       27.dcm
+    |           |       28.dcm
+    |           |       29.dcm
+    |           |       30.dcm
+    |           |       31.dcm
+    |           |       32.dcm
+    |           |       33.dcm
+    |           |       34.dcm
+    |           |       35.dcm
+    |           |       36.dcm
+    |           |       37.dcm
+    |           |       38.dcm
+    |           |       39.dcm
+    |           |       40.dcm
+    |           |       41.dcm
+    |           |       42.dcm
+    |           |       43.dcm
+    |           |       44.dcm
+    |           |       45.dcm
+    |           |       46.dcm
+    |           |       47.dcm
+    |           |       48.dcm
+    |           |       49.dcm
+    |           |       50.dcm
+    |           |       51.dcm
+    |           |       52.dcm
+    |           |       53.dcm
+    |           |       54.dcm
+    |           |       55.dcm
+    |           |       56.dcm
+    |           |       set01.dcmvolset
+    |           |       set01.noevmarch
+    |           |       
+    |           \---modelserver
+    |               |   template_index.txt
+    |               |   template_mj_index.txt
+    |               |   template_view.txt
+    |               |   
+    |               +---pub
+    |               |       unclefrank.jpg
+    |               |       
+    |               \---work
+    |                       __placeholder.txt
+    |                       
+    +---old
+    |       blend copy.csx
+    |       blend.ps1
+    |       main copy.ps1
+    |       
+    +---process
+    |   +---2_RenameDirs
+    |   |       RenameFolders.ps1
+    |   |       
+    |   +---3_QuickBMS
+    |   |       str.ps1
+    |   |       
+    |   +---4_Flat
+    |   |       Flatten.ps1
+    |   |       readme.md
+    |   |       
+    |   +---5_AudioVideo
+    |   |       4_Audio.ps1
+    |   |       4_AudioVideo.ps1
+    |   |       4_Video.ps1
+    |   |       
+    |   +---6_Asset
+    |   |       blend.csx
+    |   |       init.csx
+    |   |       
+    |   +---7_Texture
+    |   |       TextureDics.ps1
+    |   |       
+    |   +---old
+    |   |   |   Blender copy 2.ps1
+    |   |   |   Blender copy.ps1
+    |   |   |   Blendertest.ps1
+    |   |   |   main copy.ps1
+    |   |   |   Step1.2_FlattenDirs copy.ps1
+    |   |   |   Step2.2_FlattenDirs copy.ps1
+    |   |   |   Step2.3_FlattenDirs1.ps1
+    |   |   |   Step2.3_FlattenDirs2-Dry.ps1
+    |   |   |   Step2.3_FlattenDirs2.ps1
+    |   |   |   Step2_quickbms_str copy.ps1
+    |   |   |   stepbystep copy.md
+    |   |   |   str copy.py
+    |   |   |   str.py
+    |   |   |   structure copy 2.py
+    |   |   |   structure copy.py
+    |   |   |   structure.py
+    |   |   |   structure3.py
+    |   |   |   test.py
+    |   |   |   vp6.wav.ps1
+    |   |   |   
+    |   |   \---step2tests
+    |   |           Step2.2_FlattenDirs.ps1
+    |   |           Step2.3_FlattenDirs2.ps1
+    |   |           Step2.4_FlattenDirs2.ps1
+    |   |           
+    |   \---test
+    |           sruc.ps1
+    |           
+    \---quickbms
+            changelog.txt
+            quickbms.exe
+            quickbms.txt
+            quickbms_4gb_files.exe
+            reimport.bat
+            reimport2.bat
+            reimport2_4gb_files.bat
+            reimport3_localizations.bat
+            reimport_4gb_files.bat
+            run.ps1
+            simpsons_str.bms
+            

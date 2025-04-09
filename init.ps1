@@ -1,6 +1,6 @@
 #region Configuration
 
-$configFilePath = "a:\Dev\Games\TheSimpsonsGame\config.ini" # Changed extension to .ini for clarity
+$configFilePath = "config.ini" # Changed extension to .ini for clarity
 $gameFilesMainPath = Join-Path -Path "." -ChildPath "GameFiles\Main"
 $isoFileNameHint = "Simpsons Game, The (USA) ps3.iso"
 $isoFilePathKey = "IsoFilePath"

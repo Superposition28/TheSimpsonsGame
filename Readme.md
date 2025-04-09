@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project aims to automate the process of extracting and converting assets from the game "The Simpsons Game" (2007) PS3. It provides a step-by-step, automated workflow to take the raw game files and transform them into usable formats for modding, analysis, or archival purposes.
+This project aims to automate the process of extracting and converting assets from the game "The Simpsons Game" (2007) PS3. It provides a step-by-step, automated workflow to take the raw game files and transform them into usable formats for for hobby projects, learning purposes, and research.
 
 ## Features
 
@@ -38,12 +38,62 @@ Before you begin, ensure you have the following installed and set up:
 ## Getting Started
 ## Usage
 
+place the quickbms files in Tools\quickbms
+place noeises files in Tools\noeises\exe
+
 The project initialization, asset extraction and conversion process is automated through a main script. To start the process, run:
 
 ```powershell
 .\main.ps1
 ```
+then select each option in order and the script should handle the rest
 
+[0] Run all scripts // self explanatory, and untested...
+
+
+[1] Initializes (Powershell, init.ps1)
+this step is used to ensure all programs exist
+it generates config.ini, GameFiles\Main\
+registers all programs needed in the config file to be accessed by all subsequent scripts that need it (currently only the blender script is designed to use this)
+extracts the ISO contents using WinRar into GameFiles\Main\
+the iso file should and must contain \PS3_GAME\USRDIR\, and some other unimportant files (\PS3_UPDATE, PS3_DISC.SFB)
+
+[2] Rename USRDIR Folders (Powershell, RenameFolders.ps1)
+this renames the directories in the game root folder as there original names are less than descriptive
+theres two kinds of folders, Levels and Assets
+4 asset folders, video, audio, characters, frontend
+18 Map folders, for some reason, a number of Game Levels are separated as more than one root Map folder
+
+
+[3] QuickBMS STR (Powershell, str.ps1)
+the game files are almost all elusively stored in a proprietary archive folder format identified by .str
+the .str extension is actually meaningless, a pattern for the RenderWare game files
+the 490 str files contain over 20,000 game files
+so this step extracts these many files as a massive nested structure of folders 
+
+[4] Flatten Directories (Powershell, Flatten.ps1)
+this slightly un-nests the str output structure by combining folders 
+
+[5] Video Conversion (Powershell, 4_Video.ps1)
+converts the weird video format to a less weird one
+
+[6] Audio Conversion (Powershell, 4_Audio.ps1)
+converts the weird audio format to a less weird one
+
+[7] init Blender (C#, init.csx)
+gets the blender conversion process ready
+
+due to the length of the directory structure i foolishly refuse to remove blender more often fails to locate the files
+i needed a workaround so i create symbolic links (advanced shortcuts) to each files folder
+
+Processes .preinstanced files in the nested structure and Generates a 'map' of assets file paths.
+Creates duplicate directory structures for .blend and .glb files based on .preinstanced files.
+Copies a blank .blend template file into the blend structure matching the .preinstanced files.
+Creates symbolic links for .preinstanced, .blend, and .glb files in at the root of the current drive.
+Saves the generated asset map to asset_mapping.json.
+
+[8] Blender Conversion (C#, blend.csx)
+converts each .preinstanced asset into .glb using blender4.3, the plugin or script stops working with 4.4
 
 
 
@@ -102,7 +152,7 @@ Extension       | Percent  | Size          | Allocated     | Files | File Type  
 ### `GameFiles\Main\PS3_GAME\Flattened_OUTPUT`
 
 The QuickBMS extraction process results in a deeply nested directory structure.
-because i don't know how to fix it, i made this
+because i don't know how to fix it, i made this over engineered script because i wanted to maintain the original structure as much as possible 
 
 Run `[4] Flatten Directories`
 
@@ -152,7 +202,9 @@ This directory contains the final output of the asset conversion pipeline. The `
 
 ### `tools\blender`
 
-This directory houses the Blender-related scripts and assets that automate the 3D model conversion process. The `main.py` script orchestrates the import, processing, and export of the `.preinstanced` files, while the `io_import_simpson_game_ScriptMode.py` script provides the functionality to import the `.preinstanced` file format into Blender.
+This directory houses the Blender-related python scripts that automate the 3D model conversion process.
+The `main.py` script manages the import, processing, and export of a `.preinstanced` file as .glb file.
+The `io_import_simpson_game_ScriptMode.py` script provides the functionality to import the `.preinstanced` file format into Blender.
 
 
 

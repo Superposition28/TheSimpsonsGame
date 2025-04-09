@@ -3,7 +3,7 @@ GameFiles
 .history
 Tools/noeises/exe
 .vscode
-
+.VSCodeCounter
 *.log
 
 Tools/quickbms/*.exe
@@ -12,5 +12,8 @@ Tools/quickbms/*.ps1
 Tools/quickbms/*.txt
 
 old
-
 test
+
+asset_mapping.json
+main.log
+config.ini
