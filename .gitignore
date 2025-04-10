@@ -1,7 +1,7 @@
 GameFiles
 *.ini
 .history
-Tools/noeises/exe
+
 .vscode
 .VSCodeCounter
 *.log

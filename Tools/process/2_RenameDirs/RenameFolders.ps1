@@ -29,7 +29,7 @@ $renameMap = @{
     "neverquest"                = "Maps_World_3-11_NeverQuest"                # 2.11 NeverQuest
     "grand_theft_scratchy"      = "Maps_World_3-12_GrandTheftScratchy"        # 2.12 Grand Theft Scratchy
     "medal_of_homer"            = "Maps_World_3-13_MedalOfHomer"              # 2.13 Medal of Homer
-    "bigsuperhappy"             = "Maps_World_3-14_BigSuperHappyFunFunGame_"  # 2.14 Big Super Happy Fun Fun Game
+    "bigsuperhappy"             = "Maps_World_3-14_BigSuperHappyFunFunGame"  # 2.14 Big Super Happy Fun Fun Game
 
     "rhymes"                    = "Maps_World_3-15_Rhymes"                    # 2.15 Five Characters in Search of an Author ?
     "meetthyplayer"             = "Maps_World_3-16_MeetThyPlayer"             # 2.16 Game Over ?
