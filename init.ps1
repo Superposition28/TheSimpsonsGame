@@ -321,7 +321,7 @@ if (-not $isoFilePathConfigured) {
     if ($isoFilePath) {
         Save-Config -key $isoFilePathKey -value $isoFilePath -section $gameSettingsSection
         # Attempt to extract ISO immediately after getting the path
-        Extract-Iso -isoFilePath $isoFilePath -outputPath $gameFilesMainPath
+        #Extract-Iso -isoFilePath $isoFilePath -outputPath $gameFilesMainPath
     }
 } else {
     Write-Host "ISO file path found in config: $($isoFilePathConfigured)" -ForegroundColor Green
@@ -341,6 +341,7 @@ if (-not $winrarPathConfigured) {
     $winrarExe = Get-ToolPath -toolName "WinRAR" -executableName "WinRAR.exe"
     if ($winrarExe) {
         Save-Config -key "WinRarExePath" -value $winrarExe -section $toolPathsSection
+		Extract-Iso -isoFilePath $isoFilePathConfigured -outputPath $gameFilesMainPath
     }
 } else {
     Write-Host "WinRAR path found in config: $($winrarPathConfigured)" -ForegroundColor Green

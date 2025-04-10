@@ -28,7 +28,7 @@ Before you begin, ensure you have the following installed and set up:
 * **Python:** good question
 * **QuickBMS:** [\[Download QuickBMS as it's a core dependency\]](https://aluigi.altervista.org/quickbms.htm)
 * **Noesis:** [\[Download Noesis as required for textures\]](https://richwhitehouse.com/index.php?content=inc_projects.php&showproject=91)
-* **Blender:** must Download [blender 4.3.2](https://download.blender.org/release/Blender4.3/) exactly as the plugin is old and i cannot figure out why it stopped working, and it works on my machine
+* **Blender:** must Download [blender 4.0.2](https://download.blender.org/release/Blender4.0/), blender 4.0 or older, to 2.8, is required for the conversion to work.
 * **Game Files:** You will need a copy of "The Simpsons Game" game files for the target platform.
 * **ffmpeg:** this is used for conversion of proprietary video .vp6 into (.ogv, or any others), use ```winget install ffmpeg``` from https://www.gyan.dev/ffmpeg/builds/#libraries, https://www.ffmpeg.org/download.html
 * **vgmstream-cli:** Download [\[r1980\]](https://github.com/vgmstream/vgmstream/releases/tag/r1980) this is used for conversion of proprietary audio .snu into (.ogg, or any others)
@@ -99,7 +99,7 @@ Creates symbolic links for .preinstanced, .blend, and .glb files in at the root 
 Saves the generated asset map to asset_mapping.json.
 
 [8] Blender Conversion (C#, blend.csx)
-converts each .preinstanced asset into .glb using blender4.3, the plugin or script stops working with 4.4
+converts each .preinstanced asset into .glb using blender4.0, the plugin or script stops working with 4.4
 
 currently only 5337 of 5533 assets are converted successfully, error unknown
 
@@ -139,29 +139,6 @@ Extension       | Percent   | Size          | Allocated     | Files   | File Typ
 .lua            | 0.001     | 87,824        | 94,208        | 3       | Lua source file
 .bin            | 0.238     | 14,073,144    | 14,073,856    | 1       | BIN file
 .txt            | 0.000     | 73            | 0             | 1       | Text document
-
-
-<table>
-  <tr>
-    <td>
-      Outer cell 1
-    </td>
-    <td>
-      <table>
-        <tr>
-          <td>Nested 1</td>
-          <td>Nested 2</td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-
-
-
-| Outer Header 1 | Outer Header 2         |
-|----------------|------------------------|
-| Row 1 Col 1    | `| A | B |`<br>`|---|---|`<br>`| 1 | 2 |` |
 
 
 ### `GameFiles\Main\PS3_GAME\QuickBMS_STR_OUTPUT`
@@ -292,7 +269,7 @@ this python extension for blender enables the import of .preinstanced assets
 i got this from [\[github\]](https://github.com/Turk645/Simpsons-Game-PS3-Blender-Plugin)
 made for blender 2.8
 i made some small changes to enhance it for my purposes, i may have broken it a bit
-but there was one line that needs to be removed to work in blender 4.3
+but there was one line that needs to be removed to work in blender 4.0
 
 ---
 
