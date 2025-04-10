@@ -349,7 +349,7 @@ if (-not $winrarPathConfigured) {
 
 # Initialize Blender path
 if (-not $blenderExePathConfigured) {
-    $blenderExe = Get-ToolPath -toolName "Blender" -executableName "blender.exe" -expectedVersionPrefix "4.3"
+    $blenderExe = Get-ToolPath -toolName "Blender" -executableName "blender.exe" -expectedVersionPrefix "4.0"
     if ($blenderExe) {
         Save-Config -key "BlenderExePath" -value $blenderExe -section $toolPathsSection
     }

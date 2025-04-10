@@ -47,18 +47,22 @@ string defaultValue = "err";
 string responsePathValue = RunDotnetScript(csxScriptPath, section, key, defaultValue);
     
 // Output the result from the script
-Console.ForegroundColor = ConsoleColor.Cyan;
-Console.WriteLine("Path from config: " + responsePathValue);
+Print("Path from config: " + responsePathValue, ConsoleColor.Cyan);
 
 // Ensure file exists
 if (!File.Exists(responsePathValue)) {
-    Console.ForegroundColor = ConsoleColor.Red;
-    Console.WriteLine("Executable not found at: " + responsePathValue);
+    Print("Executable not found at: " + responsePathValue, ConsoleColor.Red);
     Environment.Exit(1);
 }
 
 // Update the path to the Blender executable
 string blenderExePath = responsePathValue;
+
+public static void Print(string message, ConsoleColor color) {
+    Console.ForegroundColor = color;
+    Console.WriteLine(message);
+    Console.ResetColor();
+}
 
 // Helper function to run the dotnet-script and get the output
 static string RunDotnetScript(string scriptPath, string section, string key, string defaultValue) {
@@ -84,9 +88,7 @@ static string RunDotnetScript(string scriptPath, string section, string key, str
 
 // Blender Processing function
 void BlenderProcessing() {
-    Console.ForegroundColor = ConsoleColor.DarkGray;
-    Console.WriteLine("Starting Blender processing using asset mapping file...");
-    Console.ResetColor();
+    Print("Starting Blender processing using asset mapping file...", ConsoleColor.DarkGray);
 
     try {
         string jsonString = File.ReadAllText(assetMappingFile);
@@ -95,9 +97,7 @@ void BlenderProcessing() {
             foreach (var property in document.RootElement.EnumerateObject()) {
                 loopCount++;
                 Console.WriteLine();
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"Loop Count: {loopCount}");
-                Console.ResetColor();
+                Print($"Loop Count: {loopCount}", ConsoleColor.Yellow);
                 Console.WriteLine();
 
                 var assetInfo = property.Value;
@@ -111,48 +111,36 @@ void BlenderProcessing() {
                         string predictedGlbSymlink = predictedGlbSymlinkElement.GetString();
 
                         Console.WriteLine();
-                        Console.ForegroundColor = ConsoleColor.DarkCyan;
-                        Console.WriteLine($"Preinstanced Symlink: {preinstancedSymlink}");
-                        Console.WriteLine($"Blend Symlink: {blendSymlink}");
-                        Console.WriteLine($"Predicted GLB Symlink: {predictedGlbSymlink}");
-                        Console.ResetColor();
+                        Print($"Preinstanced Symlink: {preinstancedSymlink}", ConsoleColor.DarkCyan);
+                        Print($"Blend Symlink: {blendSymlink}", ConsoleColor.DarkCyan);
+                        Print($"Predicted GLB Symlink: {predictedGlbSymlink}", ConsoleColor.DarkCyan);
                         Console.WriteLine();
 
                         // Check if the corresponding .blend symlink exists
                         if (File.Exists(blendSymlink)) {
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine($"Processing: {preinstancedSymlink}");
-                            Console.WriteLine($"Blend File (Symlink): {blendSymlink}");
-                            Console.ResetColor();
+                            Print($"Processing: {preinstancedSymlink}", ConsoleColor.Green);
+                            Print($"Blend File (Symlink): {blendSymlink}", ConsoleColor.Green);
                             Console.WriteLine();
 
                             // Construct the output .glb file path (using the predicted symlink)
                             string glbFilePath = predictedGlbSymlink;
-                            Console.ForegroundColor = ConsoleColor.DarkGreen;
-                            Console.WriteLine($"Output GLB File (Symlink): {glbFilePath}");
-                            Console.ResetColor();
+                            Print($"Output GLB File (Symlink): {glbFilePath}", ConsoleColor.DarkGreen);
                             Console.WriteLine();
 
                             try {
                                 // Construct the paths for Blender arguments (using symlinks)
                                 string blendFilePath = blendSymlink;
-                                Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                                Console.WriteLine($"Blend File Path (Symlink): {blendFilePath}");
-                                Console.WriteLine($"Preinstanced File Path (Symlink): {preinstancedSymlink}");
-                                Console.ResetColor();
+                                Print($"Blend File Path (Symlink): {blendFilePath}", ConsoleColor.DarkMagenta);
+                                Print($"Preinstanced File Path (Symlink): {preinstancedSymlink}", ConsoleColor.DarkMagenta);
                                 Console.WriteLine();
 
                                 // Extract the directory path from preinstancedSymlink (using symlinks)
-                                Console.ForegroundColor = ConsoleColor.DarkBlue;
-                                Console.WriteLine($"Preinstanced Directory Path (Full): {preinstancedSymlink}");
-                                Console.ResetColor();
+                                Print($"Preinstanced Directory Path (Full): {preinstancedSymlink}", ConsoleColor.DarkBlue);
                                 Console.WriteLine();
 
                                 // Extract the directory path from glb file path (using symlinks)
                                 string glbDirectoryPath = Path.GetDirectoryName(glbFilePath);
-                                Console.ForegroundColor = ConsoleColor.DarkBlue;
-                                Console.WriteLine($"GLB Directory Path: {glbDirectoryPath}");
-                                Console.ResetColor();
+                                Print($"GLB Directory Path: {glbDirectoryPath}", ConsoleColor.DarkBlue);
                                 Console.WriteLine();
 
                                 // Check if the .glb symlink (target) does not exist
@@ -164,14 +152,10 @@ void BlenderProcessing() {
                                         string debugSleepStr = debugSleep ? "true" : "false";
                                         string blenderCommand = $"\"{blenderExePath}\" -b \"{blendFilePath}\" --python \"{pythonScriptPath}\" -- \"{blendFilePath}\" \"{preinstancedSymlink}\" \"{glbFilePath}\" \"{pythonExtensionFile}\" \"{verboseStr}\" \"{debugSleepStr}\"";
 
-                                        Console.ForegroundColor = ConsoleColor.Magenta;
-                                        Console.WriteLine($"Blender command --> {blenderCommand}");
-                                        Console.ResetColor();
+                                        Print($"Blender command --> {blenderCommand}", ConsoleColor.Magenta);
 
                                         // Execute the command
-                                        Console.ForegroundColor = ConsoleColor.Gray;
-                                        Console.WriteLine("# Start Blender Output");
-                                        Console.ResetColor();
+                                        Print("# Start Blender Output", ConsoleColor.Gray);
                                         ProcessStartInfo psi = new ProcessStartInfo {
                                             FileName = blenderExePath,
                                             Arguments = $"-b \"{blendFilePath}\" --python \"{pythonScriptPath}\" -- \"{blendFilePath}\" \"{preinstancedSymlink}\" \"{glbFilePath}\" \"{pythonExtensionFile}\" \"{verboseStr}\" \"{debugSleepStr}\"",
@@ -193,14 +177,11 @@ void BlenderProcessing() {
                                             Console.WriteLine(output);
                                             Console.WriteLine(error);
                                         }
-                                        Console.ForegroundColor = ConsoleColor.Gray;
-                                        Console.WriteLine("# End Blender Output");
-                                        Console.ResetColor();
+                                        Print("# End Blender Output", ConsoleColor.Gray);
 
                                         // Check if an error occurred
                                         if (File.Exists(glbFilePath) && (File.ReadAllText(glbFilePath).Contains("Error:", StringComparison.OrdinalIgnoreCase) || File.ReadAllText(glbFilePath).Contains("Exception:", StringComparison.OrdinalIgnoreCase))) {
-                                            Console.ForegroundColor = ConsoleColor.Red;
-                                            Console.WriteLine("Blender encountered an error:");
+                                            Print("Blender encountered an error:", ConsoleColor.Red);
                                             foreach (var line in File.ReadAllLines(glbFilePath)) {
                                                 if (line.Contains("Error:", StringComparison.OrdinalIgnoreCase) || line.Contains("Exception:", StringComparison.OrdinalIgnoreCase)) {
                                                     Console.WriteLine($"  {line}");
@@ -212,88 +193,53 @@ void BlenderProcessing() {
                                             } else {
                                                 Console.WriteLine($"Blank Blender file does not exist: {blankBlenderFile}");
                                             }
-                                            Console.ResetColor();
                                         } else {
-                                            Console.ForegroundColor = ConsoleColor.Green;
-                                            Console.WriteLine("Blender executed successfully.");
-                                            Console.ResetColor();
+                                            Print("Blender executed successfully.", ConsoleColor.Green);
                                         }
 
                                         // Check if the output file was created successfully (target of the symlink)
                                         if (File.Exists(glbFilePath)) {
-                                            Console.ForegroundColor = ConsoleColor.Green;
-                                            Console.WriteLine($"Output file created successfully: {glbFilePath}");
-                                            Console.ResetColor();
+                                            Print($"Output file created successfully: {glbFilePath}", ConsoleColor.Green);
                                         } else {
-                                            Console.ForegroundColor = ConsoleColor.Red;
-                                            Console.WriteLine($"Failed to create output file: {glbFilePath}");
-                                            Console.ResetColor();
+                                            Print($"Failed to create output file: {glbFilePath}", ConsoleColor.Red);
                                         }
                                     } else {
-                                        Console.ForegroundColor = ConsoleColor.Red;
-                                        Console.WriteLine($"Error: No corresponding .preinstanced symlink for: {blendFilePath}");
-                                        Console.ResetColor();
+                                        Print($"Error: No corresponding .preinstanced symlink for: {blendFilePath}", ConsoleColor.Red);
                                         Environment.Exit(1); // break on missing input
                                     }
                                 } else {
-                                    Console.ForegroundColor = ConsoleColor.Yellow;
-                                    Console.WriteLine($"Skipping: .glb exists for: {blendFilePath}");
-                                    Console.ResetColor();
+                                    Print($"Skipping: .glb exists for: {blendFilePath}", ConsoleColor.Yellow);
                                 }
                             } catch (Exception ex) {
-                                Console.ForegroundColor = ConsoleColor.Red;
-                                //Console.WriteLine($"Error processing file: {blendFilePath}");
-                                Console.WriteLine($"Error message: {ex.Message}");
-                                Console.ResetColor();
+                                Print($"Error message: {ex.Message}", ConsoleColor.Red);
                                 Environment.Exit(1); // Exit script on error
                             }
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            //Console.WriteLine($"Finished processing for: {blendFilePath}");
-                            Console.ResetColor();
                         } else {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine($"Error: 404 Blend symlink not found: {blendSymlink}");
-                            Console.ResetColor();
+                            Print($"Error: 404 Blend symlink not found: {blendSymlink}", ConsoleColor.Red);
                             Environment.Exit(1); // break on missing input
                         }
                     } else {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine($"Warning: Missing required properties in asset mapping entry for key: {property.Name}");
-                        Console.ResetColor();
+                        Print($"Warning: Missing required properties in asset mapping entry for key: {property.Name}", ConsoleColor.Yellow);
                     }
                 } else {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine($"Warning: Asset info for key: {property.Name} is not a JSON object.");
-                    Console.ResetColor();
+                    Print($"Warning: Asset info for key: {property.Name} is not a JSON object.", ConsoleColor.Yellow);
                 }
             }
         } else {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Error: Asset mapping file does not contain a JSON object at the root.");
-            Console.ResetColor();
+            Print("Error: Asset mapping file does not contain a JSON object at the root.", ConsoleColor.Red);
         }
     } catch (FileNotFoundException) {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine($"Error: Asset mapping file not found: {assetMappingFile}");
-        Console.ResetColor();
+        Print($"Error: Asset mapping file not found: {assetMappingFile}", ConsoleColor.Red);
         Environment.Exit(1);
     } catch (JsonException ex) {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine($"Error: Failed to read or parse the asset mapping JSON file: {assetMappingFile}");
+        Print($"Error: Failed to read or parse the asset mapping JSON file: {assetMappingFile}", ConsoleColor.Red);
         Console.WriteLine(ex.Message);
-        Console.ResetColor();
         Environment.Exit(1);
     }
 }
 
-Console.ForegroundColor = ConsoleColor.Blue;
-Console.WriteLine("Initializing...");
-Console.ResetColor();
-Console.ForegroundColor = ConsoleColor.DarkGray;
-Console.WriteLine("Blender Processing using asset_mapping.json...");
-Console.ResetColor();
+Print("Initializing...", ConsoleColor.Blue);
+Print("Blender Processing using asset_mapping.json...", ConsoleColor.DarkGray);
 BlenderProcessing();
 
-Console.ForegroundColor = ConsoleColor.Green;
-Console.WriteLine("Processing complete.");
-Console.ResetColor();
+Print("Processing complete.", ConsoleColor.Green);

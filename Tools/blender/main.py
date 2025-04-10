@@ -11,7 +11,7 @@ import time
 try:
 
     # example command to run the script:
-    # A:\Program Files\Blender Foundation\Blender 4.3\blender4.3.exe" -b "A:\TMP_TSG_LNKS\cc07225ea3a876253ae1dce564aba1f2_blend\play_sound.dff.PS3.blend" --python "Tools\blender\main.py" 
+    # A:\blender-4.0.2-windows-x64\blender.exe" -b "A:\TMP_TSG_LNKS\cc07225ea3a876253ae1dce564aba1f2_blend\play_sound.dff.PS3.blend" --python "Tools\blender\main.py" 
     # -- 
     #    "A:\TMP_TSG_LNKS\cc07225ea3a876253ae1dce564aba1f2_blend\play_sound.dff.PS3.blend"
     #    "A:\TMP_TSG_LNKS\cc07225ea3a876253ae1dce564aba1f2_preinstanced\play_sound.dff.PS3.preinstanced"

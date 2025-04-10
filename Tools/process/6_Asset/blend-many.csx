@@ -31,7 +31,6 @@ string pythonScriptPath = "Tools\\blender\\main.py";
 string pythonExtensionFile = "Tools\\blender\\io_import_simpson_game_ScriptMode.py";
 string assetMappingFile = "Tools\\process\\6_Asset\\asset_mapping.json";
 string configFile = "config.ini";
-//string blenderExePath = "blender4.3"; // Default path
 
 int loopCount = 0;
 
