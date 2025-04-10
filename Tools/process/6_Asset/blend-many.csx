@@ -2,6 +2,7 @@
 // #r "System.IO"
 // #r "System.Text.Json"
 // #r "System.Diagnostics.Process"
+// #r "System.Threading.Tasks" // Add this for parallel processing
 
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Diagnostics;
+using System.Threading.Tasks; // Add this for parallel processing
 
 // Add this line to define args for the script
 string[] args = Environment.GetCommandLineArgs();
@@ -29,9 +31,11 @@ string pythonScriptPath = "Tools\\blender\\main.py";
 string pythonExtensionFile = "Tools\\blender\\io_import_simpson_game_ScriptMode.py";
 string assetMappingFile = "Tools\\process\\6_Asset\\asset_mapping.json";
 string configFile = "config.ini";
-
+//string blenderExePath = "blender4.3"; // Default path
 
 int loopCount = 0;
+
+
 
 // # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -81,22 +85,39 @@ static string RunDotnetScript(string scriptPath, string section, string key, str
 // # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
-
 // Blender Processing function
-void BlenderProcessing() {
+void BlenderProcessingParallel() {
     Console.ForegroundColor = ConsoleColor.DarkGray;
-    Console.WriteLine("Starting Blender processing using asset mapping file...");
+    Console.WriteLine("Starting Blender processing using asset mapping file (Parallel)...");
     Console.ResetColor();
 
     try {
         string jsonString = File.ReadAllText(assetMappingFile);
         using JsonDocument document = JsonDocument.Parse(jsonString);
         if (document.RootElement.ValueKind == JsonValueKind.Object) {
+            var assetEntries = new List<JsonProperty>();
             foreach (var property in document.RootElement.EnumerateObject()) {
-                loopCount++;
+                assetEntries.Add(property);
+            }
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine($"Found {assetEntries.Count} files in the asset mapping.");
+            Console.ResetColor();
+
+            // Configure parallel options (optional, but can be useful)
+            var parallelOptions = new ParallelOptions {
+                // You can set the maximum degree of parallelism here.
+                // For example, to use all available cores:
+                // MaxDegreeOfParallelism = Environment.ProcessorCount
+                // Or limit it to a specific number, e.g., 4:
+                MaxDegreeOfParallelism = 4
+            };
+
+            Parallel.ForEach(assetEntries, parallelOptions, (property) => {
+                int currentLoopCount = System.Threading.Interlocked.Increment(ref loopCount);
                 Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"Loop Count: {loopCount}");
+                Console.WriteLine($"Loop Count (Parallel): {currentLoopCount}");
                 Console.ResetColor();
                 Console.WriteLine();
 
@@ -121,7 +142,7 @@ void BlenderProcessing() {
                         // Check if the corresponding .blend symlink exists
                         if (File.Exists(blendSymlink)) {
                             Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine($"Processing: {preinstancedSymlink}");
+                            Console.WriteLine($"Processing (Parallel): {preinstancedSymlink}");
                             Console.WriteLine($"Blend File (Symlink): {blendSymlink}");
                             Console.ResetColor();
                             Console.WriteLine();
@@ -135,9 +156,9 @@ void BlenderProcessing() {
 
                             try {
                                 // Construct the paths for Blender arguments (using symlinks)
-                                string blendFilePath = blendSymlink;
+                                string currentBlendFilePath = blendSymlink;
                                 Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                                Console.WriteLine($"Blend File Path (Symlink): {blendFilePath}");
+                                Console.WriteLine($"Blend File Path (Symlink): {currentBlendFilePath}");
                                 Console.WriteLine($"Preinstanced File Path (Symlink): {preinstancedSymlink}");
                                 Console.ResetColor();
                                 Console.WriteLine();
@@ -162,19 +183,19 @@ void BlenderProcessing() {
                                         // Construct the command to run Blender in background mode using symlinks
                                         string verboseStr = verbose ? "true" : "false";
                                         string debugSleepStr = debugSleep ? "true" : "false";
-                                        string blenderCommand = $"\"{blenderExePath}\" -b \"{blendFilePath}\" --python \"{pythonScriptPath}\" -- \"{blendFilePath}\" \"{preinstancedSymlink}\" \"{glbFilePath}\" \"{pythonExtensionFile}\" \"{verboseStr}\" \"{debugSleepStr}\"";
+                                        string blenderCommand = $"\"{blenderExePath}\" -b \"{currentBlendFilePath}\" --python \"{pythonScriptPath}\" -- \"{currentBlendFilePath}\" \"{preinstancedSymlink}\" \"{glbFilePath}\" \"{pythonExtensionFile}\" \"{verboseStr}\" \"{debugSleepStr}\"";
 
                                         Console.ForegroundColor = ConsoleColor.Magenta;
-                                        Console.WriteLine($"Blender command --> {blenderCommand}");
+                                        Console.WriteLine($"Blender command (Parallel) --> {blenderCommand}");
                                         Console.ResetColor();
 
                                         // Execute the command
                                         Console.ForegroundColor = ConsoleColor.Gray;
-                                        Console.WriteLine("# Start Blender Output");
+                                        Console.WriteLine("# Start Blender Output (Parallel)");
                                         Console.ResetColor();
                                         ProcessStartInfo psi = new ProcessStartInfo {
                                             FileName = blenderExePath,
-                                            Arguments = $"-b \"{blendFilePath}\" --python \"{pythonScriptPath}\" -- \"{blendFilePath}\" \"{preinstancedSymlink}\" \"{glbFilePath}\" \"{pythonExtensionFile}\" \"{verboseStr}\" \"{debugSleepStr}\"",
+                                            Arguments = $"-b \"{currentBlendFilePath}\" --python \"{pythonScriptPath}\" -- \"{currentBlendFilePath}\" \"{preinstancedSymlink}\" \"{glbFilePath}\" \"{pythonExtensionFile}\" \"{verboseStr}\" \"{debugSleepStr}\"",
                                             RedirectStandardOutput = true,
                                             RedirectStandardError = true,
                                             UseShellExecute = false,
@@ -194,13 +215,13 @@ void BlenderProcessing() {
                                             Console.WriteLine(error);
                                         }
                                         Console.ForegroundColor = ConsoleColor.Gray;
-                                        Console.WriteLine("# End Blender Output");
+                                        Console.WriteLine("# End Blender Output (Parallel)");
                                         Console.ResetColor();
 
                                         // Check if an error occurred
                                         if (File.Exists(glbFilePath) && (File.ReadAllText(glbFilePath).Contains("Error:", StringComparison.OrdinalIgnoreCase) || File.ReadAllText(glbFilePath).Contains("Exception:", StringComparison.OrdinalIgnoreCase))) {
                                             Console.ForegroundColor = ConsoleColor.Red;
-                                            Console.WriteLine("Blender encountered an error:");
+                                            Console.WriteLine("Blender encountered an error (Parallel):");
                                             foreach (var line in File.ReadAllLines(glbFilePath)) {
                                                 if (line.Contains("Error:", StringComparison.OrdinalIgnoreCase) || line.Contains("Exception:", StringComparison.OrdinalIgnoreCase)) {
                                                     Console.WriteLine($"  {line}");
@@ -215,58 +236,63 @@ void BlenderProcessing() {
                                             Console.ResetColor();
                                         } else {
                                             Console.ForegroundColor = ConsoleColor.Green;
-                                            Console.WriteLine("Blender executed successfully.");
+                                            Console.WriteLine("Blender executed successfully (Parallel).");
                                             Console.ResetColor();
                                         }
 
                                         // Check if the output file was created successfully (target of the symlink)
                                         if (File.Exists(glbFilePath)) {
                                             Console.ForegroundColor = ConsoleColor.Green;
-                                            Console.WriteLine($"Output file created successfully: {glbFilePath}");
+                                            Console.WriteLine($"Output file created successfully (Parallel): {glbFilePath}");
                                             Console.ResetColor();
                                         } else {
                                             Console.ForegroundColor = ConsoleColor.Red;
-                                            Console.WriteLine($"Failed to create output file: {glbFilePath}");
+                                            Console.WriteLine($"Failed to create output file (Parallel): {glbFilePath}");
                                             Console.ResetColor();
+                                            
+                                            Environment.Exit(1); // Exit the script if the file creation fails
                                         }
                                     } else {
                                         Console.ForegroundColor = ConsoleColor.Red;
-                                        Console.WriteLine($"Error: No corresponding .preinstanced symlink for: {blendFilePath}");
+                                        Console.WriteLine($"Error (Parallel): No corresponding .preinstanced symlink for: {currentBlendFilePath}");
                                         Console.ResetColor();
-                                        Environment.Exit(1); // break on missing input
+                                        // Optionally, you might want to log this instead of exiting in a parallel context
+                                        // Environment.Exit(1);
                                     }
                                 } else {
                                     Console.ForegroundColor = ConsoleColor.Yellow;
-                                    Console.WriteLine($"Skipping: .glb exists for: {blendFilePath}");
+                                    Console.WriteLine($"Skipping (Parallel): .glb exists for: {currentBlendFilePath}");
                                     Console.ResetColor();
                                 }
                             } catch (Exception ex) {
                                 Console.ForegroundColor = ConsoleColor.Red;
-                                //Console.WriteLine($"Error processing file: {blendFilePath}");
+                                Console.WriteLine($"Error processing file (Parallel)");
                                 Console.WriteLine($"Error message: {ex.Message}");
                                 Console.ResetColor();
-                                Environment.Exit(1); // Exit script on error
+                                // Optionally, you might want to log this instead of exiting in a parallel context
+                                // Environment.Exit(1);
                             }
                             Console.ForegroundColor = ConsoleColor.Green;
-                            //Console.WriteLine($"Finished processing for: {blendFilePath}");
+                            Console.WriteLine($"Finished processing for (Parallel)");
                             Console.ResetColor();
                         } else {
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine($"Error: 404 Blend symlink not found: {blendSymlink}");
+                            Console.WriteLine($"Error (Parallel): 404 Blend symlink not found: {blendSymlink}");
                             Console.ResetColor();
-                            Environment.Exit(1); // break on missing input
+                            // Optionally, you might want to log this instead of exiting in a parallel context
+                            // Environment.Exit(1);
                         }
                     } else {
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine($"Warning: Missing required properties in asset mapping entry for key: {property.Name}");
+                        Console.WriteLine($"Warning (Parallel): Missing required properties in asset mapping entry for key: {property.Name}");
                         Console.ResetColor();
                     }
                 } else {
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine($"Warning: Asset info for key: {property.Name} is not a JSON object.");
+                    Console.WriteLine($"Warning (Parallel): Asset info for key: {property.Name} is not a JSON object.");
                     Console.ResetColor();
                 }
-            }
+            });
         } else {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Error: Asset mapping file does not contain a JSON object at the root.");
@@ -290,10 +316,21 @@ Console.ForegroundColor = ConsoleColor.Blue;
 Console.WriteLine("Initializing...");
 Console.ResetColor();
 Console.ForegroundColor = ConsoleColor.DarkGray;
-Console.WriteLine("Blender Processing using asset_mapping.json...");
+Console.WriteLine("Blender Processing using asset_mapping.json (Parallel)..."); // Updated output message
 Console.ResetColor();
-BlenderProcessing();
+BlenderProcessingParallel(); // Call the parallel processing function
 
 Console.ForegroundColor = ConsoleColor.Green;
-Console.WriteLine("Processing complete.");
+Console.WriteLine("Processing complete (Parallel)."); // Updated output message
 Console.ResetColor();
+
+
+Console.ForegroundColor = ConsoleColor.DarkGray;
+Console.WriteLine("deleting temp files...");
+Console.ResetColor();
+
+// Delete TMP_TSG_LNKS
+// reading the asset_mapping.json file to get the TMP_TSG_LNKS path
+
+
+

@@ -5,28 +5,34 @@ Write-Host "Processing directory: $directory"
 
 # Mapping of old names to new names
 $renameMap = @{
-    "audiostreams"              = "Assets_Audio_Streams_3"
-    "bargainbin"                = "Maps_World_BargainBin_4-10"
-    "bigsuperhappy"             = "Maps_World_BigSuperHappy_4-14"
-    "brt"                       = "Maps_World_Bartman_4-2"
-    "cheater"                   = "Maps_World_Cheater_4-6"
-    "colossaldonut"             = "Maps_World_ColossalDonut_4-8"
-    "dayofthedolphins"          = "Maps_World_DayOfTheDolphins_4-7"
-    "dayspringfieldstoodstill"  = "Maps_World_DaySpringfieldStoodStill_4-99"
-    "eighty_bites"              = "Maps_World_EightyBites_4-3"
-    "frontend"                  = "Assets_Frontend_3"
-    "gamehub"                   = "Maps_World_GameHub_4-10"
-    "grand_theft_scratchy"      = "Maps_World_GrandTheftScratchy_4-12"
-    "loc"                       = "Maps_World_LandOfChocolate_4-1"
-    "medal_of_homer"            = "Maps_World_MedalOfHomer_4-13"
-    "meetthyplayer"             = "Maps_World_MeetThyPlayer_4-99"
-    "mob_rules"                 = "Maps_World_MobRules_4-5"
-    "movies"                    = "Assets_Video_Movies_3"
-    "neverquest"                = "Maps_World_NeverQuest_4-11"
-    "rhymes"                    = "Maps_World_Rhymes_4-99"
-    "simpsons_chars"            = "Assets_Characters_Simpsons_3"
-    "spr_hub"                   = "Maps_World_SprHub_4-5"
-    "tree_hugger"               = "Maps_World_TreeHugger_4-4"
+    "audiostreams"              = "Assets_1_Audio_Streams"
+    "movies"                    = "Assets_1_Video_Movies"
+
+    "frontend"                  = "Assets_2_Frontend"
+    "simpsons_chars"            = "Assets_2_Characters_Simpsons"
+
+    "spr_hub"                   = "Maps_World_3-00_SprHub"                    # Springfield ?
+
+    "loc"                       = "Maps_World_3-01_TheLandOfChocolate"        # 2.1 The Land of Chocolate
+    "brt"                       = "Maps_World_3-02_BartmanBegins"             # 2.2 Bartman Begins
+    "eighty_bites"              = "Maps_World_3-03_AroundTheWorldIn80Bites"   # 2.3 Around the World in 80 Bites
+    "tree_hugger"               = "Maps_World_3-04_LisaTheTreeHugger"         # 2.4 Lisa the Tree Hugger
+    "mob_rules"                 = "Maps_World_3-05_MobRules"                  # 2.5 Mob Rules
+    "cheater"                   = "Maps_World_3-06_EnterTheCheatrix"          # 2.6 Enter the Cheatrix
+    "dayofthedolphins"          = "Maps_World_3-07_TheDayOfTheDolphin"        # 2.7 The Day of the Dolphin
+    "colossaldonut"             = "Maps_World_3-08_ShadowOfTheColossalDonut"  # 2.8 Shadow of the Colossal Donut
+    "dayspringfieldstoodstill"  = "Maps_World_3-09_DaySpringfieldStoodStill"  # 2.9 Invasion of the Yokel-Snatchers ?
+    "bargainbin"                = "Maps_World_3-10_BargainBin"                  # 2.10 Bargain Bin
+
+    "gamehub"                   = "Maps_World_3-00_GameHub"                   # Game Engine ? The Game Hub is a place in The Simpsons Game after completing the level Bargain Bin. It is where you go into the new and old simpsons games that are been/being created 
+    
+    "neverquest"                = "Maps_World_3-11_NeverQuest"                # 2.11 NeverQuest
+    "grand_theft_scratchy"      = "Maps_World_3-12_GrandTheftScratchy"        # 2.12 Grand Theft Scratchy
+    "medal_of_homer"            = "Maps_World_3-13_MedalOfHomer"              # 2.13 Medal of Homer
+    "bigsuperhappy"             = "Maps_World_3-14_BigSuperHappyFunFunGame_"  # 2.14 Big Super Happy Fun Fun Game
+
+    "rhymes"                    = "Maps_World_3-15_Rhymes"                    # 2.15 Five Characters in Search of an Author ?
+    "meetthyplayer"             = "Maps_World_3-16_MeetThyPlayer"             # 2.16 Game Over ?
 }
 
 # Initialize counters for debugging

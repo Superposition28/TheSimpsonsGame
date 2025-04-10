@@ -1,45 +1,30 @@
 # Requires PowerShell 7 or higher
 
-# Function to parse INI file
-function Parse-Ini {
-    param (
-        [string]$IniPath
-    )
-    $IniContent = Get-Content -Path $IniPath -Raw
-    $IniSections = $IniContent -split '\r?\n\r?\n'
-    $Config = @{}
-    foreach ($Section in $IniSections) {
-        $SectionLines = $Section -split '\r?\n'
-        $SectionName = $SectionLines[0].Trim('[', ']')
-        $Config[$SectionName] = @{}
-        for ($i = 1; $i -lt $SectionLines.Count; $i++) {
-            if ($SectionLines[$i] -match "^([^=]+)=(.+)$") {
-                $Key = $Matches[1].Trim()
-                $Value = $Matches[2].Trim()
-                $Config[$SectionName][$Key] = $Value
-            }
-        }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+# Path to the C# script
+$csxScriptPath = "Tools\Global\ConfigReader.csx"
+
+# Define the parameters to pass to the C# script
+$section = "test"
+$key = "test"
+$defaultValue = "test"
+
+# Execute the C# script using dotnet-script, passing the parameters
+#$exampleResponsePathValue = & dotnet-script $csxScriptPath $section $key $defaultValue
+
+# Output the result from the script
+#Write-Host "path from config: $exampleResponsePathValue" -ForegroundColor Cyan
+
+# Ensure path exists
+if ($null -ne $exampleResponsePathValue) {
+    if (-not (Test-Path -Path $exampleResponsePathValue)) {
+        #Write-Error "executable not found at: $exampleResponsePathValue"
     }
-    return $Config
 }
 
-# Load configuration from config.ini
-$Config = Parse-Ini -IniPath ".\config.ini"
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-# Function to get a config value
-function Get-ConfigValue {
-    param (
-        [string]$Section,
-        [string]$Key,
-        [string]$DefaultValue = "" # Added a default value in case the key is not found
-    )
-    if ($Config.ContainsKey($Section) -and $Config[$Section].ContainsKey($Key)) {
-        return $Config[$Section][$Key]
-    }
-    else {
-        return $DefaultValue
-    }
-}
 
 # Define the menu options and their corresponding actions
 $menuOptions = @{
@@ -50,7 +35,7 @@ $menuOptions = @{
             "Args" = ""
         }
     }
-	"2" = @{
+    "2" = @{
         "Name" = "Rename USRDIR Folders"
         "Action" = @{
             "Path" = ".\Tools\process\2_RenameDirs\RenameFolders.ps1"
@@ -92,14 +77,14 @@ $menuOptions = @{
             "Args" = ""
         }
     }
-	"8" = @{
-		"Name" = "Blender Conversion"
-		"Action" = @{
-			"Command" = "dotnet script Tools\process\6_Asset\blend.csx"
-			"Args" = ""
-		}
-	}
-	# temporarily disabled due to issues with Noesis CLI mode
+    "8" = @{
+        "Name" = "Blender Conversion"
+        "Action" = @{
+            "Command" = "dotnet script Tools\process\6_Asset\blend.csx"
+            "Args" = ""
+        }
+    }
+    # temporarily disabled due to issues with Noesis CLI mode
     #"9" = @{
     #    "Name" = "Noesis txd extraction"
     #    "Action" = @{

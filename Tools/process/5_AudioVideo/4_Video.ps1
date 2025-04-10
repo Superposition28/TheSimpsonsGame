@@ -1,17 +1,39 @@
-#
-# convert vp6 to ogv
-#
+# Convert vp6 to ogv
 # Start video conversion job
 
 # Set the source and target directories
-$MovSourceDir = ".\GameFiles\Main\PS3_GAME\USRDIR\Assets_Video_Movies_3"
-$MovTargetDir = ".\GameFiles\Main\PS3_GAME\AudioVideo_OUTPUT\Assets_Video_Movies_3"
+$MovSourceDir = "GameFiles\Main\PS3_GAME\USRDIR\Assets_1_Video_Movies"
+$MovTargetDir = "GameFiles\Main\PS3_GAME\AudioVideo_OUTPUT\Assets_Video_Movies"
 
 # Get the full path of the source directory
 $MovSourceDirFullPath = (Get-Item -LiteralPath $MovSourceDir).FullName
 
 # Recursively get all .vp6 files in the source directory
 $vp6Files = Get-ChildItem -Path $MovSourceDir -Recurse -Filter "*.vp6"
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+# Path to the C# script
+$csxScriptPath = "Tools\Global\ConfigReader.csx"
+
+# Define the parameters to pass to the C# script
+$section = "ToolPaths"
+$key = "FFmpegExePath"
+$defaultValue = "ffmpeg"
+
+# Execute the C# script using dotnet-script, passing the parameters
+$ffmpegPath = & dotnet-script $csxScriptPath $section $key $defaultValue
+
+# Output the result from the script
+Write-Host "FFmpeg path from config: $ffmpegPath" -ForegroundColor Cyan
+
+# Ensure ffmpeg path exists
+if (-not (Test-Path -Path $ffmpegPath)) {
+    Write-Error "FFmpeg executable not found at: $ffmpegPath"
+    exit 1
+}
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 # Iterate through each .vp6 file
 foreach ($file in $vp6Files) {
@@ -22,6 +44,7 @@ foreach ($file in $vp6Files) {
     # Make sure the directory exists in the target folder
     $targetDirectory = [System.IO.Path]::GetDirectoryName($MovTargetPath)
     if (-not (Test-Path -Path $targetDirectory)) {
+        Write-Host "Creating directory: $targetDirectory"
         New-Item -ItemType Directory -Path $targetDirectory -Force
     }
 
@@ -32,9 +55,12 @@ foreach ($file in $vp6Files) {
     Write-Output "Converting '$($file.FullName)' to '$($ogvFile)'"
 
     # Run the ffmpeg to decode the .vp6 file to .ogv
-    #& ffmpeg -i $file.FullName -c:v ffv1 -c:a copy $ogvFile
-    #& ffmpeg -i $file.FullName -c:v libvpx-vp9 -lossless 1 -c:a libopus $ogvFile
-    & ffmpeg -y -i $file.FullName -c:v libtheora -q:v 7 -c:a libvorbis -q:a 5 $ogvFile
-    #test & ffmpeg -i 80b_igc01.vp6 -c:v libvpx-vp9 -lossless 1 -c:a libopus 80b_igc01.ogv
-
+    try {
+        & $ffmpegPath -y -i $file.FullName -c:v libtheora -q:v 7 -c:a libvorbis -q:a 5 $ogvFile
+        Write-Host "Conversion completed: $ogvFile"
+    }
+    catch {
+        Write-Error "Error converting '$($file.FullName)' to '$ogvFile'. $_"
+        exit 1
+    }
 }

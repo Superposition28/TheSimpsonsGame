@@ -99,117 +99,127 @@ try:
             time.sleep(5)
         raise Exception(f"19: Error opening blend file: {e}")
 
-    #try:
-    # Ensure your extension is enabled
-    addon_module_name = 'io_import_simpson_game_ScriptMode'
+    try:
+        # Ensure your extension is enabled
+        addon_module_name = 'io_import_simpson_game_ScriptMode'
+        addon_module_name2 = 'io_import_simpson_game_ScriptMode'
+        addon_module_name3 = 'io_import_simpson_game_ScriptMode'
+        addon_module_name4 = 'io_import_simpson_game_ScriptMode'
 
-    if not bpy.context.preferences.addons.get(addon_module_name):
-        print(f"20: \033[32mEnabling {addon_module_name} addon\033[0m")  # Green text for enabling addon
-        # Path to the addon file
-        pythonextension_file = os.path.abspath(pythonextension_file)
-        print(f"Addon path: {pythonextension_file}")
+        if not bpy.context.preferences.addons.get(addon_module_name):
+            print(f"20: \033[32mEnabling {addon_module_name} addon\033[0m")  # Green text for enabling addon
+            # Path to the addon file
+            pythonextension_file = os.path.abspath(pythonextension_file)
+            print(f"Addon path: {pythonextension_file}")
 
-        # Verify if the addon file exists
-        if not os.path.isfile(pythonextension_file):
-            raise FileNotFoundError(f"Addon file not found at: {pythonextension_file}")
+            # Verify if the addon file exists
+            if not os.path.isfile(pythonextension_file):
+                raise FileNotFoundError(f"Addon file not found at: {pythonextension_file}")
+            else:
+                print(f"Addon file exists at: {pythonextension_file}")
+
+            try:
+                # Install the addon
+                bpy.ops.preferences.addon_install(filepath=pythonextension_file, overwrite=True)
+                print(f"21: Addon installed from: {pythonextension_file}")
+
+                # Verify installation
+                if not bpy.context.preferences.addons.get(addon_module_name):
+                    print(f"Addon {addon_module_name} not found after installation. Check the addon file.")
+                    bpy.ops.preferences.addon_disable(module=addon_module_name)
+                    bpy.ops.preferences.addon_install(filepath=pythonextension_file, overwrite=True)
+                    if not bpy.context.preferences.addons.get(addon_module_name):
+                        #raise ModuleNotFoundError(f"Addon {addon_module_name} not found after installation. Check the addon file.")
+                        bpy.ops.preferences.addon_install(filepath=pythonextension_file, overwrite=True)
+            except Exception as e:
+                if debugsleep == "true":
+                    print("Debug sleep mode enabled. The script will pause for debugging.")
+                    time.sleep(5)
+                raise Exception(f"22: Error installing addon: {e}")
+
+
+            try:
+                # Enable the addon
+                bpy.ops.preferences.addon_enable(module=addon_module_name)
+                print(f"26: Addon {addon_module_name} enabled.")
+
+                # Attempt to re-import the module
+                import importlib
+                importlib.invalidate_caches()  # Clear any cached module information
+                addon_module = importlib.import_module(addon_module_name)
+                print(f"26.1: Addon {addon_module_name} re-imported successfully.")
+            except ModuleNotFoundError as e:
+                raise ModuleNotFoundError(f"27: Error enabling addon {addon_module_name}: {e}. "
+                                        f"Ensure the addon file is correctly installed and named.")
+            except Exception as e:
+                if debugsleep == "true":
+                    print("Debug sleep mode enabled. The script will pause for debugging.")
+                    time.sleep(5)
+                raise Exception(f"27: Error enabling addon {addon_module_name}: {e}")
         else:
-            print(f"Addon file exists at: {pythonextension_file}")
-
-        try:
-            # Install the addon
+            print(f"28: \033[32m{addon_module_name} addon is already enabled\033[0m")  # Green text for addon already enabled
+            bpy.ops.preferences.addon_disable(module=addon_module_name)
             bpy.ops.preferences.addon_install(filepath=pythonextension_file, overwrite=True)
-            print(f"21: Addon installed from: {pythonextension_file}")
-            bpy.ops.preferences.addon_enable(module=addon_module_name)
 
-        except Exception as e:
-            if debugsleep == "true":
-                print("Debug sleep mode enabled. The script will pause for debugging.")
-                time.sleep(5)
-            #raise Exception(f"22: Error installing addon: {e}")
-            print(f"23: Error installing addon: {e}")
+        print(f"\033[32mImporting preinstanced file: {input_preinstanced_file}\033[0m")  # Green text for importing file
 
         try:
-            # Enable the addon
-            bpy.ops.preferences.addon_enable(module=addon_module_name)
-            print(f"26: Addon {addon_module_name} enabled.")
-
-            # Attempt to re-import the module
-            import importlib
-            importlib.invalidate_caches()  # Clear any cached module information
-            addon_module = importlib.import_module(addon_module_name)
-            print(f"26.1: Addon {addon_module_name} re-imported successfully.")
-        except ModuleNotFoundError as e:
-            #raise ModuleNotFoundError(f"27: Error enabling addon {addon_module_name}: {e}. " f"Ensure the addon file is correctly installed and named.")
-            print(f"27: Error enabling addon {addon_module_name}: {e}. " f"Ensure the addon file is correctly installed and named.")
+            # Call your custom import operator
+            bpy.ops.custom_import_scene.simpgame(filepath=input_preinstanced_file)
+            print(f"32: Preinstanced file imported: {input_preinstanced_file}")
         except Exception as e:
             if debugsleep == "true":
                 print("Debug sleep mode enabled. The script will pause for debugging.")
                 time.sleep(5)
-            raise Exception(f"27: Error enabling addon {addon_module_name}: {e}")
-    else:
-        print(f"28: \033[32m{addon_module_name} addon is already enabled\033[0m")  # Green text for addon already enabled
-        bpy.ops.preferences.addon_disable(module=addon_module_name)
-        bpy.ops.preferences.addon_install(filepath=pythonextension_file, overwrite=True)
+            raise Exception(f"33: Error importing preinstanced file: {e}")
 
-    print(f"\033[32mImporting preinstanced file: {input_preinstanced_file}\033[0m")  # Green text for importing file
+        try:
+            # Save a copy of the blend file with the imported content
+            saved_base_blend_file = os.path.splitext(base_blend_file)[0] + ".blend"
+            print(f"34: Saving blend file as: {saved_base_blend_file}")
 
-    try:
-        # Call your custom import operator
-        bpy.ops.custom_import_scene.simpgame(filepath=input_preinstanced_file)
-        print(f"32: Preinstanced file imported: {input_preinstanced_file}")
+            # Ensure the directory exists
+            saved_blend_dir = os.path.dirname(saved_base_blend_file)
+            if not os.path.exists(saved_blend_dir):
+                os.makedirs(saved_blend_dir, exist_ok=True)  # Create the directory if it doesn't exist
+                print(f"35: Created directory for saved blend file: {saved_blend_dir}")
+            else:
+                print(f"36: Directory for saved blend file exists: {saved_blend_dir}")
+
+            # Save the blend file
+            #bpy.ops.wm.save_as_mainfile(filepath=saved_base_blend_file, check_existing=False)
+            if bpy.data.is_dirty:
+                bpy.ops.wm.save_mainfile()
+                print("File saved.")
+            else:
+                print("No changes to save.")
+            print(f"37: \033[32mSaved imported blend file: {saved_base_blend_file}\033[0m")  # Green text for saved file
+        except Exception as e:
+            if debugsleep == "true":
+                print("Debug sleep mode enabled. The script will pause for debugging.")
+                time.sleep(5)
+            raise Exception(f"38: Error saving blend file: {e}")
+
+        print(f"\033[32mExporting to GLB file: {output_glb}\033[0m")  # Green text for exporting file
+
+        try:
+            # Export the scene to .glb
+            bpy.ops.export_scene.gltf(filepath=output_glb)
+            print(f"39: Exported to GLB file: {output_glb}")
+        except Exception as e:
+            if debugsleep == "true":
+                print("Debug sleep mode enabled. The script will pause for debugging.")
+                time.sleep(5)
+            raise Exception(f"40: Error exporting to GLB: {e}")
+
+        print("41: \033[32mExport complete. Exiting Blender.\033[0m")  # Green text for export complete
+
     except Exception as e:
+        print(f"42: \033[31mError in main processing: {e}\033[0m")  # Red text for error message
         if debugsleep == "true":
             print("Debug sleep mode enabled. The script will pause for debugging.")
             time.sleep(5)
-        raise Exception(f"33: Error importing preinstanced file: {e}")
-
-    try:
-        # Save a copy of the blend file with the imported content
-        saved_base_blend_file = os.path.splitext(base_blend_file)[0] + ".blend"
-        print(f"34: Saving blend file as: {saved_base_blend_file}")
-
-        # Ensure the directory exists
-        saved_blend_dir = os.path.dirname(saved_base_blend_file)
-        if not os.path.exists(saved_blend_dir):
-            os.makedirs(saved_blend_dir, exist_ok=True)  # Create the directory if it doesn't exist
-            print(f"35: Created directory for saved blend file: {saved_blend_dir}")
-        else:
-            print(f"36: Directory for saved blend file exists: {saved_blend_dir}")
-
-        # Save the blend file
-        #bpy.ops.wm.save_as_mainfile(filepath=saved_base_blend_file, check_existing=False)
-        if bpy.data.is_dirty:
-            bpy.ops.wm.save_mainfile()
-            print("File saved.")
-        else:
-            print("No changes to save.")
-        print(f"37: \033[32mSaved imported blend file: {saved_base_blend_file}\033[0m")  # Green text for saved file
-    except Exception as e:
-        if debugsleep == "true":
-            print("Debug sleep mode enabled. The script will pause for debugging.")
-            time.sleep(5)
-        raise Exception(f"38: Error saving blend file: {e}")
-
-    print(f"\033[32mExporting to GLB file: {output_glb}\033[0m")  # Green text for exporting file
-
-    try:
-        # Export the scene to .glb
-        bpy.ops.export_scene.gltf(filepath=output_glb)
-        print(f"39: Exported to GLB file: {output_glb}")
-    except Exception as e:
-        if debugsleep == "true":
-            print("Debug sleep mode enabled. The script will pause for debugging.")
-            time.sleep(5)
-        raise Exception(f"40: Error exporting to GLB: {e}")
-
-    print("41: \033[32mExport complete. Exiting Blender.\033[0m")  # Green text for export complete
-
-    #except Exception as e:
-    #    print(f"42: \033[31mError in main processing: {e}\033[0m")  # Red text for error message
-    #    if debugsleep == "true":
-    #        print("Debug sleep mode enabled. The script will pause for debugging.")
-    #        time.sleep(5)
-    #    #sys.exit(1)  # Exit script on error
+        sys.exit(1)  # Exit script on error
 
 except ValueError as e:
     print(f"43: \033[31mError: Incorrect number of arguments provided: {e}\033[0m")

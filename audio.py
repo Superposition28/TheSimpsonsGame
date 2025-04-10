@@ -1,6 +1,6 @@
 # Read the file
-print("Reading the file: audio.md")
-with open("audiotree.md", "r", encoding="utf-8") as f:
+print("Reading the file: audio.tree")
+with open("audiotree.tree", "r", encoding="utf-8") as f:
     lines = f.readlines()
 
 # Remove duplicates while preserving order
@@ -13,7 +13,7 @@ for line in lines:
         unique_lines.append(line)
 
 # Write the cleaned data back to a new file
-print("Writing cleaned data to cleaned_file.txt")
+print("Writing cleaned data to Audio.md")
 with open("Audio.md", "w", encoding="utf-8") as f:
     f.writelines(unique_lines)
 

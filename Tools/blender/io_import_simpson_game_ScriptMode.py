@@ -6,8 +6,8 @@ It is designed to be run as a Blender addon, and it includes error handling and 
 """
 
 bl_info = {
-    "name": "Simpsons Game Importer Test 6",
-    "author": "samarixum",
+    "name": "io_import_simpson_game_ScriptMode",
+    "author": "idk",
     "version": (1, 6, 0),
     "blender": (4, 3, 2),
     "location": "File > Import-Export",

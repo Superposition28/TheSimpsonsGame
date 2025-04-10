@@ -21,6 +21,21 @@ param (
 $StrDirectory = ".\GameFiles\Main\PS3_GAME\USRDIR\"
 $OutDirectory = ".\GameFiles\Main\PS3_GAME\QuickBMS_STR_OUTPUT\"
 
+# Log file path
+$logFilePath = ".\Tools\process\3_QuickBMS\QBMS.log"
+
+# Create log file if it doesn't exist
+if (-not (Test-Path -Path $logFilePath)) {
+    Write-Host "Creating log file at $logFilePath" -ForegroundColor Yellow
+    try {
+        New-Item -Path $logFilePath -ItemType File -Force | Out-Null
+        Write-Host "Log file created successfully." -ForegroundColor Green
+    } catch {
+        Write-Host "Error creating log file: $($_.Exception.Message)" -ForegroundColor Red
+    }
+} else {
+    Write-Host "Log file already exists at $logFilePath" -ForegroundColor Yellow
+}
 
 # Set the paths for the BMS script and QuickBMS tool
 $quickBMS = "A:\Dev\Games\The_Simpsons_Game\tools\quickbms\quickbms.exe"
@@ -36,31 +51,6 @@ Write-Host "Source Directory: $sourceDirectory" -ForegroundColor Cyan
 $strFiles = Get-ChildItem -Path $sourceDirectory -Filter "*.str" -Recurse
 
 Write-Host "Found $($strFiles.Count) .str files to process." -ForegroundColor Yellow
-
-function ProcessPreinstancedFiles {
-    param (
-        [string]$outputDirectory
-    )
-
-    # Check for the presence of .preinstanced files in the output directory and its subdirectories
-    $preinstancedFiles = Get-ChildItem -Path $outputDirectory -Filter "*.preinstanced" -Recurse
-
-    Write-Host "Found $($preinstancedFiles.Count) .preinstanced files in $outputDirectory and its subdirectories." -ForegroundColor Yellow
-
-    foreach ($preinstancedFile in $preinstancedFiles) {
-        Write-Host "Processing preinstanced file: $($preinstancedFile.FullName)" -ForegroundColor Green
-        # Define the source and destination paths for the blank.blend file
-        $blankBlendSource = "A:\Dev\Games\The_Simpsons_Game\blank.blend"
-        $blankBlendDestination = Join-Path $preinstancedFile.DirectoryName "$($preinstancedFile.BaseName).blend"
-
-        Write-Host "Copying $blankBlendSource to $blankBlendDestination" -ForegroundColor Cyan
-
-        # Copy and rename the blank.blend file
-        Copy-Item -Path $blankBlendSource -Destination $blankBlendDestination -Force
-
-        Write-Host "Copied and renamed blank.blend to $blankBlendDestination" -ForegroundColor Green
-    }
-}
 
 # Loop through each .str file and run the QuickBMS command
 foreach ($file in $strFiles) {
@@ -88,30 +78,92 @@ foreach ($file in $strFiles) {
     # Construct the command to run
     if ($OverwriteOption -eq "a") {
         # Construct the command to run with the overwrite all option
-        $command = "& `"$quickBMS`" -o `"$bmsScript`" `"$($file.FullName)`" `"$outputDirectory`""
+        $args = @(
+            "-o"
+            "$bmsScript"
+            "$($file.FullName)"
+            "$outputDirectory"
+        )
+        $quickBMSCommand = "& `"$quickBMS`" $args"
+        Write-Host "QuickBMS Command: $quickBMSCommand" -ForegroundColor Green
     } elseif ($OverwriteOption -eq "r") {
         # Construct the command to run with the rename all option
-        $command = "& `"$quickBMS`" -K `"$bmsScript`" `"$($file.FullName)`" `"$outputDirectory`""
+        $args = @(
+            "-K"
+            "$bmsScript"
+            "$($file.FullName)"
+            "$outputDirectory"
+        )
+        $quickBMSCommand = "& `"$quickBMS`" $args"
+        Write-Host "QuickBMS Command: $quickBMSCommand" -ForegroundColor Green
     } elseif ($OverwriteOption -eq "s") {
-        # Construct the command to run with the skip all option
-        $command = "& `"$quickBMS`" -k `"$bmsScript`" `"$($file.FullName)`" `"$outputDirectory`""
+        $args = @(
+            "-k"
+            "$bmsScript"
+            "$($file.FullName)"
+            "$outputDirectory"
+        )
+        $quickBMSCommand = "& `"$quickBMS`" $args"
+        Write-Host "QuickBMS Command: $quickBMSCommand" -ForegroundColor Green
     } else {
         # Construct the command to run with manual handling
-        $command = "& `"$quickBMS`" `"$bmsScript`" `"$($file.FullName)`" `"$outputDirectory`""
+        $args = @(
+            "$bmsScript"
+            "$($file.FullName)"
+            "$outputDirectory"
+        )
+        $quickBMSCommand = "& `"$quickBMS`" $args"
+        Write-Host "QuickBMS Command: $quickBMSCommand" -ForegroundColor Green
+    }    
+
+    # Execute the quickBMSCommand and stream the output directly to the console
+    Write-Host "# Start quickBMS Output" -ForegroundColor Magenta
+
+    # Capture standard output and standard error separately
+    $quickBMSOutput = & $quickBMS @args 2>&1
+
+    Write-Host "catching output" -ForegroundColor Magenta
+
+    # Write the output to the console
+    Write-Host ""
+    Write-Host $quickBMSOutput -ForegroundColor Green
+    Write-Host ""
+
+    Write-Host "# End quickBMS Output" -ForegroundColor Magenta
+
+    # Extract all coverage percentages
+    [regex]$coverageRegex = 'coverage file\s+(?<filenumber>-?\d+)\s+([\d.]+)%\s+(\d+)\s+(\d+)\s+\.\s+offset\s+(?<offset>[0-9a-fA-F]+)'
+    $matches = $quickBMSOutput | Select-String -Pattern $coverageRegex -AllMatches | ForEach-Object {$_.Matches}
+
+    if ($matches) {
+        Write-Host "Coverage Percentages:" -ForegroundColor Cyan
+        foreach ($match in $matches) {
+            $fileNumber = $match.Groups["filenumber"].Value
+            $percentage = $match.Groups[1].Value
+            $offset = $match.Groups["offset"].Value
+            Write-Host "  File: $fileNumber, Percentage: $percentage%, Offset: 0x$offset" -ForegroundColor Cyan
+
+            # disabled logging
+            if (1 -eq 2) {
+                # Log the file name and percentage to the log file
+                try {
+                    $logEntry = "Time = ""[{0}]"", Path = ""$($file.FullName)"", File = ""{1}"", Percentage = ""{2}%"", Offset = ""0x{3}""" -f (Get-Date -Format "yyyy-MM-dd HH:mm:ss"), $fileNumber, $percentage, $offset
+                    Add-Content -Path $logFilePath -Value $logEntry
+                }
+                catch {
+                    Write-Host "Error writing to log file: $($_.Exception.Message)" -ForegroundColor Red
+                }
+            }
+        }
+    } else {
+        Write-Host "No coverage information found." -ForegroundColor Yellow
     }
-
-    Write-Host "Executing command: $command" -ForegroundColor Green
-
-    # Execute the command
-    Invoke-Expression $command
 
     Write-Host "Processed $($file.Name) -> Output Directory: $outputDirectory" -ForegroundColor Green
 
-    #Start-Sleep -Seconds 15
+    #Start-Sleep -Seconds 5
 
 }
 
 Write-Host "QuickBMS processing completed." -ForegroundColor Green
-
-
 

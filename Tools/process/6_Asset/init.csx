@@ -18,11 +18,11 @@ using System.Text.Json;
 public static bool verbose = false; // Set to true for verbose output
 
 public static void print(string message, ConsoleColor color = ConsoleColor.White) {
-	if (verbose) {
-		Console.ForegroundColor = color;
-		Console.WriteLine(message);
-		Console.ResetColor();
-	}
+    if (verbose) {
+        Console.ForegroundColor = color;
+        Console.WriteLine(message);
+        Console.ResetColor();
+    }
 }
 
 // Main class containing core functionality for asset mapping and symbolic link creation
@@ -35,7 +35,7 @@ public class main {
     /// <param name="glbRoot">Optional root directory for .glb files.</param>
     /// <param name="checkExistence">If true, checks for the existence of corresponding blend files.</param>
     /// <returns>A dictionary mapping unique identifiers to asset file paths.</returns>
-    public static Dictionary<string, Dictionary<string, string>> GenerateAssetMapping(string preinstancedRoot, string blendRoot, string glbRoot = null, bool checkExistence = false) {
+    public static Dictionary<string, Dictionary<string, string>> GenerateAssetMapping(string rootDrive, string preinstancedRoot, string blendRoot, string glbRoot = null, bool checkExistence = false) {
         // Validate input directories
         if (!Directory.Exists(preinstancedRoot)) {
             throw new DirectoryNotFoundException($"Preinstanced root directory not found: {preinstancedRoot}");
@@ -60,13 +60,21 @@ public class main {
 
             // Skip if blend file doesn't exist and checkExistence is true
             if (checkExistence && !File.Exists(blendFullPath)) {
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine($"Warning: Corresponding blend file not found: {blendFullPath}");
+                Console.ResetColor();
                 continue;
             }
 
             // Generate a unique identifier using MD5 hash of the blend relative path
             using (var md5 = MD5.Create()) {
-                var hashBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(blendRelativePath));
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine($"blendRelativePath: {blendRelativePath}");
+                Console.WriteLine($"preinstancedRelativePath: {preinstancedRelativePath}");
+                Console.WriteLine($"glbRelativePath: {glbRelativePath}");
+                Console.ResetColor();
+                //Thread.Sleep(500000);
+                var hashBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(preinstancedRelativePath));
                 var identifier = BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant();
 
                 var assetInfo = new Dictionary<string, string> {
@@ -76,37 +84,44 @@ public class main {
                 };
 
                 // Generate symlink paths
-                // TODO: Make the root drive letter configurable instead of hardcoding.
-                var rootDriveLetter = "A:\\TMP_TSG_FILES\\";
-                assetInfo["preinstanced_symlink"] = Path.Combine(rootDriveLetter, identifier + "_preinstanced", Path.GetFileName(preinstancedFile));
-                assetInfo["blend_symlink"] = Path.Combine(rootDriveLetter, identifier + "_blend", Path.GetFileName(blendFullPath));
-                assetInfo["predicted_glb_symlink"] = glbRoot != null ? Path.Combine(rootDriveLetter, identifier + "_glb", Path.GetFileName(glbFullPath)) : null;
+                assetInfo["preinstanced_symlink"] = Path.Combine(rootDrive, identifier + "_preinstanced", Path.GetFileName(preinstancedFile));
+                assetInfo["blend_symlink"] = Path.Combine(rootDrive, identifier + "_blend", Path.GetFileName(blendFullPath));
+                assetInfo["predicted_glb_symlink"] = glbRoot != null ? Path.Combine(rootDrive, identifier + "_glb", Path.GetFileName(glbFullPath)) : null;
 
                 mapping[identifier] = assetInfo;
-            }
-        }
+                // Optionally process existing GLB files to add them to the mapping
+                if (glbRoot != null) {
 
-        // Optionally process existing GLB files to add them to the mapping
-        if (glbRoot != null) {
-            foreach (var glbFile in Directory.EnumerateFiles(glbRoot, "*.glb", SearchOption.AllDirectories)) {
-                var glbRelativePath = Path.GetRelativePath(glbRoot, glbFile);
-                using (var md5 = MD5.Create()) {
-                    var hashBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(glbRelativePath));
-                    var identifier = BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant();
+                    //var glbFile = Directory.EnumerateFiles(glbRoot, "*.glb", SearchOption.AllDirectories);
+                    //var glbRelativePath2 = Path.GetRelativePath(glbRoot, glbFile);
+                    
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.WriteLine($"glbRelativePath: {glbRelativePath}");
+                    //Console.WriteLine($"glbRelativePath: {glbRelativePath2}");
+                    Console.ResetColor();
+                    //Thread.Sleep(50000);
+
+                    //var hashBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(blendRelativePath));
+                    //var identifier = BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant();
                     if (mapping.ContainsKey(identifier)) {
                         // If an entry for this identifier already exists (from a preinstanced file),
                         // update it with the actual GLB file path.
-                        mapping[identifier]["glb_full"] = glbFile;
+                        mapping[identifier]["glb_full"] = glbFullPath;
                         // TODO: Should we also update the predicted GLB symlink path here?
                     } else {
                         // If no corresponding preinstanced file was found, create a new entry.
-                        Console.WriteLine($"Warning: GLB file found without a corresponding preinstanced entry: {glbFile}");
-                        mapping[identifier] = new Dictionary<string, string> { ["glb_full"] = glbFile };
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine($"Warning: GLB file found without a corresponding preinstanced entry: {glbFullPath}");
+                        Console.ResetColor();
+                        mapping[identifier] = new Dictionary<string, string> { ["glb_full"] = glbFullPath };
                         // TODO: Should we generate a predicted GLB symlink path even without a preinstanced file?
                     }
+
                 }
             }
         }
+
+
 
         return mapping;
     }
@@ -138,6 +153,7 @@ public class main {
                         }
                     } catch (IOException e) {
                         Console.WriteLine($"Error creating symbolic link for preinstanced folder ({preinstancedSourceFolder}): {e.Message}");
+                        Thread.Sleep(50000);
                     }
                 } else {
                     Console.WriteLine($"Source folder not found for preinstanced file: {preinstancedPath}");
@@ -161,6 +177,7 @@ public class main {
                         }
                     } catch (IOException e) {
                         Console.WriteLine($"Error creating symbolic link for blend folder ({blendSourceFolder}): {e.Message}");
+                        Thread.Sleep(50000);
                     }
                 } else {
                     Console.WriteLine($"Source folder not found for blend file: {blendPath}");
@@ -182,7 +199,7 @@ public class main {
                             assetMap[identifier]["predicted_glb_symlink"] = glbLinkFolder; // Store the symlink path
                         } else {
                             print($"Symbolic link already exists: {glbLinkFolder}", ConsoleColor.Yellow);
-                            assetMap[identifier]["predicted_glb_symlink"] = glbLinkFolder; // Store the symlink path
+                            assetMap[identifier]["predicted_glb_symlink"] = "true"; // Store the symlink path
                         }
 
                         //Thread.Sleep(10000); // Sleep for 10 seconds to avoid overwhelming the file system
@@ -191,7 +208,7 @@ public class main {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine($"Error creating symbolic link for GLB folder ({glbSourceFolder}): {e.Message}");
                         Console.ResetColor();
-                        Thread.Sleep(10000); // Sleep for 10 seconds to avoid overwhelming the file system
+                        Thread.Sleep(50000);
                         // TODO: Same question as above for this sleep.
                     }
                 } else {
@@ -224,6 +241,7 @@ public class PreinstancedFileProcessor {
     public void ProcessFiles() {
         if (string.IsNullOrEmpty(InputDirectory)) {
             Console.WriteLine("Error: InputDirectory is not set.");
+            Thread.Sleep(50000);
             return;
         }
 
@@ -234,6 +252,7 @@ public class PreinstancedFileProcessor {
                 Directory.CreateDirectory(BlendDirectory);
                 Console.WriteLine($"Created directory: {BlendDirectory}");
             }
+            Thread.Sleep(50000);
         }
 
         if (string.IsNullOrEmpty(GLBOutputDirectory)) {
@@ -243,10 +262,12 @@ public class PreinstancedFileProcessor {
                 Directory.CreateDirectory(GLBOutputDirectory);
                 Console.WriteLine($"Created directory: {GLBOutputDirectory}");
             }
+            Thread.Sleep(50000);
         }
 
         if (string.IsNullOrEmpty(BlankBlendSource)) {
             Console.WriteLine("Error: BlankBlendSource is not set.");
+            Thread.Sleep(50000);
             return;
         }
 
@@ -271,6 +292,7 @@ public class PreinstancedFileProcessor {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"Error: Preinstanced file '{preinstancedFile}' is not within the input directory '{InputDirectory}'. Skipping.");
                 Console.ResetColor();
+                Thread.Sleep(50000);
                 continue;
             }
 
@@ -369,63 +391,109 @@ public class PreinstancedFileProcessor {
                 Thread.Sleep(5000);
             }
         }
+
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
+        Console.WriteLine($"Total .preinstanced files processed: {preinstancedFiles.Count}");
+        Console.ResetColor();
     }
 }
 
 // Determine the root path to GameFiles
 string workingDirRoot = Directory.GetCurrentDirectory();
-if (!Directory.Exists(workingDirRoot))
-{
-    Console.WriteLine($"Error: 'GameFiles' directory not found in the current working directory: {Directory.GetCurrentDirectory()}");
-    return;
-}
+Console.WriteLine($"Working Directory: {workingDirRoot}");
 
 // Define the root directories for asset files
 var preinstancedDir = Path.Combine(workingDirRoot, "GameFiles", "Main", "PS3_GAME", "Flattened_OUTPUT");
 var blendDir = Path.Combine(workingDirRoot, "GameFiles", "Main", "PS3_GAME", "Blender_TMP_OUTPUT");
 var glbDir = Path.Combine(workingDirRoot, "GameFiles", "Main", "PS3_GAME", "Assets_Blender_OUTPUT");
-var outputFile = "asset_mapping.json"; // Choose a name for your output file
+var outputFile = "Tools\\process\\6_Asset\\asset_mapping.json"; // Choose a name for your output file
 // Determine the root drive letter for symbolic links
 var rootDriveLetter = Path.GetPathRoot(Directory.GetCurrentDirectory()); // Get the drive letter of the current directory
+var rootDrive = Path.Combine(rootDriveLetter, "TMP_TSG_LNKS");
 
 // Instantiate the PreinstancedFileProcessor and configure its properties
 var processor = new PreinstancedFileProcessor {
     InputDirectory = preinstancedDir,
     BlendDirectory = blendDir,
     GLBOutputDirectory = glbDir,
-    BlankBlendSource = Path.Combine(workingDirRoot, "GameFiles", "blank.blend"),
+    BlankBlendSource = Path.Combine(workingDirRoot, "blank.blend"),
     DebugSleep = false // Set to true for debug mode
 };
-
+Console.ForegroundColor = ConsoleColor.Cyan;
+Console.WriteLine($"Starting to process files in: {preinstancedDir}");
+Console.ResetColor();
+Thread.Sleep(3333);
 // Start processing the .preinstanced files
 processor.ProcessFiles();
 
 try {
-    // Generate the asset mapping
-    var assetMap = main.GenerateAssetMapping(preinstancedDir, blendDir, glbDir, checkExistence: false);
 
-    Console.WriteLine($"Generated mapping for {assetMap.Count} unique assets.");
+    // Create the root directory for symbolic links if it doesn't exist
+    if (!Directory.Exists(rootDrive)) {
+        Directory.CreateDirectory(rootDrive);
+        Console.WriteLine($"Created root directory for symbolic links: {rootDrive}");
+        Thread.Sleep(5000);
+    } else {
+        // delete directory if it exists
+        Directory.Delete(rootDrive, true);
+        Console.WriteLine($"Deleted existing root directory for symbolic links: {rootDrive}");
+        if (!Directory.Exists(rootDrive)) {
+            Directory.CreateDirectory(rootDrive);
+            Console.WriteLine($"Created root directory for symbolic links: {rootDrive}");
+        } else {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"Error: Failed to create root directory for symbolic links: {rootDrive}");
+            Console.ResetColor();
+            Thread.Sleep(5000);
+            return;
+        }
+        Thread.Sleep(5000);
+    }
+
+    // Check if the root drive is valid
+    if (!Directory.Exists(rootDrive)) {
+        throw new DirectoryNotFoundException($"Root drive not found: {rootDrive}");
+    }
+
+    Console.ForegroundColor = ConsoleColor.Cyan;
+    Console.WriteLine($"Generating asset map");
+    Console.ResetColor();
+    Thread.Sleep(3333);
+    // Generate the asset mapping
+    var assetMap = main.GenerateAssetMapping(rootDrive, preinstancedDir, blendDir, glbDir, checkExistence: false);
+
+    Console.ForegroundColor = ConsoleColor.Cyan;
+    Console.WriteLine($"Generated map for {assetMap.Count} assets.");
+    Console.ResetColor();
+    Thread.Sleep(3333);
 
     // Save the asset map to a JSON file
     var options = new JsonSerializerOptions { WriteIndented = true };
     var jsonString = JsonSerializer.Serialize(assetMap, options);
     File.WriteAllText(outputFile, jsonString);
 
+    Console.ForegroundColor = ConsoleColor.Cyan;
     Console.WriteLine($"Asset mapping saved to: {outputFile}");
+    Console.ResetColor();
+    Thread.Sleep(2112);
 
-    // Create the root directory for symbolic links if it doesn't exist
-    var rootDrive = Path.Combine(rootDriveLetter, "TMP_TSG_FILES");
-    if (!Directory.Exists(rootDrive))
-    {
-        Directory.CreateDirectory(rootDrive);
-        Console.WriteLine($"Created root directory for symbolic links: {rootDrive}");
-    }
-
+    Console.ForegroundColor = ConsoleColor.Cyan;
+    Console.WriteLine($"Starting process to create symbolic links in: {rootDrive}");
+    Console.ResetColor();
+    Thread.Sleep(3333);
     // Create the symbolic links based on the generated asset map
     main.CreateSymbolicLinks(assetMap, rootDrive);
+    Console.ForegroundColor = ConsoleColor.Green;
     Console.WriteLine("Symbolic links creation process completed.");
+    Console.ResetColor();
 } catch (DirectoryNotFoundException e) {
+    Console.ForegroundColor = ConsoleColor.Red;
     Console.WriteLine($"Error: {e.Message}");
+    Console.ResetColor();
+    Thread.Sleep(50000);
 } catch (Exception e) {
+    Console.ForegroundColor = ConsoleColor.Red;
     Console.WriteLine($"An unexpected error occurred: {e.Message}");
+    Console.ResetColor();
+    Thread.Sleep(50000);
 }
