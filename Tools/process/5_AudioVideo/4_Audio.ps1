@@ -1,5 +1,5 @@
 #
-# convert snu to ogg
+# convert snu to wav
 #
 # Start audio conversion job
 
@@ -49,13 +49,17 @@ foreach ($file in $snuFiles) {
         New-Item -ItemType Directory -Path $AudioTargetDirectory -Force
     }
 
-    # Set the target filename with .ogg extension
-    $oggFile = [System.IO.Path]::ChangeExtension($AudioTargetPath, ".ogg")
+    # Set the target filename with .wav extension
+    $wavFile = [System.IO.Path]::ChangeExtension($AudioTargetPath, ".wav")
 
     # Print the paths being used
-    Write-Output "Converting '$($file.FullName)' to '$($oggFile)'"
+    Write-Host "Converting '$($file.FullName)' to '$($wavFile)'"
 
-    # Run the vgmstream-cli to decode the .snu file to .ogg
-    & $vgmstreamCliPath -f 1 -l 10 -o $oggFile $file.FullName
-    #test & vgmstream-cli -f 1 -l 10 -o "OUTPUT_d_as01_xxx_0003bb5.ogg" "d_as01_xxx_0003bb5.exa.snu"
+	Write-Host "& $vgmstreamCliPath -f 1 -l 10 -o $wavFile $file.FullName" 
+
+    # Run the vgmstream-cli to decode the .snu file to .wav
+    & $vgmstreamCliPath -f 1 -l 10 -o $wavFile $file.FullName
+    #test & vgmstream-cli -f 1 -l 10 -o "OUTPUT_d_as01_xxx_0003bb5.wav" "d_as01_xxx_0003bb5.exa.snu"
+
+	#Start-Sleep -Seconds 10
 }

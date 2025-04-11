@@ -31,7 +31,7 @@ Before you begin, ensure you have the following installed and set up:
 * **Blender:** must Download [blender 4.0.2](https://download.blender.org/release/Blender4.0/), blender 4.0 or older, to 2.8, is required for the conversion to work.
 * **Game Files:** You will need a copy of "The Simpsons Game" game files for the target platform.
 * **ffmpeg:** this is used for conversion of proprietary video .vp6 into (.ogv, or any others), use ```winget install ffmpeg``` from https://www.gyan.dev/ffmpeg/builds/#libraries, https://www.ffmpeg.org/download.html
-* **vgmstream-cli:** Download [\[r1980\]](https://github.com/vgmstream/vgmstream/releases/tag/r1980) this is used for conversion of proprietary audio .snu into (.ogg, or any others)
+* **vgmstream-cli:** Download [\[r1980\]](https://github.com/vgmstream/vgmstream/releases/tag/r1980) this is used for conversion of proprietary audio .snu into (.wav, or any others)
 * **WinRar:** used by the initializer to automatically extract the iso file
 
 50GB of free space
@@ -47,7 +47,7 @@ The project initialization, asset extraction and conversion process is automated
 ```powershell
 .\main.ps1
 ```
-then select each option in order and the script should handle the rest
+then select each option in order
 
 [0] Run all scripts // self explanatory, and untested...
 
@@ -60,8 +60,8 @@ extracts the ISO contents using WinRar into GameFiles\Main\
 the iso file should and must contain \PS3_GAME\USRDIR\, and some other unimportant files (\PS3_UPDATE, PS3_DISC.SFB)
 
 [2] Rename USRDIR Folders (Powershell, RenameFolders.ps1)
-this renames the directories in the game root folder as there original names are less than descriptive
-theres two kinds of folders, Levels and Assets
+this renames the directories in the game root folder as their original names are less than descriptive
+there's two kinds of folders, Levels and Assets
 4 asset folders, video, audio, characters, frontend
 18 Map folders, for some reason, a number of Game Levels are separated as more than one root Map folder
 
@@ -87,9 +87,9 @@ converts the weird audio format to a less weird one
 [7] init Blender (C#, init.csx)
 gets the blender conversion process ready
 
-even with flattening
-due to the length of the directory structure i foolishly refuse to remove blender more often fails to locate the files
-i needed a workaround so i create symbolic links (advanced shortcuts) to each files folder
+
+due to the length of the directory structure, blender often fails to locate the files
+i needed a fix so i create symbolic links (advanced shortcuts) to each files folder, instead of removing unnecessary folders from the structure
 even this only reduced the reduced number of errors
 
 Processes .preinstanced files in the nested structure and Generates a 'map' of assets file paths.
@@ -120,7 +120,7 @@ then click Export
 
 
 
-"A:\Dev\Games\TheSimpsonsGame\GameFiles\Main\PS3_GAME\Flattened_OUTPUT\Assets_Characters_Simpsons_3\GlobalFolder\chars\bart.str_-_bart_str\build_-_PS3_-_ntsc_en\assets_rws_-_simpsons_chars_-_simpsons_chars\texture_dictionary_-_GlobalFolder_-_chars\bart.txd"
+"A:\Dev\Games\TheSimpsonsGame\GameFiles\Main\PS3_GAME\Flattened_OUTPUT\Assets_Characters_Simpsons_3\GlobalFolder\chars\bart.str++bart_str\build++PS3++ntsc_en\assets_rws++simpsons_chars++simpsons_chars\texture_dictionary++GlobalFolder++chars\bart.txd"
 "$\bart.txd_files\bartout.png" 
 
 
@@ -211,18 +211,18 @@ This directory is the destination for converted video files. The original `.vp6`
 
 ### `GameFiles\Main\PS3_GAME\AudioVideo_OUTPUT\Assets_Audio_Streams_3`
 
-This directory is the destination for converted audio files. The original `.snu` audio files are converted to `.ogg` format.
+This directory is the destination for converted audio files. The original `.snu` audio files are converted to `.wav` format.
 
 The structure of the folders within the audio folder is a bit complicated, as its designed for a GameEngine 'RenderWare'.
 Each folder is oddly named 
  some with its purpose others a character's name but only the last two letters of there shortened name:
 
-* `.\GameFiles\Main\PS3_GAME\AudioVideo_OUTPUT\Assets_Audio_Streams_3\ak_xxx_0\d_shak_xxx_000639c.exa.ogg`: This is a voice line for the Shakespeare character, `shak` ending with 'ak', so it's in the `ak_xxx_0` folder.
-* `.\GameFiles\Main\PS3_GAME\AudioVideo_OUTPUT\Assets_Audio_Streams_3\ak_xxx_0\d_snak_xxx_0006263.exa.ogg`: This is a voice line for the Snake character, `snak` ending with 'ak', so it's in the `ak_xxx_0` folder.
+* `.\GameFiles\Main\PS3_GAME\AudioVideo_OUTPUT\Assets_Audio_Streams_3\ak_xxx_0\d_shak_xxx_000639c.exa.wav`: This is a voice line for the Shakespeare character, `shak` ending with 'ak', so it's in the `ak_xxx_0` folder.
+* `.\GameFiles\Main\PS3_GAME\AudioVideo_OUTPUT\Assets_Audio_Streams_3\ak_xxx_0\d_snak_xxx_0006263.exa.wav`: This is a voice line for the Snake character, `snak` ending with 'ak', so it's in the `ak_xxx_0` folder.
 
 all character names are shortened and the folders are grouped by the last two letters of the shortened names
 and some folders are for ambient sound
-* `.\GameFiles\Main\PS3_GAME\AudioVideo_OUTPUT\Assets_Audio_Streams_3\amb_airc\moh_amb_aircraft_carrier_qd.exa.ogg`: This is a war zone ambient sound.
+* `.\GameFiles\Main\PS3_GAME\AudioVideo_OUTPUT\Assets_Audio_Streams_3\amb_airc\moh_amb_aircraft_carrier_qd.exa.wav`: This is a war zone ambient sound.
 
 there are 169 folders here
 **TODO**: They need to be renamed to be more clear on who they're for and regrouped, by character or purpose.

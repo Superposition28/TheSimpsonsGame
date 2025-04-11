@@ -1,13 +1,13 @@
 <html>
 <head>
-	<title>Noesis MJPEG Server</title>
+    <title>Noesis MJPEG Server</title>
 </head>
 <body>
-	<center>
-		<strong><font size="6">Welcome to Uncle Frank's Good Time Noesis MJPEG Server!</font></strong><br />
-		<br />
-		<img src="noestream.mjpeg" /><br />
-	</center>
-	<br />
+    <center>
+        <strong><font size="6">Welcome to Uncle Frank's Good Time Noesis MJPEG Server!</font></strong><br />
+        <br />
+        <img src="noestream.mjpeg" /><br />
+    </center>
+    <br />
 </body>
 </html>

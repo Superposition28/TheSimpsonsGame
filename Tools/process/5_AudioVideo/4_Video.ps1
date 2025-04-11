@@ -52,7 +52,7 @@ foreach ($file in $vp6Files) {
     $ogvFile = [System.IO.Path]::ChangeExtension($MovTargetPath, ".ogv")
 
     # Print the paths being used
-    Write-Output "Converting '$($file.FullName)' to '$($ogvFile)'"
+    Write-Host "Converting '$($file.FullName)' to '$($ogvFile)'"
 
     # Run the ffmpeg to decode the .vp6 file to .ogv
     try {

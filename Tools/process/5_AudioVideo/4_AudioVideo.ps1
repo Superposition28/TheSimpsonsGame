@@ -1,5 +1,5 @@
 #
-# convert snu to ogg
+# convert snu to wav
 #
 # Start audio conversion
 
@@ -28,16 +28,16 @@ foreach ($file in $snuFiles) {
         New-Item -ItemType Directory -Path $AudioTargetDirectory -Force
     }
 
-    # Set the target filename with .ogg extension
-    $oggFile = [System.IO.Path]::ChangeExtension($AudioTargetPath, ".ogg")
+    # Set the target filename with .wav extension
+    $oggFile = [System.IO.Path]::ChangeExtension($AudioTargetPath, ".wav")
 
     # Print the paths being used
-    Write-Output "Converting '$($file.FullName)' to '$($oggFile)'"
+    Write-Host "Converting '$($file.FullName)' to '$($oggFile)'"
 
-    # Run the vgmstream-cli to decode the .snu file to .ogg
+    # Run the vgmstream-cli to decode the .snu file to .wav
     #& vgmstream-cli -o $oggFile $file.FullName
     & vgmstream-cli -f 1 -l 10 -o $oggFile $file.FullName
-    #test & vgmstream-cli -f 1 -l 10 -o "OUTPUT_d_as01_xxx_0003bb5.ogg" "d_as01_xxx_0003bb5.exa.snu"
+    #test & vgmstream-cli -f 1 -l 10 -o "OUTPUT_d_as01_xxx_0003bb5.wav" "d_as01_xxx_0003bb5.exa.snu"
 }
 
 #
@@ -73,7 +73,7 @@ foreach ($file in $vp6Files) {
     $ogvFile = [System.IO.Path]::ChangeExtension($MovTargetPath, ".ogv")
 
     # Print the paths being used
-    Write-Output "Converting '$($file.FullName)' to '$($ogvFile)'"
+    Write-Host "Converting '$($file.FullName)' to '$($ogvFile)'"
 
     # Run the ffmpeg to decode the .vp6 file to .ogv
     #& ffmpeg -i $file.FullName -c:v ffv1 -c:a copy $ogvFile

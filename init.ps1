@@ -341,7 +341,7 @@ if (-not $winrarPathConfigured) {
     $winrarExe = Get-ToolPath -toolName "WinRAR" -executableName "WinRAR.exe"
     if ($winrarExe) {
         Save-Config -key "WinRarExePath" -value $winrarExe -section $toolPathsSection
-		Extract-Iso -isoFilePath $isoFilePathConfigured -outputPath $gameFilesMainPath
+        Extract-Iso -isoFilePath $isoFilePathConfigured -outputPath $gameFilesMainPath
     }
 } else {
     Write-Host "WinRAR path found in config: $($winrarPathConfigured)" -ForegroundColor Green

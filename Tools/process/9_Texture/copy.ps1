@@ -2,12 +2,17 @@
 $sourceRoot = "GameFiles\Main\PS3_GAME\Flattened_OUTPUT"
 $destinationRoot = "GameFiles\Main\PS3_GAME\TEXTURES_OUTPUT"
 
+# Convert sourceRoot to a full path
+$sourceRoot = Convert-Path $sourceRoot
+
 # Get all PNG files recursively from the source root
 $pngFiles = Get-ChildItem -Path $sourceRoot -Recurse -Filter *.png
 
 foreach ($file in $pngFiles) {
+    
     # Get the relative path of the file from the source root
     $relativePath = $file.FullName.Substring($sourceRoot.Length).TrimStart('\')
+    Write-Host "Relative Path: $relativePath" -ForegroundColor Green
 
     # Build the destination path
     $destinationPath = Join-Path $destinationRoot $relativePath
@@ -20,4 +25,6 @@ foreach ($file in $pngFiles) {
 
     # Copy the file to the destination
     Copy-Item -Path $file.FullName -Destination $destinationPath -Force
+
+    #Start-Sleep -Seconds 2 
 }

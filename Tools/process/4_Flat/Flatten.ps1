@@ -1,10 +1,10 @@
 <#
 .SYNOPSIS
-Recursively processes directories starting from a '*_str' subdirectory within each '.str' directory found under a RootDir. Flattens sequences where a directory solely contains another directory, combining their names with '_-_'. Copies files to the resulting structure in DestinationDir with hash checks and error handling.
+Recursively processes directories starting from a '*_str' subdirectory within each '.str' directory found under a RootDir. Flattens sequences where a directory solely contains another directory, combining their names with '++'. Copies files to the resulting structure in DestinationDir with hash checks and error handling.
 
 .DESCRIPTION
 This script searches for directories ending in ".str" within the RootDir. For each, it looks for a subdirectory ending in "_str". It then recursively processes the contents of the "_str" directory.
-The core rule: If a source directory being processed contains exactly one item, and that item is also a directory, their names are combined (e.g., "parent_-_child") and the recursion continues into the child directory without creating a physical directory for "parent".
+The core rule: If a source directory being processed contains exactly one item, and that item is also a directory, their names are combined (e.g., "parent++child") and the recursion continues into the child directory without creating a physical directory for "parent".
 If a source directory contains multiple items, or only files, or is empty, a physical directory is created in the destination using either the source directory's name or the accumulated flattened name from previous steps. Files are copied into this destination directory, and the script recurses into any subdirectories found (resetting the accumulated name).
 The script provides live output, performs SHA256 hash checks, and exits on any error. The original RootDir remains unchanged.
 
@@ -107,10 +107,10 @@ function Process-SourceDirectory {
         # Append the child directory name to the current/accumulated name
         $newAccumulatedName = if ([string]::IsNullOrEmpty($AccumulatedFlattenedName)) {
             # Start a new flattened sequence using current source dir name and its single child dir name
-            $sourceBaseName + "_-_" + $singleChildDir.Name
+            $sourceBaseName + "++" + $singleChildDir.Name
         } else {
             # Continue an existing flattened sequence by appending the single child dir name
-            $AccumulatedFlattenedName + "_-_" + $singleChildDir.Name
+            $AccumulatedFlattenedName + "++" + $singleChildDir.Name
         }
 
         $PSCmdlet.WriteVerbose("Flattening: '$($sourceBaseName)' contains only '$($singleChildDir.Name)'. New accumulated name: '$newAccumulatedName'")
@@ -293,7 +293,7 @@ function Compress-Branch {
             # Check for initial flattening: if .str *only* contains *_str
             if ($strDirItems.Count -eq 1 -and $strDirItems[0].FullName -eq $startPath) {
                 # Flatten .str and *_str together
-                $initialAccumulatedName = (Split-Path -Path $BranchPath -Leaf) + "_-_" + $firstSubDir.Name
+                $initialAccumulatedName = (Split-Path -Path $BranchPath -Leaf) + "++" + $firstSubDir.Name
                 # The *parent* for the flattened item is the parent of the .str directory's destination equivalent
                 $initialDestParentPath = Split-Path -Path $destinationBase -Parent
 
