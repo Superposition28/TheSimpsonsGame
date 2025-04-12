@@ -5,8 +5,8 @@ from inc_noesis import NoePreserveRapiContext
 LRESULT = LPARAM
 
 def registerNoesisTypes():
-	noesis.registerCleanupFunction(destroyAllWindows)
-	return 1
+    noesis.registerCleanupFunction(destroyAllWindows)
+    return 1
 
 SW_HIDE             = 0
 SW_SHOWNORMAL       = 1
@@ -777,7 +777,7 @@ BLACKNESS           = 0x00000042 #dest = BLACK
 WHITENESS           = 0x00FF0062 #dest = WHITE
 
 def RGB(r,g,b):
-	return int(r | (g << 8) | (b << 16))
+    return int(r | (g << 8) | (b << 16))
 
 
 kernel32 = windll.kernel32
@@ -790,62 +790,62 @@ WNDPROCTYPE = WINFUNCTYPE(LRESULT, HWND, c_uint, WPARAM, LPARAM)
 liveWindows = {}
 
 def getNoeWndForHWnd(hWnd):
-	if hWnd in liveWindows:
-		return liveWindows[hWnd]
-	return None
-	
+    if hWnd in liveWindows:
+        return liveWindows[hWnd]
+    return None
+    
 def getNoesisWindowRect():
-	hNoesisWnd = noesis.getWindowHandle()
-	if hNoesisWnd:
-		rect = RECT()
-		if user32.GetWindowRect(hNoesisWnd, byref(rect)):
-			return (rect.left, rect.top, rect.right, rect.bottom)
-	return None
+    hNoesisWnd = noesis.getWindowHandle()
+    if hNoesisWnd:
+        rect = RECT()
+        if user32.GetWindowRect(hNoesisWnd, byref(rect)):
+            return (rect.left, rect.top, rect.right, rect.bottom)
+    return None
 
 class WNDCLASSEX(Structure):
-	_fields_ = [("cbSize", c_uint),
-				("style", c_uint),
-				("lpfnWndProc", WNDPROCTYPE),
-				("cbClsExtra", c_int),
-				("cbWndExtra", c_int),
-				("hInstance", HINSTANCE),
-				("hIcon", HANDLE),
-				("hCursor", HANDLE),
-				("hBrush", HBRUSH),
-				("lpszMenuName", LPCWSTR),
-				("lpszClassName", LPCWSTR),
-				("hIconSm", HANDLE)]
+    _fields_ = [("cbSize", c_uint),
+                ("style", c_uint),
+                ("lpfnWndProc", WNDPROCTYPE),
+                ("cbClsExtra", c_int),
+                ("cbWndExtra", c_int),
+                ("hInstance", HINSTANCE),
+                ("hIcon", HANDLE),
+                ("hCursor", HANDLE),
+                ("hBrush", HBRUSH),
+                ("lpszMenuName", LPCWSTR),
+                ("lpszClassName", LPCWSTR),
+                ("hIconSm", HANDLE)]
 
 class NMHDR(Structure):
-	_fields_ = [("hwndFrom", HWND),
-				("idFrom", c_uint),
-				("code", c_uint)]
+    _fields_ = [("hwndFrom", HWND),
+                ("idFrom", c_uint),
+                ("code", c_uint)]
 LPNMHDR = POINTER(NMHDR)
-								
+                                
 class PAINTSTRUCT(Structure):
-	_fields_ = [('hdc', HANDLE),
-				('fErase', c_int),
-				('rcPaint', RECT),
-				('fRestore', c_int),
-				('fIncUpdate', c_int),
-				('rgbReserved', c_char * 32)]
+    _fields_ = [('hdc', HANDLE),
+                ('fErase', c_int),
+                ('rcPaint', RECT),
+                ('fRestore', c_int),
+                ('fIncUpdate', c_int),
+                ('rgbReserved', c_char * 32)]
 
 class BITMAPINFOHEADER(Structure):
-	_fields_ = [("biSize", c_uint),
-				("biWidth", c_long),
-				("biHeight", c_long),
-				("biPlanes", c_ushort),
-				("biBitCount", c_ushort),
-				("biCompression", c_uint),
-				("biSizeImage", c_uint),
-				("biXPelsPerMeter", c_long),
-				("biYPelsPerMeter", c_long),
-				("biClrUsed", c_uint),
-				("biClrImportant", c_uint)]
+    _fields_ = [("biSize", c_uint),
+                ("biWidth", c_long),
+                ("biHeight", c_long),
+                ("biPlanes", c_ushort),
+                ("biBitCount", c_ushort),
+                ("biCompression", c_uint),
+                ("biSizeImage", c_uint),
+                ("biXPelsPerMeter", c_long),
+                ("biYPelsPerMeter", c_long),
+                ("biClrUsed", c_uint),
+                ("biClrImportant", c_uint)]
 
 class BITMAPINFO(Structure):
-	_fields_ = [("bmiHeader", BITMAPINFOHEADER)]
-				
+    _fields_ = [("bmiHeader", BITMAPINFOHEADER)]
+                
 #fix up types to avoid explosions under x64.
 #this is a minefield, so be cautious if you call any of the user/kernel/gdi functions not already used by the noewin module.
 kernel32.GetModuleHandleW.restype = HANDLE
@@ -894,440 +894,440 @@ kernel32.OpenProcess.restype = HANDLE
 windll.winmm.PlaySoundW.argtypes = [c_void_p, HANDLE, c_uint]
 
 def destroyAllWindows():
-	global liveWindows
-	for hWnd in liveWindows.keys():
-		noeWnd = liveWindows[hWnd]
-		noeWnd.freeResources()
-	liveWindows = {}
+    global liveWindows
+    for hWnd in liveWindows.keys():
+        noeWnd = liveWindows[hWnd]
+        noeWnd.freeResources()
+    liveWindows = {}
 
 def defaultWindowProc(hWnd, message, wParam, lParam):
-	noeWnd = liveWindows[hWnd] if hWnd in liveWindows else None
-	if message == WM_CLOSE:
-		if noeWnd:
-			noeWnd.freeResources()
-			del liveWindows[hWnd]
-		else:
-			#somehow untracked, so just kill it
-			user32.DestroyWindow(hWnd)	
-		return 0
-	elif message == WM_COMMAND:
-		if noeWnd:
-			controlId = (wParam & 0xFFFF)
-			for userControl in noeWnd.userControls:
-				if userControl.controlId == controlId and userControl.commandMethod:
-					with NoePreserveRapiContext() as rapiContext:
-						if userControl.commandMethod(noeWnd, userControl.controlId, wParam, lParam):
-							return 0
-	elif message == WM_CTLCOLORSTATIC:
-		#gdi32.SetTextColor(wParam, RGB(0, 255, 0))
-		#gdi32.SetBkColor(wParam, RGB(255, 0, 0))
-		gdi32.SetBkMode(wParam, TRANSPARENT)
-		return 0
-	"""
-	elif message == WM_NOTIFY:
-		nmhdr = cast(lParam, LPNMHDR)[0]
-		for userControl in noeWnd.userControls:
-			if userControl.controlId == nmhdr.idFrom and userControl.notifyMethod:
-				if userControl.notifyMethod(noeWnd, userControl.controlId, nmhdr.code):
-					return 0
-	"""
-	
-	r = user32.DefWindowProcW(hWnd, message, wParam, lParam)
-	if noeWnd:
-		for cb in noeWnd.userCallbacks:
-			if cb.message == message:
-				with NoePreserveRapiContext() as rapiContext:
-					cb.method(noeWnd, cb.controlIndex, message, wParam, lParam)
-	return r
-	
+    noeWnd = liveWindows[hWnd] if hWnd in liveWindows else None
+    if message == WM_CLOSE:
+        if noeWnd:
+            noeWnd.freeResources()
+            del liveWindows[hWnd]
+        else:
+            #somehow untracked, so just kill it
+            user32.DestroyWindow(hWnd)    
+        return 0
+    elif message == WM_COMMAND:
+        if noeWnd:
+            controlId = (wParam & 0xFFFF)
+            for userControl in noeWnd.userControls:
+                if userControl.controlId == controlId and userControl.commandMethod:
+                    with NoePreserveRapiContext() as rapiContext:
+                        if userControl.commandMethod(noeWnd, userControl.controlId, wParam, lParam):
+                            return 0
+    elif message == WM_CTLCOLORSTATIC:
+        #gdi32.SetTextColor(wParam, RGB(0, 255, 0))
+        #gdi32.SetBkColor(wParam, RGB(255, 0, 0))
+        gdi32.SetBkMode(wParam, TRANSPARENT)
+        return 0
+    """
+    elif message == WM_NOTIFY:
+        nmhdr = cast(lParam, LPNMHDR)[0]
+        for userControl in noeWnd.userControls:
+            if userControl.controlId == nmhdr.idFrom and userControl.notifyMethod:
+                if userControl.notifyMethod(noeWnd, userControl.controlId, nmhdr.code):
+                    return 0
+    """
+    
+    r = user32.DefWindowProcW(hWnd, message, wParam, lParam)
+    if noeWnd:
+        for cb in noeWnd.userCallbacks:
+            if cb.message == message:
+                with NoePreserveRapiContext() as rapiContext:
+                    cb.method(noeWnd, cb.controlIndex, message, wParam, lParam)
+    return r
+    
 def defaultCheckBoxCommandMethod(noeWnd, controlId, wParam, lParam):
-	checkBox = noeWnd.getControlById(controlId)
-	checkBox.setChecked(BST_CHECKED if checkBox.isChecked() == 0 else BST_UNCHECKED)
+    checkBox = noeWnd.getControlById(controlId)
+    checkBox.setChecked(BST_CHECKED if checkBox.isChecked() == 0 else BST_UNCHECKED)
 
 class NoeUserControlBase:
-	def __init__(self, noeParentWnd, controlId, x, y, width, height, commandMethod):
-		self.noeParentWnd = noeParentWnd
-		self.controlId = controlId
-		self.x = x
-		self.y = y
-		self.width = width
-		self.height = height
-		self.commandMethod = commandMethod
-	
+    def __init__(self, noeParentWnd, controlId, x, y, width, height, commandMethod):
+        self.noeParentWnd = noeParentWnd
+        self.controlId = controlId
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.commandMethod = commandMethod
+    
 class NoeUserStatic(NoeUserControlBase):
-	def __init__(self, noeParentWnd, text, controlId, x, y, width, height):
-		super().__init__(noeParentWnd, controlId, x, y, width, height, None)
-		self.style = WS_VISIBLE | WS_CHILD
-		self.hWnd = user32.CreateWindowExW(0, "STATIC", text, self.style, x, y, width, height, noeParentWnd.hWnd, self.controlId, noeParentWnd.hInst, 0)
+    def __init__(self, noeParentWnd, text, controlId, x, y, width, height):
+        super().__init__(noeParentWnd, controlId, x, y, width, height, None)
+        self.style = WS_VISIBLE | WS_CHILD
+        self.hWnd = user32.CreateWindowExW(0, "STATIC", text, self.style, x, y, width, height, noeParentWnd.hWnd, self.controlId, noeParentWnd.hInst, 0)
 
 class NoeUserButton(NoeUserControlBase):
-	def __init__(self, noeParentWnd, name, controlId, x, y, width, height, commandMethod, defaultButton):
-		super().__init__(noeParentWnd, controlId, x, y, width, height, commandMethod)
-		self.name = name
-		self.style = WS_TABSTOP | WS_VISIBLE | WS_CHILD
-		if defaultButton:
-			self.style |= BS_DEFPUSHBUTTON
-		self.hWnd = user32.CreateWindowExW(0, "BUTTON", self.name, self.style, x, y, width, height, noeParentWnd.hWnd, self.controlId, noeParentWnd.hInst, 0)
-	def setText(self, text):
-		user32.SetWindowTextW(self.hWnd, text)
+    def __init__(self, noeParentWnd, name, controlId, x, y, width, height, commandMethod, defaultButton):
+        super().__init__(noeParentWnd, controlId, x, y, width, height, commandMethod)
+        self.name = name
+        self.style = WS_TABSTOP | WS_VISIBLE | WS_CHILD
+        if defaultButton:
+            self.style |= BS_DEFPUSHBUTTON
+        self.hWnd = user32.CreateWindowExW(0, "BUTTON", self.name, self.style, x, y, width, height, noeParentWnd.hWnd, self.controlId, noeParentWnd.hInst, 0)
+    def setText(self, text):
+        user32.SetWindowTextW(self.hWnd, text)
 
 class NoeUserCheckBox(NoeUserControlBase):
-	def __init__(self, noeParentWnd, name, controlId, x, y, width, height, commandMethod):
-		super().__init__(noeParentWnd, controlId, x, y, width, height, commandMethod)
-		self.name = name
-		self.style = WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_CHECKBOX
-		self.hWnd = user32.CreateWindowExW(0, "BUTTON", self.name, self.style, x, y, width, height, noeParentWnd.hWnd, self.controlId, noeParentWnd.hInst, 0)
-	def isChecked(self):
-		return user32.SendMessageW(self.hWnd, BM_GETCHECK, 0, 0)
-	def setChecked(self, checkValue):
-		user32.SendMessageW(self.hWnd, BM_SETCHECK, checkValue, 0)
-		
+    def __init__(self, noeParentWnd, name, controlId, x, y, width, height, commandMethod):
+        super().__init__(noeParentWnd, controlId, x, y, width, height, commandMethod)
+        self.name = name
+        self.style = WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_CHECKBOX
+        self.hWnd = user32.CreateWindowExW(0, "BUTTON", self.name, self.style, x, y, width, height, noeParentWnd.hWnd, self.controlId, noeParentWnd.hInst, 0)
+    def isChecked(self):
+        return user32.SendMessageW(self.hWnd, BM_GETCHECK, 0, 0)
+    def setChecked(self, checkValue):
+        user32.SendMessageW(self.hWnd, BM_SETCHECK, checkValue, 0)
+        
 class NoeUserEditBox(NoeUserControlBase):
-	def __init__(self, noeParentWnd, text, controlId, x, y, width, height, isMultiLine, isReadOnly, commandMethod):
-		super().__init__(noeParentWnd, controlId, x, y, width, height, commandMethod)
-		self.style = WS_TABSTOP | WS_VISIBLE | WS_CHILD | ES_LEFT
-		if isMultiLine:
-			self.style |= ES_MULTILINE | ES_WANTRETURN | WS_VSCROLL | ES_AUTOVSCROLL
-		if isReadOnly:
-			self.style |= ES_READONLY
-		self.hWnd = user32.CreateWindowExW(WS_EX_CLIENTEDGE, "EDIT", text, self.style, x, y, width, height, noeParentWnd.hWnd, self.controlId, noeParentWnd.hInst, 0)
-	def getText(self):
-		l = user32.GetWindowTextLengthW(self.hWnd) + 1
-		textBuffer = create_unicode_buffer(l)
-		user32.GetWindowTextW(self.hWnd, textBuffer, l)
-		return textBuffer.value
-	def setText(self, text):
-		user32.SetWindowTextW(self.hWnd, text)
+    def __init__(self, noeParentWnd, text, controlId, x, y, width, height, isMultiLine, isReadOnly, commandMethod):
+        super().__init__(noeParentWnd, controlId, x, y, width, height, commandMethod)
+        self.style = WS_TABSTOP | WS_VISIBLE | WS_CHILD | ES_LEFT
+        if isMultiLine:
+            self.style |= ES_MULTILINE | ES_WANTRETURN | WS_VSCROLL | ES_AUTOVSCROLL
+        if isReadOnly:
+            self.style |= ES_READONLY
+        self.hWnd = user32.CreateWindowExW(WS_EX_CLIENTEDGE, "EDIT", text, self.style, x, y, width, height, noeParentWnd.hWnd, self.controlId, noeParentWnd.hInst, 0)
+    def getText(self):
+        l = user32.GetWindowTextLengthW(self.hWnd) + 1
+        textBuffer = create_unicode_buffer(l)
+        user32.GetWindowTextW(self.hWnd, textBuffer, l)
+        return textBuffer.value
+    def setText(self, text):
+        user32.SetWindowTextW(self.hWnd, text)
 
 class NoeUserComboBox(NoeUserControlBase):
-	def __init__(self, noeParentWnd, controlId, x, y, width, height, style, commandMethod):
-		super().__init__(noeParentWnd, controlId, x, y, width, height, commandMethod)
-		self.style = WS_TABSTOP | WS_VISIBLE | WS_CHILD | WS_VSCROLL | style
-		self.hWnd = user32.CreateWindowExW(0, "COMBOBOX", 0, self.style, x, y, width, height, noeParentWnd.hWnd, self.controlId, noeParentWnd.hInst, 0)
-	def addString(self, text):
-		user32.SendMessageW(self.hWnd, CB_ADDSTRING, 0, text)
-	def removeString(self, text):
-		textIndex = self.getStringIndex(text)
-		if textIndex >= 0:
-			user32.SendMessageW(self.hWnd, CB_DELETESTRING, textIndex, 0)
-	def selectString(self, text):
-		user32.SendMessageW(self.hWnd, CB_SELECTSTRING, -1, text)
-	def resetContent(self):
-		return user32.SendMessageW(self.hWnd, CB_RESETCONTENT, 0, 0)	
-	def getStringIndex(self, text):
-		return user32.SendMessageW(self.hWnd, CB_FINDSTRING, -1, text)
-	def getSelectionIndex(self):
-		return user32.SendMessageW(self.hWnd, CB_GETCURSEL, 0, 0)
-	def getStringForIndex(self, index):
-		if index < 0:
-			return None
-		l = user32.SendMessageW(self.hWnd, CB_GETLBTEXTLEN, index, 0) + 1
-		textBuffer = create_unicode_buffer(l)
-		user32.SendMessageW(self.hWnd, CB_GETLBTEXT, index, textBuffer)
-		return textBuffer.value
-	def getStringCount(self):
-		return user32.SendMessageW(self.hWnd, CB_GETCOUNT, 0, 0)
-		
+    def __init__(self, noeParentWnd, controlId, x, y, width, height, style, commandMethod):
+        super().__init__(noeParentWnd, controlId, x, y, width, height, commandMethod)
+        self.style = WS_TABSTOP | WS_VISIBLE | WS_CHILD | WS_VSCROLL | style
+        self.hWnd = user32.CreateWindowExW(0, "COMBOBOX", 0, self.style, x, y, width, height, noeParentWnd.hWnd, self.controlId, noeParentWnd.hInst, 0)
+    def addString(self, text):
+        user32.SendMessageW(self.hWnd, CB_ADDSTRING, 0, text)
+    def removeString(self, text):
+        textIndex = self.getStringIndex(text)
+        if textIndex >= 0:
+            user32.SendMessageW(self.hWnd, CB_DELETESTRING, textIndex, 0)
+    def selectString(self, text):
+        user32.SendMessageW(self.hWnd, CB_SELECTSTRING, -1, text)
+    def resetContent(self):
+        return user32.SendMessageW(self.hWnd, CB_RESETCONTENT, 0, 0)    
+    def getStringIndex(self, text):
+        return user32.SendMessageW(self.hWnd, CB_FINDSTRING, -1, text)
+    def getSelectionIndex(self):
+        return user32.SendMessageW(self.hWnd, CB_GETCURSEL, 0, 0)
+    def getStringForIndex(self, index):
+        if index < 0:
+            return None
+        l = user32.SendMessageW(self.hWnd, CB_GETLBTEXTLEN, index, 0) + 1
+        textBuffer = create_unicode_buffer(l)
+        user32.SendMessageW(self.hWnd, CB_GETLBTEXT, index, textBuffer)
+        return textBuffer.value
+    def getStringCount(self):
+        return user32.SendMessageW(self.hWnd, CB_GETCOUNT, 0, 0)
+        
 class NoeUserListBox(NoeUserControlBase):
-	def __init__(self, noeParentWnd, controlId, x, y, width, height, style, commandMethod):
-		super().__init__(noeParentWnd, controlId, x, y, width, height, commandMethod)
-		self.style = WS_TABSTOP | WS_VISIBLE | WS_CHILD | WS_VSCROLL | style
-		if commandMethod is not None:
-			self.style |= LBS_NOTIFY
-		self.hWnd = user32.CreateWindowExW(WS_EX_CLIENTEDGE, "LISTBOX", 0, self.style, x, y, width, height, noeParentWnd.hWnd, self.controlId, noeParentWnd.hInst, 0)
-	def addString(self, text):
-		user32.SendMessageW(self.hWnd, LB_ADDSTRING, 0, text)
-	def removeString(self, text):
-		textIndex = self.getStringIndex(text)
-		if textIndex >= 0:
-			user32.SendMessageW(self.hWnd, LB_DELETESTRING, textIndex, 0)
-	def selectString(self, text):
-		user32.SendMessageW(self.hWnd, LB_SELECTSTRING, -1, text)
-	def resetContent(self):
-		return user32.SendMessageW(self.hWnd, LB_RESETCONTENT, 0, 0)	
-	def getStringIndex(self, text):
-		return user32.SendMessageW(self.hWnd, LB_FINDSTRING, -1, text)
-	def getSelectionIndex(self):
-		return user32.SendMessageW(self.hWnd, LB_GETCURSEL, 0, 0)
-	def getStringForIndex(self, index):
-		if index < 0:
-			return None
-		l = user32.SendMessageW(self.hWnd, LB_GETTEXTLEN, index, 0) + 1
-		textBuffer = create_unicode_buffer(l)
-		user32.SendMessageW(self.hWnd, LB_GETTEXT, index, textBuffer)
-		return textBuffer.value
-	def getStringCount(self):
-		return user32.SendMessageW(self.hWnd, LB_GETCOUNT, 0, 0)
-	def getMultiSelectionIndices(self):
-		selCount = self.getMultiSelectionCount()
-		if selCount <= 0:
-			return []
-		else:
-			selIndices = (c_int * selCount)()
-			selCount = user32.SendMessageW(self.hWnd, LB_GETSELITEMS, selCount, byref(selIndices))
-			if selCount <= 0:
-				return []
-			return [selIndices[i] for i in range(0, selCount)]
-	def getMultiSelectionCount(self):
-		return user32.SendMessageW(self.hWnd, LB_GETSELCOUNT, 0, 0)
+    def __init__(self, noeParentWnd, controlId, x, y, width, height, style, commandMethod):
+        super().__init__(noeParentWnd, controlId, x, y, width, height, commandMethod)
+        self.style = WS_TABSTOP | WS_VISIBLE | WS_CHILD | WS_VSCROLL | style
+        if commandMethod is not None:
+            self.style |= LBS_NOTIFY
+        self.hWnd = user32.CreateWindowExW(WS_EX_CLIENTEDGE, "LISTBOX", 0, self.style, x, y, width, height, noeParentWnd.hWnd, self.controlId, noeParentWnd.hInst, 0)
+    def addString(self, text):
+        user32.SendMessageW(self.hWnd, LB_ADDSTRING, 0, text)
+    def removeString(self, text):
+        textIndex = self.getStringIndex(text)
+        if textIndex >= 0:
+            user32.SendMessageW(self.hWnd, LB_DELETESTRING, textIndex, 0)
+    def selectString(self, text):
+        user32.SendMessageW(self.hWnd, LB_SELECTSTRING, -1, text)
+    def resetContent(self):
+        return user32.SendMessageW(self.hWnd, LB_RESETCONTENT, 0, 0)    
+    def getStringIndex(self, text):
+        return user32.SendMessageW(self.hWnd, LB_FINDSTRING, -1, text)
+    def getSelectionIndex(self):
+        return user32.SendMessageW(self.hWnd, LB_GETCURSEL, 0, 0)
+    def getStringForIndex(self, index):
+        if index < 0:
+            return None
+        l = user32.SendMessageW(self.hWnd, LB_GETTEXTLEN, index, 0) + 1
+        textBuffer = create_unicode_buffer(l)
+        user32.SendMessageW(self.hWnd, LB_GETTEXT, index, textBuffer)
+        return textBuffer.value
+    def getStringCount(self):
+        return user32.SendMessageW(self.hWnd, LB_GETCOUNT, 0, 0)
+    def getMultiSelectionIndices(self):
+        selCount = self.getMultiSelectionCount()
+        if selCount <= 0:
+            return []
+        else:
+            selIndices = (c_int * selCount)()
+            selCount = user32.SendMessageW(self.hWnd, LB_GETSELITEMS, selCount, byref(selIndices))
+            if selCount <= 0:
+                return []
+            return [selIndices[i] for i in range(0, selCount)]
+    def getMultiSelectionCount(self):
+        return user32.SendMessageW(self.hWnd, LB_GETSELCOUNT, 0, 0)
 
 class NoeUserScrollBar(NoeUserControlBase):
-	def __init__(self, noeParentWnd, controlId, x, y, width, height, isHorizontal, commandMethod):
-		super().__init__(noeParentWnd, controlId, x, y, width, height, None)
-		self.scrollUpdateMethod = commandMethod #special-case for scrolls, reappropriate the command method
-		self.style = WS_TABSTOP | WS_VISIBLE | WS_CHILD | SBS_SIZEBOXBOTTOMRIGHTALIGN
-		barStyle = SBS_HORZ if isHorizontal else SBS_VERT
-		self.style |= barStyle
-		self.hWnd = user32.CreateWindowExW(0, "SCROLLBAR", 0, self.style, x, y, width, height, noeParentWnd.hWnd, self.controlId, noeParentWnd.hInst, 0)
-		self.setScrollMinMax(1, 10)
-		#user32.SendMessageW(self.hWnd, SBM_ENABLE_ARROWS, ESB_ENABLE_BOTH, 0)
-	def setScrollMinMax(self, minVal, maxVal):
-		self.minVal = int(minVal)
-		self.maxVal = int(maxVal)
-		user32.SetScrollRange(self.hWnd, SB_CTL, self.minVal, self.maxVal, 1)
-	def setScrollValue(self, val):
-		val = min(val, self.maxVal)
-		val = max(val, self.minVal)
-		user32.SetScrollPos(self.hWnd, SB_CTL, int(val), 1)
-	def getScrollValue(self):
-		return user32.GetScrollPos(self.hWnd, SB_CTL)
-	#typical functionality required for scrollbar handling
-	def DefaultScrollCallback(noeWnd, controlIndex, message, wParam, lParam):
-		scroll = noeWnd.getControlByIndex(controlIndex)
-		if scroll.hWnd == lParam:
-			scrollType = (wParam & 0xFFFF)
-			oldValue = scroll.getScrollValue()
-			if scrollType == SB_THUMBPOSITION or scrollType == SB_THUMBTRACK:
-				scrollIndex = (wParam >> 16)
-				scroll.setScrollValue(scrollIndex)
-			else:
-				largeAmount = max(int(scroll.maxVal - scroll.minVal) // 4, 1)
-				movement = 0
-				if scrollType == SB_LEFT or scrollType == SB_LINELEFT:
-					movement = -1
-				elif scrollType == SB_RIGHT or scrollType == SB_LINERIGHT:
-					movement = 1
-				elif scrollType == SB_PAGELEFT:
-					movement = -largeAmount
-				elif scrollType == SB_PAGERIGHT:
-					movement = largeAmount
-				
-				if movement != 0:
-					scroll.setScrollValue(oldValue + movement)
-					
-			if scroll.scrollUpdateMethod:
-				scroll.scrollUpdateMethod(noeWnd, scroll.controlId, oldValue, scroll.getScrollValue(), scrollType)
-			return True
-			
-		return False
-	
+    def __init__(self, noeParentWnd, controlId, x, y, width, height, isHorizontal, commandMethod):
+        super().__init__(noeParentWnd, controlId, x, y, width, height, None)
+        self.scrollUpdateMethod = commandMethod #special-case for scrolls, reappropriate the command method
+        self.style = WS_TABSTOP | WS_VISIBLE | WS_CHILD | SBS_SIZEBOXBOTTOMRIGHTALIGN
+        barStyle = SBS_HORZ if isHorizontal else SBS_VERT
+        self.style |= barStyle
+        self.hWnd = user32.CreateWindowExW(0, "SCROLLBAR", 0, self.style, x, y, width, height, noeParentWnd.hWnd, self.controlId, noeParentWnd.hInst, 0)
+        self.setScrollMinMax(1, 10)
+        #user32.SendMessageW(self.hWnd, SBM_ENABLE_ARROWS, ESB_ENABLE_BOTH, 0)
+    def setScrollMinMax(self, minVal, maxVal):
+        self.minVal = int(minVal)
+        self.maxVal = int(maxVal)
+        user32.SetScrollRange(self.hWnd, SB_CTL, self.minVal, self.maxVal, 1)
+    def setScrollValue(self, val):
+        val = min(val, self.maxVal)
+        val = max(val, self.minVal)
+        user32.SetScrollPos(self.hWnd, SB_CTL, int(val), 1)
+    def getScrollValue(self):
+        return user32.GetScrollPos(self.hWnd, SB_CTL)
+    #typical functionality required for scrollbar handling
+    def DefaultScrollCallback(noeWnd, controlIndex, message, wParam, lParam):
+        scroll = noeWnd.getControlByIndex(controlIndex)
+        if scroll.hWnd == lParam:
+            scrollType = (wParam & 0xFFFF)
+            oldValue = scroll.getScrollValue()
+            if scrollType == SB_THUMBPOSITION or scrollType == SB_THUMBTRACK:
+                scrollIndex = (wParam >> 16)
+                scroll.setScrollValue(scrollIndex)
+            else:
+                largeAmount = max(int(scroll.maxVal - scroll.minVal) // 4, 1)
+                movement = 0
+                if scrollType == SB_LEFT or scrollType == SB_LINELEFT:
+                    movement = -1
+                elif scrollType == SB_RIGHT or scrollType == SB_LINERIGHT:
+                    movement = 1
+                elif scrollType == SB_PAGELEFT:
+                    movement = -largeAmount
+                elif scrollType == SB_PAGERIGHT:
+                    movement = largeAmount
+                
+                if movement != 0:
+                    scroll.setScrollValue(oldValue + movement)
+                    
+            if scroll.scrollUpdateMethod:
+                scroll.scrollUpdateMethod(noeWnd, scroll.controlId, oldValue, scroll.getScrollValue(), scrollType)
+            return True
+            
+        return False
+    
 class NoeUserControlCallback:
-	def __init__(self, controlIndex, message, method):
-		self.controlIndex = controlIndex
-		self.message = message
-		self.method = method
+    def __init__(self, controlIndex, message, method):
+        self.controlIndex = controlIndex
+        self.message = message
+        self.method = method
 
 class NoeUserWindow:
-	def __init__(self, windowName, windowClassName, windowWidth = 0, windowHeight = 0, windowProc = defaultWindowProc, style = WS_CAPTION | WS_SYSMENU, exStyle = WS_EX_TOOLWINDOW):
-		self.hWnd = None
-		self.hFont = None
-		self.windowProc = WNDPROCTYPE(windowProc)
-		self.windowName = windowName
-		self.windowClassName = windowClassName
-		self.hInst = kernel32.GetModuleHandleW(0)
-		self.x = CW_USEDEFAULT
-		self.y = CW_USEDEFAULT
-		self.width = CW_USEDEFAULT if windowWidth <= 0 else windowWidth
-		self.height = CW_USEDEFAULT if windowHeight <= 0 else windowHeight
-		self.style = WS_CAPTION | WS_SYSMENU | WS_POPUP
-		self.exStyle = exStyle
-		self.enableParentOnDestruction = False
-		self.currentControlId = 100
-		self.userControls = []
-		self.userCallbacks = []
-		self.userIcon = None
-		
-	def resetContent(self):
-		for userControl in self.userControls:
-			if userControl.hWnd:
-				user32.DestroyWindow(userControl.hWnd)
-		self.currentControlId = 100
-		self.userControls = []
-		self.userCallbacks = []
-		
-	def doModal(self):
-		if self.hParentWnd:
-			self.enableParentOnDestruction = True
-			user32.EnableWindow(self.hParentWnd, 0)
-			
-		while self.hWnd:
-			msg = MSG()
-			pMsg = pointer(msg)
-			while self.hWnd and user32.GetMessageW(pMsg, 0, 0, 0) != 0:
-				if not user32.IsDialogMessage(self.hWnd, pMsg):
-					user32.TranslateMessage(pMsg)
-					user32.DispatchMessageW(pMsg)
+    def __init__(self, windowName, windowClassName, windowWidth = 0, windowHeight = 0, windowProc = defaultWindowProc, style = WS_CAPTION | WS_SYSMENU, exStyle = WS_EX_TOOLWINDOW):
+        self.hWnd = None
+        self.hFont = None
+        self.windowProc = WNDPROCTYPE(windowProc)
+        self.windowName = windowName
+        self.windowClassName = windowClassName
+        self.hInst = kernel32.GetModuleHandleW(0)
+        self.x = CW_USEDEFAULT
+        self.y = CW_USEDEFAULT
+        self.width = CW_USEDEFAULT if windowWidth <= 0 else windowWidth
+        self.height = CW_USEDEFAULT if windowHeight <= 0 else windowHeight
+        self.style = WS_CAPTION | WS_SYSMENU | WS_POPUP
+        self.exStyle = exStyle
+        self.enableParentOnDestruction = False
+        self.currentControlId = 100
+        self.userControls = []
+        self.userCallbacks = []
+        self.userIcon = None
+        
+    def resetContent(self):
+        for userControl in self.userControls:
+            if userControl.hWnd:
+                user32.DestroyWindow(userControl.hWnd)
+        self.currentControlId = 100
+        self.userControls = []
+        self.userCallbacks = []
+        
+    def doModal(self):
+        if self.hParentWnd:
+            self.enableParentOnDestruction = True
+            user32.EnableWindow(self.hParentWnd, 0)
+            
+        while self.hWnd:
+            msg = MSG()
+            pMsg = pointer(msg)
+            while self.hWnd and user32.GetMessageW(pMsg, 0, 0, 0) != 0:
+                if not user32.IsDialogMessage(self.hWnd, pMsg):
+                    user32.TranslateMessage(pMsg)
+                    user32.DispatchMessageW(pMsg)
 
-	def closeWindow(self):
-		if self.hWnd in liveWindows:
-			del liveWindows[self.hWnd]
-		self.freeResources()
-		
-	def freeResources(self):
-		if self.enableParentOnDestruction and self.hParentWnd:
-			user32.EnableWindow(self.hParentWnd, 1)
-		self.enableParentOnDestruction = False
-		self.hParentWnd = None
-		
-		for userControl in self.userControls:
-			if userControl.hWnd:
-				user32.DestroyWindow(userControl.hWnd)
-		user32.DestroyWindow(self.hWnd)
-		self.hWnd = None
-		if user32.UnregisterClassW(self.windowClassName, self.hInst) == 0:
-			print("Failed to unregister class:", self.windowClassName)
-		if self.hFont:
-			gdi32.DeleteObject(self.hFont)
-			self.hFont = None
+    def closeWindow(self):
+        if self.hWnd in liveWindows:
+            del liveWindows[self.hWnd]
+        self.freeResources()
+        
+    def freeResources(self):
+        if self.enableParentOnDestruction and self.hParentWnd:
+            user32.EnableWindow(self.hParentWnd, 1)
+        self.enableParentOnDestruction = False
+        self.hParentWnd = None
+        
+        for userControl in self.userControls:
+            if userControl.hWnd:
+                user32.DestroyWindow(userControl.hWnd)
+        user32.DestroyWindow(self.hWnd)
+        self.hWnd = None
+        if user32.UnregisterClassW(self.windowClassName, self.hInst) == 0:
+            print("Failed to unregister class:", self.windowClassName)
+        if self.hFont:
+            gdi32.DeleteObject(self.hFont)
+            self.hFont = None
 
-	def createWindow(self):		 
-		windowClass = WNDCLASSEX()
-		windowClass.cbSize = sizeof(WNDCLASSEX)
-		windowClass.style = CS_HREDRAW | CS_VREDRAW
-		windowClass.lpfnWndProc = self.windowProc
-		windowClass.cbClsExtra = 0
-		windowClass.cbWndExtra = 0
-		windowClass.hInstance = self.hInst
-		windowClass.hIcon = user32.LoadIconW(0, IDI_INFORMATION) if not self.userIcon else self.userIcon
-		windowClass.hCursor = user32.LoadCursorW(0, IDC_ARROW);
-		windowClass.hBrush = user32.GetSysColorBrush(COLOR_WINDOW) #COLOR_MENU
-		if not windowClass.hBrush:
-			windowClass.hBrush = gdi32.GetStockObject(WHITE_BRUSH)
-		windowClass.lpszMenuName = 0
-		windowClass.lpszClassName = self.windowClassName
-		windowClass.hIconSm = 0
+    def createWindow(self):         
+        windowClass = WNDCLASSEX()
+        windowClass.cbSize = sizeof(WNDCLASSEX)
+        windowClass.style = CS_HREDRAW | CS_VREDRAW
+        windowClass.lpfnWndProc = self.windowProc
+        windowClass.cbClsExtra = 0
+        windowClass.cbWndExtra = 0
+        windowClass.hInstance = self.hInst
+        windowClass.hIcon = user32.LoadIconW(0, IDI_INFORMATION) if not self.userIcon else self.userIcon
+        windowClass.hCursor = user32.LoadCursorW(0, IDC_ARROW);
+        windowClass.hBrush = user32.GetSysColorBrush(COLOR_WINDOW) #COLOR_MENU
+        if not windowClass.hBrush:
+            windowClass.hBrush = gdi32.GetStockObject(WHITE_BRUSH)
+        windowClass.lpszMenuName = 0
+        windowClass.lpszClassName = self.windowClassName
+        windowClass.hIconSm = 0
 
-		if user32.RegisterClassExW(byref(windowClass)) == 0:
-			return False
+        if user32.RegisterClassExW(byref(windowClass)) == 0:
+            return False
 
-		hParentWnd = noesis.getWindowHandle()
-		hWnd = user32.CreateWindowExW(	self.exStyle,
-										self.windowClassName,
-										self.windowName,
-										self.style,
-										self.x,
-										self.y,
-										self.width,
-										self.height,
-										hParentWnd,
-										0,
-										self.hInst,
-										0 )
-		if not hWnd:
-			return False
+        hParentWnd = noesis.getWindowHandle()
+        hWnd = user32.CreateWindowExW(    self.exStyle,
+                                        self.windowClassName,
+                                        self.windowName,
+                                        self.style,
+                                        self.x,
+                                        self.y,
+                                        self.width,
+                                        self.height,
+                                        hParentWnd,
+                                        0,
+                                        self.hInst,
+                                        0 )
+        if not hWnd:
+            return False
 
-		user32.ShowWindow(hWnd, SW_SHOW)
-		self.hWnd = hWnd
-		self.hParentWnd = hParentWnd
-		liveWindows[hWnd] = self
-		return True
-		
-	def becomeStandaloneWindow(self, resIndex = 1):
-		self.exStyle = WS_EX_DLGMODALFRAME
-		self.style |= WS_MINIMIZEBOX | WS_MAXIMIZEBOX
-		self.userIcon = user32.LoadIconW(kernel32.GetModuleHandleW(0), noesis.getResourceHandle(resIndex))	
-		
-	def setFont(self, fontName, size):
-		if self.hWnd:
-			hFont = gdi32.CreateFontW(	-size, #height
-										0, #width
-										0, #angle of escapement
-										0, #orientation angle
-										FW_NORMAL, #weight
-										0, #italic
-										0, #underline
-										0, #strikeout
-										ANSI_CHARSET, #char set
-										OUT_TT_PRECIS, #output precision
-										CLIP_DEFAULT_PRECIS, #clipping precision
-										ANTIALIASED_QUALITY, #output quality
-										FF_DONTCARE | DEFAULT_PITCH, #family and pitch
-										fontName )
-			if hFont:
-				if self.hFont:
-					gdi32.DeleteObject(self.hFont)		
-				self.hFont = hFont
-				user32.SendMessageW(self.hWnd, WM_SETFONT, hFont, 1)
+        user32.ShowWindow(hWnd, SW_SHOW)
+        self.hWnd = hWnd
+        self.hParentWnd = hParentWnd
+        liveWindows[hWnd] = self
+        return True
+        
+    def becomeStandaloneWindow(self, resIndex = 1):
+        self.exStyle = WS_EX_DLGMODALFRAME
+        self.style |= WS_MINIMIZEBOX | WS_MAXIMIZEBOX
+        self.userIcon = user32.LoadIconW(kernel32.GetModuleHandleW(0), noesis.getResourceHandle(resIndex))    
+        
+    def setFont(self, fontName, size):
+        if self.hWnd:
+            hFont = gdi32.CreateFontW(    -size, #height
+                                        0, #width
+                                        0, #angle of escapement
+                                        0, #orientation angle
+                                        FW_NORMAL, #weight
+                                        0, #italic
+                                        0, #underline
+                                        0, #strikeout
+                                        ANSI_CHARSET, #char set
+                                        OUT_TT_PRECIS, #output precision
+                                        CLIP_DEFAULT_PRECIS, #clipping precision
+                                        ANTIALIASED_QUALITY, #output quality
+                                        FF_DONTCARE | DEFAULT_PITCH, #family and pitch
+                                        fontName )
+            if hFont:
+                if self.hFont:
+                    gdi32.DeleteObject(self.hFont)        
+                self.hFont = hFont
+                user32.SendMessageW(self.hWnd, WM_SETFONT, hFont, 1)
 
-	def addUserControlMessageCallback(self, controlIndex, message, method):
-		cb = NoeUserControlCallback(controlIndex, message, method)
-		self.userCallbacks.append(cb)
+    def addUserControlMessageCallback(self, controlIndex, message, method):
+        cb = NoeUserControlCallback(controlIndex, message, method)
+        self.userCallbacks.append(cb)
 
-	def getControlByIndex(self, controlIndex):
-		return self.userControls[controlIndex]
-		
-	def getControlById(self, controlId):
-		for userControl in self.userControls:
-			if userControl.controlId == controlId:
-				return userControl
-		return None
-		
-	def enableControlByIndex(self, controlIndex, enabled = True):
-		user32.EnableWindow(self.userControls[controlIndex].hWnd, enabled)
-				
-	def setupChildWindow(self, hChildWnd):
-		if self.hFont:
-			user32.SendMessageW(hChildWnd, WM_SETFONT, self.hFont, 1)			
+    def getControlByIndex(self, controlIndex):
+        return self.userControls[controlIndex]
+        
+    def getControlById(self, controlId):
+        for userControl in self.userControls:
+            if userControl.controlId == controlId:
+                return userControl
+        return None
+        
+    def enableControlByIndex(self, controlIndex, enabled = True):
+        user32.EnableWindow(self.userControls[controlIndex].hWnd, enabled)
+                
+    def setupChildWindow(self, hChildWnd):
+        if self.hFont:
+            user32.SendMessageW(hChildWnd, WM_SETFONT, self.hFont, 1)            
 
-	def addControl(self, newControl):
-		self.setupChildWindow(newControl.hWnd)
-		self.currentControlId += 1
-		self.userControls.append(newControl)
-		return len(self.userControls) - 1
+    def addControl(self, newControl):
+        self.setupChildWindow(newControl.hWnd)
+        self.currentControlId += 1
+        self.userControls.append(newControl)
+        return len(self.userControls) - 1
 
-	def createStatic(self, text, x, y, width, height):
-		if self.hWnd:
-			newStatic = NoeUserStatic(self, text, self.currentControlId, x, y, width, height)
-			return self.addControl(newStatic)
-		return -1
-		
-	def createButton(self, name, x, y, width, height, commandMethod, defaultButton = False):
-		if self.hWnd:
-			newButton = NoeUserButton(self, name, self.currentControlId, x, y, width, height, commandMethod, defaultButton)
-			return self.addControl(newButton)
-		return -1
+    def createStatic(self, text, x, y, width, height):
+        if self.hWnd:
+            newStatic = NoeUserStatic(self, text, self.currentControlId, x, y, width, height)
+            return self.addControl(newStatic)
+        return -1
+        
+    def createButton(self, name, x, y, width, height, commandMethod, defaultButton = False):
+        if self.hWnd:
+            newButton = NoeUserButton(self, name, self.currentControlId, x, y, width, height, commandMethod, defaultButton)
+            return self.addControl(newButton)
+        return -1
 
-	def createCheckBox(self, name, x, y, width, height, commandMethod = defaultCheckBoxCommandMethod):
-		if self.hWnd:
-			newCheckBox = NoeUserCheckBox(self, name, self.currentControlId, x, y, width, height, commandMethod)
-			return self.addControl(newCheckBox)
-		return -1
-		
-	def createEditBox(self, x, y, width, height, text = "", commandMethod = None, isMultiLine = True, isReadOnly = False):
-		if self.hWnd:
-			newEditBox = NoeUserEditBox(self, text, self.currentControlId, x, y, width, height, isMultiLine, isReadOnly, commandMethod)
-			return self.addControl(newEditBox)
-		return -1
+    def createCheckBox(self, name, x, y, width, height, commandMethod = defaultCheckBoxCommandMethod):
+        if self.hWnd:
+            newCheckBox = NoeUserCheckBox(self, name, self.currentControlId, x, y, width, height, commandMethod)
+            return self.addControl(newCheckBox)
+        return -1
+        
+    def createEditBox(self, x, y, width, height, text = "", commandMethod = None, isMultiLine = True, isReadOnly = False):
+        if self.hWnd:
+            newEditBox = NoeUserEditBox(self, text, self.currentControlId, x, y, width, height, isMultiLine, isReadOnly, commandMethod)
+            return self.addControl(newEditBox)
+        return -1
 
-	def createComboBox(self, x, y, width, height, commandMethod = None, style = CBS_SORT | CBS_DROPDOWNLIST):
-		if self.hWnd:
-			newComboBox = NoeUserComboBox(self, self.currentControlId, x, y, width, height, style, commandMethod)
-			return self.addControl(newComboBox)
-		return -1
+    def createComboBox(self, x, y, width, height, commandMethod = None, style = CBS_SORT | CBS_DROPDOWNLIST):
+        if self.hWnd:
+            newComboBox = NoeUserComboBox(self, self.currentControlId, x, y, width, height, style, commandMethod)
+            return self.addControl(newComboBox)
+        return -1
 
-	def createListBox(self, x, y, width, height, commandMethod = None, style = LBS_SORT):
-		if self.hWnd:
-			newListBox = NoeUserListBox(self, self.currentControlId, x, y, width, height, style, commandMethod)
-			return self.addControl(newListBox)
-		return -1
+    def createListBox(self, x, y, width, height, commandMethod = None, style = LBS_SORT):
+        if self.hWnd:
+            newListBox = NoeUserListBox(self, self.currentControlId, x, y, width, height, style, commandMethod)
+            return self.addControl(newListBox)
+        return -1
 
-	def createScrollBar(self, x, y, width, height, commandMethod = None, isHorizontal = True, registerCallback = True):
-		if self.hWnd:
-			newScrollBar = NoeUserScrollBar(self, self.currentControlId, x, y, width, height, isHorizontal, commandMethod)
-			scrollIndex = self.addControl(newScrollBar)
-			if registerCallback:
-				msgType = WM_HSCROLL if isHorizontal else WM_VSCROLL
-				self.addUserControlMessageCallback(scrollIndex, msgType, NoeUserScrollBar.DefaultScrollCallback)
-			
-			return scrollIndex
-		return -1
+    def createScrollBar(self, x, y, width, height, commandMethod = None, isHorizontal = True, registerCallback = True):
+        if self.hWnd:
+            newScrollBar = NoeUserScrollBar(self, self.currentControlId, x, y, width, height, isHorizontal, commandMethod)
+            scrollIndex = self.addControl(newScrollBar)
+            if registerCallback:
+                msgType = WM_HSCROLL if isHorizontal else WM_VSCROLL
+                self.addUserControlMessageCallback(scrollIndex, msgType, NoeUserScrollBar.DefaultScrollCallback)
+            
+            return scrollIndex
+        return -1

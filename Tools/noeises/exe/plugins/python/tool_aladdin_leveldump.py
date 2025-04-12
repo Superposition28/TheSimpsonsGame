@@ -215,43 +215,43 @@ def alDumpToolMethod(toolIndex):
                                         #draw a shadow first
                                         rapi.imageDrawText8x8(rgba, texWidth, texHeight, pixelX + 8, pixelY + 4, 3, (0, 0, 0, 100), objectIdString)
                                         #then the text
-    									rapi.imageDrawText8x8(rgba, texWidth, texHeight, pixelX + 8, pixelY + 4, 1, (127, 255, 0), objectIdString)
-						
-						name = os.path.splitext(binName)[0] + ".level%02i.bg.png"%levelCount
-						print("Writing", name)
-						noesis.saveImageRGBA(name, NoeTexture(name, texWidth, texHeight, rgba, noesis.NOESISTEX_RGBA32))
+                                        rapi.imageDrawText8x8(rgba, texWidth, texHeight, pixelX + 8, pixelY + 4, 1, (127, 255, 0), objectIdString)
+                        
+                        name = os.path.splitext(binName)[0] + ".level%02i.bg.png"%levelCount
+                        print("Writing", name)
+                        noesis.saveImageRGBA(name, NoeTexture(name, texWidth, texHeight, rgba, noesis.NOESISTEX_RGBA32))
 
-						#do parallax
-						if paraData:
-							tileWidth = 64
-							tileHeight = len(paraData) // (tileWidth * 2)
-							texWidth = tileWidth << 3
-							texHeight = tileHeight << 3
-							
-							rgba = bytearray(texWidth * texHeight * 4)				
-							paraBs = NoeBitStream(paraData, NOE_LITTLEENDIAN)				
-							for tileY in range(0, tileHeight):
-								pixelY = tileY << 3
-								for tileX in range(0, tileWidth):
-									pixelX = tileX << 3
-									tileData = paraBs.readUShort()
-									rapi.imageGenVDPDrawTile(rgba, texWidth, texHeight, pixelX, pixelY, tileData, charData, palData, drawFlags)
+                        #do parallax
+                        if paraData:
+                            tileWidth = 64
+                            tileHeight = len(paraData) // (tileWidth * 2)
+                            texWidth = tileWidth << 3
+                            texHeight = tileHeight << 3
+                            
+                            rgba = bytearray(texWidth * texHeight * 4)                
+                            paraBs = NoeBitStream(paraData, NOE_LITTLEENDIAN)                
+                            for tileY in range(0, tileHeight):
+                                pixelY = tileY << 3
+                                for tileX in range(0, tileWidth):
+                                    pixelX = tileX << 3
+                                    tileData = paraBs.readUShort()
+                                    rapi.imageGenVDPDrawTile(rgba, texWidth, texHeight, pixelX, pixelY, tileData, charData, palData, drawFlags)
 
-							name = os.path.splitext(binName)[0] + ".level%02i.para.png"%levelCount
-							print("Writing", name)
-							noesis.saveImageRGBA(name, NoeTexture(name, texWidth, texHeight, rgba, noesis.NOESISTEX_RGBA32))
-								
-				offset += 66
-				levelCount += 1
-				
-			print("Parsed", levelCount, "levels from table at", startOffset)
-		
-			if CHECK_USED_OBJECTS:
-				for objectIndex in range(0, 256):
-					if objectIndex not in usedObjects:
-						print("Unused:", objectIndex)
-		
-	noesis.freeModule(noeMod)
+                            name = os.path.splitext(binName)[0] + ".level%02i.para.png"%levelCount
+                            print("Writing", name)
+                            noesis.saveImageRGBA(name, NoeTexture(name, texWidth, texHeight, rgba, noesis.NOESISTEX_RGBA32))
+                                
+                offset += 66
+                levelCount += 1
+                
+            print("Parsed", levelCount, "levels from table at", startOffset)
+        
+            if CHECK_USED_OBJECTS:
+                for objectIndex in range(0, 256):
+                    if objectIndex not in usedObjects:
+                        print("Unused:", objectIndex)
+        
+    noesis.freeModule(noeMod)
 
-	return 0
-	
+    return 0
+    

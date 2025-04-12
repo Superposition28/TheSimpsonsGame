@@ -1,5 +1,7 @@
 # Directory where the files are located
 $directory = "GameFiles\Main\PS3_GAME\USRDIR\"
+# $directory = "GameFiles\Main\PS3_GAME\QuickBMS_STR_OUTPUT\"
+# $directory = "GameFiles\Main\PS3_GAME\Flattened_OUTPUT\"
 
 Write-Host "Processing directory: $directory"
 
@@ -11,28 +13,28 @@ $renameMap = @{
     "frontend"                  = "Assets_2_Frontend"
     "simpsons_chars"            = "Assets_2_Characters_Simpsons"
 
-    "spr_hub"                   = "Maps_World_3-00_SprHub"                    # Springfield ?
+    "spr_hub"                   = "Maps_3-00_SprHub"                    # Springfield ?
 
-    "loc"                       = "Maps_World_3-01_TheLandOfChocolate"        # 2.1 The Land of Chocolate
-    "brt"                       = "Maps_World_3-02_BartmanBegins"             # 2.2 Bartman Begins
-    "eighty_bites"              = "Maps_World_3-03_AroundTheWorldIn80Bites"   # 2.3 Around the World in 80 Bites
-    "tree_hugger"               = "Maps_World_3-04_LisaTheTreeHugger"         # 2.4 Lisa the Tree Hugger
-    "mob_rules"                 = "Maps_World_3-05_MobRules"                  # 2.5 Mob Rules
-    "cheater"                   = "Maps_World_3-06_EnterTheCheatrix"          # 2.6 Enter the Cheatrix
-    "dayofthedolphins"          = "Maps_World_3-07_TheDayOfTheDolphin"        # 2.7 The Day of the Dolphin
-    "colossaldonut"             = "Maps_World_3-08_ShadowOfTheColossalDonut"  # 2.8 Shadow of the Colossal Donut
-    "dayspringfieldstoodstill"  = "Maps_World_3-09_DaySpringfieldStoodStill"  # 2.9 Invasion of the Yokel-Snatchers ?
-    "bargainbin"                = "Maps_World_3-10_BargainBin"                  # 2.10 Bargain Bin
+    "loc"                       = "Maps_3-01_LandOfChocolate"           # 2.1 The Land of Chocolate
+    "brt"                       = "Maps_3-02_BartmanBegins"             # 2.2 Bartman Begins
+    "eighty_bites"              = "Maps_3-03_HungryHungryHomer"         # 2.3 Around the World in 80 Bites
+    "tree_hugger"               = "Maps_3-04_TreeHugger"                # 2.4 Lisa the Tree Hugger
+    "mob_rules"                 = "Maps_3-05_MobRules"                  # 2.5 Mob Rules
+    "cheater"                   = "Maps_3-06_EnterTheCheatrix"          # 2.6 Enter the Cheatrix
+    "dayofthedolphins"          = "Maps_3-07_DayOfTheDolphin"           # 2.7 The Day of the Dolphin
+    "colossaldonut"             = "Maps_3-08_TheColossalDonut"          # 2.8 Shadow of the Colossal Donut
+    "dayspringfieldstoodstill"  = "Maps_3-09_Invasion"                  # 2.9 Invasion of the Yokel-Snatchers ?
+    "bargainbin"                = "Maps_3-10_BargainBin"                # 2.10 Bargain Bin
 
-    "gamehub"                   = "Maps_World_3-00_GameHub"                   # Game Engine ? The Game Hub is a place in The Simpsons Game after completing the level Bargain Bin. It is where you go into the new and old simpsons games that are been/being created 
+    "gamehub"                   = "Maps_3-00_GameHub"                   # Game Engine ? The Game Hub is a place in The Simpsons Game after completing the level Bargain Bin. It is where you go into the new and old simpsons games that are been/being created 
     
-    "neverquest"                = "Maps_World_3-11_NeverQuest"                # 2.11 NeverQuest
-    "grand_theft_scratchy"      = "Maps_World_3-12_GrandTheftScratchy"        # 2.12 Grand Theft Scratchy
-    "medal_of_homer"            = "Maps_World_3-13_MedalOfHomer"              # 2.13 Medal of Homer
-    "bigsuperhappy"             = "Maps_World_3-14_BigSuperHappyFunFunGame"  # 2.14 Big Super Happy Fun Fun Game
+    "neverquest"                = "Maps_3-11_NeverQuest"                # 2.11 NeverQuest
+    "grand_theft_scratchy"      = "Maps_3-12_GrandTheftScratchy"        # 2.12 Grand Theft Scratchy
+    "medal_of_homer"            = "Maps_3-13_MedalOfHomer"              # 2.13 Medal of Homer
+    "bigsuperhappy"             = "Maps_3-14_BigSuperHappy"             # 2.14 Big Super Happy Fun Fun Game
 
-    "rhymes"                    = "Maps_World_3-15_Rhymes"                    # 2.15 Five Characters in Search of an Author ?
-    "meetthyplayer"             = "Maps_World_3-16_MeetThyPlayer"             # 2.16 Game Over ?
+    "rhymes"                    = "Maps_3-15_Rhymes"                    # 2.15 Five Characters in Search of an Author ?
+    "meetthyplayer"             = "Maps_3-16_MeetThyPlayer"             # 2.16 Game Over ?
 }
 
 # Initialize counters for debugging

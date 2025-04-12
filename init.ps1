@@ -4,7 +4,7 @@ $configFilePath = "config.ini" # Changed extension to .ini for clarity
 $gameFilesMainPath = Join-Path -Path "." -ChildPath "GameFiles\Main"
 $isoFileNameHint = "Simpsons Game, The (USA) ps3.iso"
 $isoFilePathKey = "IsoFilePath"
-$ps3GameFolderName = "PS3_GAME"
+$ps3GameFolderName = "PS3_GAME\USRDIR"
 
 # Define a consistent section name for tool paths
 $toolPathsSection = "ToolPaths"

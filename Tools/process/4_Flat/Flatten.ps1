@@ -107,10 +107,10 @@ function Process-SourceDirectory {
         # Append the child directory name to the current/accumulated name
         $newAccumulatedName = if ([string]::IsNullOrEmpty($AccumulatedFlattenedName)) {
             # Start a new flattened sequence using current source dir name and its single child dir name
-            $sourceBaseName + "++" + $singleChildDir.Name
+            $sourceBaseName + "+" + $singleChildDir.Name
         } else {
             # Continue an existing flattened sequence by appending the single child dir name
-            $AccumulatedFlattenedName + "++" + $singleChildDir.Name
+            $AccumulatedFlattenedName + "+" + $singleChildDir.Name
         }
 
         $PSCmdlet.WriteVerbose("Flattening: '$($sourceBaseName)' contains only '$($singleChildDir.Name)'. New accumulated name: '$newAccumulatedName'")
@@ -293,7 +293,7 @@ function Compress-Branch {
             # Check for initial flattening: if .str *only* contains *_str
             if ($strDirItems.Count -eq 1 -and $strDirItems[0].FullName -eq $startPath) {
                 # Flatten .str and *_str together
-                $initialAccumulatedName = (Split-Path -Path $BranchPath -Leaf) + "++" + $firstSubDir.Name
+                $initialAccumulatedName = (Split-Path -Path $BranchPath -Leaf) + "+" + $firstSubDir.Name
                 # The *parent* for the flattened item is the parent of the .str directory's destination equivalent
                 $initialDestParentPath = Split-Path -Path $destinationBase -Parent
 

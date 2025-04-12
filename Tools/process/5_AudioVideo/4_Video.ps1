@@ -51,6 +51,12 @@ foreach ($file in $vp6Files) {
     # Set the target filename with .ogv extension
     $ogvFile = [System.IO.Path]::ChangeExtension($MovTargetPath, ".ogv")
 
+    # Check if the output file already exists
+    if (Test-Path -Path $ogvFile) {
+        Write-Host "Skipping conversion for '$($file.FullName)' as '$($ogvFile)' already exists." -ForegroundColor Yellow
+        continue
+    }
+
     # Print the paths being used
     Write-Host "Converting '$($file.FullName)' to '$($ogvFile)'"
 

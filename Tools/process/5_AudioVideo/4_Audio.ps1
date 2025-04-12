@@ -52,14 +52,20 @@ foreach ($file in $snuFiles) {
     # Set the target filename with .wav extension
     $wavFile = [System.IO.Path]::ChangeExtension($AudioTargetPath, ".wav")
 
+    # Check if the output file already exists
+    if (Test-Path -Path $wavFile) {
+        Write-Host "Skipping conversion for '$($file.FullName)' as '$($wavFile)' already exists." -ForegroundColor Yellow
+        continue
+    }
+
     # Print the paths being used
     Write-Host "Converting '$($file.FullName)' to '$($wavFile)'"
 
-	Write-Host "& $vgmstreamCliPath -f 1 -l 10 -o $wavFile $file.FullName" 
+    Write-Host "& $vgmstreamCliPath -f 1 -l 10 -o $wavFile $file.FullName" 
 
     # Run the vgmstream-cli to decode the .snu file to .wav
     & $vgmstreamCliPath -f 1 -l 10 -o $wavFile $file.FullName
     #test & vgmstream-cli -f 1 -l 10 -o "OUTPUT_d_as01_xxx_0003bb5.wav" "d_as01_xxx_0003bb5.exa.snu"
 
-	#Start-Sleep -Seconds 10
+    #Start-Sleep -Seconds 10
 }

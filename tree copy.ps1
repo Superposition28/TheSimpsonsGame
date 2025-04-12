@@ -27,11 +27,11 @@ function Show-Tree {
     # Get child items (files and directories), handle potential errors
     # Sort directories first, then files, then by name for consistent ordering
     # Sort files first, then directories, then by name
-	$items = Get-ChildItem -Path $Path -ErrorAction SilentlyContinue | Sort-Object -Property @{Expression={$_.PSIsContainer}; Descending=$false}, Name
+    $items = Get-ChildItem -Path $Path -ErrorAction SilentlyContinue | Sort-Object -Property @{Expression={$_.PSIsContainer}; Descending=$false}, Name
 
-	# --- OR (equivalent, as Descending=$false is default for boolean) ---
+    # --- OR (equivalent, as Descending=$false is default for boolean) ---
 
-	# $items = Get-ChildItem -Path $Path -ErrorAction SilentlyContinue | Sort-Object -Property @{Expression={$_.PSIsContainer}}, Name
+    # $items = Get-ChildItem -Path $Path -ErrorAction SilentlyContinue | Sort-Object -Property @{Expression={$_.PSIsContainer}}, Name
     if ($null -eq $items) {
         # Path might be inaccessible or empty, just return what we have
         return $outputLines
