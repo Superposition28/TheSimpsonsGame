@@ -104,7 +104,8 @@
  ### (god)
 *    d_godx_xxx_#######.exa.wav
 
-## ef_xxx_0 // (Luigi Risotto) real name Lothar Folkman, Chef Luigi
+## ef_xxx_0
+ ### (Luigi Risotto) real name Lothar Folkman, Chef Luigi
 *    d_chef_xxx_#######.exa.wav
 
 ## en_xxx_0
@@ -129,466 +130,466 @@
  ### (Richard Texan) The Rich Texan
 *    d_ctex_xxx_#######.exa.wav
 
-## fe_xxx_0 // Movie (mvfe)
+## fe_xxx_0
 *    d_mvfe_xxx_#######.exa.wav
 
-## fh_xxx_0 // Rod Flanders (rdfh), Todd Flanders (tdfh)
+## fh_xxx_0
 *    d_rdfh_xxx_#######.exa.wav
  ### 
 *    d_tdfh_xxx_#######.exa.wav
 
-## gf_xxx_0 // Grandpa (gegf)
+## gf_xxx_0
 *    d_gegf_xxx_#######.exa.wav
 
-## gg_xxx_0 // Digg (digg)
+## gg_xxx_0
 *    d_digg_xxx_#######.exa.wav
 
-## gh_xxx_0 // Otto (otgh)
+## gh_xxx_0
 *    d_otgh_xxx_#######.exa.wav
 
-## gn_xxx_0 // Segn (segn)
+## gn_xxx_0
 *    d_segn_xxx_#######.exa.wav
 
-## go_xxx_0 // Largo (lrgo)
+## go_xxx_0
 *    d_lrgo_xxx_#######.exa.wav
 
-## gr_xxx_0 // Itchy (itgr)
+## gr_xxx_0
 *    d_itgr_xxx_#######.exa.wav
 
-## gs_xxx_0 // Grandpa (gegs), Legs (legs)
+## gs_xxx_0
 *    d_gegs_xxx_#######.exa.wav
  ### 
 *    d_legs_xxx_#######.exa.wav
 
-## gy_xxx_0 // Chubby (cbgy)
+## gy_xxx_0
 *    d_cbgy_xxx_#######.exa.wav
 
-## hr_xxx_0 // Wheelchair (wchr)
+## hr_xxx_0
 *    d_wchr_xxx_#######.exa.wav
 
-## ht_xxx_0 // Kvht (kvht)
+## ht_xxx_0
 *    d_kvht_xxx_#######.exa.wav
 
-## ib_xxx_0 // Bhib (bhib), Jhib (jhib)
+## ib_xxx_0
 *    d_bhib_xxx_#######.exa.wav
  ### 
 *    d_jhib_xxx_#######.exa.wav
 
-## id_xxx_0 // Zoid (zoid)
+## id_xxx_0
 *    d_zoid_xxx_#######.exa.wav
 
-## ie_xxx_0 // Edie (edie)
+## ie_xxx_0
 *    d_edie_xxx_#######.exa.wav
 
-## ig_xxx_0 // Cwig (cwig), Rwig (rwig), Swig (swig)
+## ig_xxx_0
 *    d_cwig_xxx_#######.exa.wav
  ### 
 *    d_rwig_xxx_#######.exa.wav
  ### 
 *    d_swig_xxx_#######.exa.wav
 
-## in_xxx_0 // Frin (frin), Skin (skin)
+## in_xxx_0
 *    d_frin_xxx_#######.exa.wav
  ### 
 *    d_skin_xxx_#######.exa.wav
 
-## is_xxx_0 // Lewis (lwis)
+## is_xxx_0
 *    d_lwis_xxx_#######.exa.wav
 
-## iv_xxx_0 // Dciv (dciv), Nriv (nriv)
+## iv_xxx_0
 *    d_dciv_xxx_#######.exa.wav
  ### 
 *    d_nriv_xxx_#######.exa.wav
 
-## kn_xxx_0 // Askn (askn)
+## kn_xxx_0
 *    d_askn_xxx_#######.exa.wav
 
-## l1_xxx_0 // Dylan (dyl1)
+## l1_xxx_0
 *    d_dyl1_xxx_#######.exa.wav
 
-## l2_xxx_0 // Dylan (dyl2)
+## l2_xxx_0
 *    d_dyl2_xxx_#######.exa.wav
 
-## lf_xxx_0 // Dolph (dolf), Rwlf (rwlf)
+## lf_xxx_0
 *    d_dolf_xxx_#######.exa.wav
  ### 
 *    d_rwlf_xxx_#######.exa.wav
 
-## lg_xxx_0 // Dolph (dolg)
+## lg_xxx_0
 *    d_dolg_xxx_#######.exa.wav
 
-## li_xxx_0 // Willie (wili)
+## li_xxx_0
 *    d_wili_xxx_#######.exa.wav
 
-## lk_xxx_0 // Dolph (dolk)
+## lk_xxx_0
 *    d_dolk_xxx_#######.exa.wav
 
-## ll_xxx_0 // Willie (will)
+## ll_xxx_0
 *    d_will_xxx_#######.exa.wav
 
-## ls_xxx_0 // Dolph (dols), Nelson (nels)
+## ls_xxx_0
 *    d_dols_xxx_#######.exa.wav
  ### 
 *    d_nels_xxx_#######.exa.wav
 
-## lx_xxx_0 // Gil (gilx)
+## lx_xxx_0
 *    d_gilx_xxx_#######.exa.wav
 
-## m8_xxx_0 // Homer (hom8)
+## m8_xxx_0
 *    d_hom8_xxx_#######.exa.wav
 
-## ma_xxx_0 // Movie (mvma), Slma (slma)
+## ma_xxx_0
 *    d_mvma_xxx_#######.exa.wav
  ### 
 *    d_slma_xxx_#######.exa.wav
 
-## mb_xxx_0 // Bumblebee Man (bumb)
+## mb_xxx_0
 *    d_bumb_xxx_#######.exa.wav
 
-## md_xxx_0 // Sumo (sumd)
+## md_xxx_0
 *    d_sumd_xxx_#######.exa.wav
 
-## mi_xxx_0 // Sumo (sumi)
+## mi_xxx_0
 *    d_sumi_xxx_#######.exa.wav
 
-## ml_xxx_0 // Sumo (suml)
+## ml_xxx_0
 *    d_suml_xxx_#######.exa.wav
 
-## mn_xxx_0 // Kbmn (kbmn), Mlmn (mlmn), Olmn (olmn)
+## mn_xxx_0
 *    d_kbmn_xxx_#######.exa.wav
  ### 
 *    d_mlmn_xxx_#######.exa.wav
  ### 
 *    d_olmn_xxx_#######.exa.wav
 
-## mp_xxx_0 // Grmp (grmp)
+## mp_xxx_0
 *    d_grmp_xxx_#######.exa.wav
 
-## mr_xxx_0 // Homer (homr)
+## mr_xxx_0
 *    d_homr_xxx_#######.exa.wav
 
-## ms_xxx_0 // Sumo (sums)
+## ms_xxx_0
 *    d_sums_xxx_#######.exa.wav
 
-## mx_xxx_0 // Sam (samx)
+## mx_xxx_0
 *    d_samx_xxx_#######.exa.wav
 
-## my_xxx_0 // Pemy (pemy)
+## my_xxx_0
 *    d_pemy_xxx_#######.exa.wav
 
-## na_xxx_0 // Eana (eana)
+## na_xxx_0
 *    d_eana_xxx_#######.exa.wav
 
-## nd_xxx_0 // Bend (bend), Jsnd (jsnd), Wend (wend)
+## nd_xxx_0
 *    d_bend_xxx_#######.exa.wav
  ### 
 *    d_jsnd_xxx_#######.exa.wav
  ### 
 *    d_wend_xxx_#######.exa.wav
 
-## nf_xxx_0 // Benf (benf)
+## nf_xxx_0
 *    d_benf_xxx_#######.exa.wav
 
-## nj_xxx_0 // Manj (manj)
+## nj_xxx_0
 *    d_manj_xxx_#######.exa.wav
 
-## ny_xxx_0 // Jan (jany), Krusty (krny), Lenny (lnny)
+## ny_xxx_0
 *    d_jany_xxx_#######.exa.wav
  ### 
 *    d_krny_xxx_#######.exa.wav
  ### 
 *    d_lnny_xxx_#######.exa.wav
 
-## om_xxx_0 // Drom (drom)
+## om_xxx_0
 *    d_drom_xxx_#######.exa.wav
 
-## on_xxx_0 // Gron (gron)
+## on_xxx_0
 *    d_gron_xxx_#######.exa.wav
 
-## oy_xxx_0 // Ljoy (ljoy)
+## oy_xxx_0
 *    d_ljoy_xxx_#######.exa.wav
 
-## pa_xxx_0 // Frpa (frpa)
+## pa_xxx_0
 *    d_frpa_xxx_#######.exa.wav
 
-## pb_xxx_0 // Gspb (gspb)
+## pb_xxx_0
 *    d_gspb_xxx_#######.exa.wav
 
-## pg_xxx_0 // Gspg (gspg)
+## pg_xxx_0
 *    d_gspg_xxx_#######.exa.wav
 
-## r8_xxx_0 // Marge (mar8)
+## r8_xxx_0
 *    d_mar8_xxx_#######.exa.wav
 
-## ra_xxx_0 // Sgra (sgra)
+## ra_xxx_0
 *    d_sgra_xxx_#######.exa.wav
 
-## rc_xxx_0 // Morc (morc)
+## rc_xxx_0
 *    d_morc_xxx_#######.exa.wav
 
-## rg_xxx_0 // Marge (marg), Scrg (scrg)
+## rg_xxx_0
 *    d_marg_xxx_#######.exa.wav
  ### 
 *    d_scrg_xxx_#######.exa.wav
 
-## rh_xxx_0 // Scrh (scrh)
+## rh_xxx_0
 *    d_scrh_xxx_#######.exa.wav
 
-## ri_xxx_0 // Sherri (shri), Terri (teri)
+## ri_xxx_0
 *    d_shri_xxx_#######.exa.wav
  ### 
 *    d_teri_xxx_#######.exa.wav
 
-## rk_xxx_0 // Sprk (sprk)
+## rk_xxx_0
 *    d_sprk_xxx_#######.exa.wav
 
-## rl_xxx_0 // Carl (carl)
+## rl_xxx_0
 *    d_carl_xxx_#######.exa.wav
 
-## rn_xxx_0 // Barn (barn), Burn (burn), Mprn (mprn)
+## rn_xxx_0
 *    d_barn_xxx_#######.exa.wav
  ### 
 *    d_burn_xxx_#######.exa.wav
  ### 
 *    d_mprn_xxx_#######.exa.wav
 
-## rt_xxx_0 // Bart (bart), Marge (mart), Turt (turt)
+## rt_xxx_0
 *    d_bart_xxx_#######.exa.wav
  ### 
 *    d_mart_xxx_#######.exa.wav
  ### 
 *    d_turt_xxx_#######.exa.wav
 
-## ry_xxx_0 // Lary (lary)
+## ry_xxx_0
 *    d_lary_xxx_#######.exa.wav
 
-## s8_xxx_0 // Lisa (lis8)
+## s8_xxx_0
 *    d_lis8_xxx_#######.exa.wav
 
-## sa_xxx_0 // Lisa (lisa)
+## sa_xxx_0
 *    d_lisa_xxx_#######.exa.wav
 
-## sd_xxx_0 // Mhsd (mhsd)
+## sd_xxx_0
 *    d_mhsd_xxx_#######.exa.wav
 
-## se_xxx_0 // Mhse (mhse)
+## se_xxx_0
 *    d_mhse_xxx_#######.exa.wav
 
-## sg_xxx_0 // Wisg (wisg)
+## sg_xxx_0
 *    d_wisg_xxx_#######.exa.wav
 
-## sm_xxx_0 // Krusty (krsm), Mgsm (mgsm)
+## sm_xxx_0
 *    d_krsm_xxx_#######.exa.wav
  ### 
 *    d_mgsm_xxx_#######.exa.wav
 
-## sp_xxx_0 // Jasper (jasp)
+## sp_xxx_0
 *    d_jasp_xxx_#######.exa.wav
 
-## t8_xxx_0 // Bart (brt8)
+## t8_xxx_0
 *    d_brt8_xxx_#######.exa.wav
 
-## te_xxx_0 // Gate (gate)
+## te_xxx_0
 *    d_gate_xxx_#######.exa.wav
 
-## th_xxx_0 // Smithers (smth)
+## th_xxx_0
 *    d_smth_xxx_#######.exa.wav
 
-## to_xxx_0 // Otto (otto)
+## to_xxx_0
 *    d_otto_xxx_#######.exa.wav
 
-## ty_xxx_0 // Patty (ptty)
+## ty_xxx_0
 *    d_ptty_xxx_#######.exa.wav
 
-## ui_xxx_0 // Louie (loui)
+## ui_xxx_0
 *    d_loui_xxx_#######.exa.wav
 
-## um_xxx_0 // Plum (plum)
+## um_xxx_0
 *    d_plum_xxx_#######.exa.wav
 
-## us_xxx_0 // Krusty (krus)
+## us_xxx_0
 *    d_krus_xxx_#######.exa.wav
 
-## ux_xxx_0 // Apu (apux), Lou (loux)
+## ux_xxx_0
 *    d_apux_xxx_#######.exa.wav
  ### 
 *    d_loux_xxx_#######.exa.wav
 
-## wg_xxx_0 // Mg (mgwg)
+## wg_xxx_0
 *    d_mgwg_xxx_#######.exa.wav
 
-## wm_xxx_0 // Frwm (frwm)
+## wm_xxx_0
 *    d_frwm_xxx_#######.exa.wav
 
-## yr_xxx_0 // Lawyer (lwyr), Mayor (mayr)
+## yr_xxx_0
 *    d_lwyr_xxx_#######.exa.wav
  ### 
 *    d_mayr_xxx_#######.exa.wav
 
 
-## bin_rev0 // Bin (rev)
+## bin_rev0
 *    amb_bin_rev01_qd.exa.wav
 
 
-## 80b_crow // 80's brawl crowd sounds
+## 80b_crow
 *    amb_80b_crowd_qd_01.exa.wav
  ### 
 *    amb_80b_crowd_qd_02.exa.wav
 
 
-## amb_airc // Aircraft Carrier ambient
+## amb_airc
 *    moh_amb_aircraft_carrier_qd.exa.wav
 
-## amb_chao // Chaos ambient
+## amb_chao
 *    scd_amb_chaos_harbor_qd_01.exa.wav
  ### 
 *    scd_amb_chaos_qd_01.exa.wav
 
-## amb_cour // Courtyard ambient
+## amb_cour
 *    rwc_amb_courtyard_qd_02.exa.wav
 
-## amb_dung // Dungeon ambient
+## amb_dung
 *    nvq_amb_dungeon_qd_01.exa.wav
 
-## amb_ext_ // Exterior ambient
+## amb_ext_
 *    spr_amb_ext_garage_qd_01.exa.wav
  ### 
 *    spr_amb_ext_harbor_qd_01.exa.wav
  ### 
 *    spr_amb_ext_qd_01.exa.wav
 
-## amb_fore // Forest ambient
+## amb_fore
 *    hug_amb_forest_qd_01.exa.wav
 
-## amb_fren // French Castle/Village ambient
+## amb_fren
 *    moh_amb_french_castle_qd.exa.wav
  ### 
 *    moh_amb_french_village_night_qd.exa.wav
 
-## amb_gara // Garage ambient
+## amb_gara
 *    mob_amb_garage_qd_01.exa.wav
 
-## amb_int_ // Interior ambient
+## amb_int_
 *    spr_amb_int_generic_qd_01.exa.wav
  ### 
 *    spr_amb_int_house_qd_01.exa.wav
  ### 
 *    spr_amb_int_vent_qd_01.exa.wav
 
-## amb_mans // Mansion ambient
+## amb_mans
 *    rwc_amb_mansion_qd_02.exa.wav
 
-## amb_nort // North Africa ambient
+## amb_nort
 *    moh_amb_northafrica_qd_01.exa.wav
 
-## amb_riot // Riot ambient
+## amb_riot
 *    mob_amb_riot_qd_01.exa.wav
 
-## amb_shir // Shire ambient
+## amb_shir
 *    nvq_amb_shire_qd_01.exa.wav
 
-## amb_vent // Vent ambient
+## amb_vent
 *    mob_amb_vent_qd_01.exa.wav
 
 
-## brt_dino // Dino ambient
+## brt_dino
 *    amb_brt_dino_4ch_lp.exa.wav
 
-## brt_dior // Diorama ambient
+## brt_dior
 *    amb_brt_diorama_4ch_lp.exa.wav
 
-## brt_myst // Mystical ambient
+## brt_myst
 *    amb_brt_mystical_qd.exa.wav
 
-## brt_plan // Planet ambient
+## brt_plan
 *    amb_brt_planet_4ch_lp.exa.wav
 
-## brt_temp // Temple ambient
+## brt_temp
 *    amb_brt_temple_4ch_lp.exa.wav
 
-## bsh_air_ // Air ambient
+## bsh_air_
 *    amb_bsh_air_qd.exa.wav
 
-## bsh_beac // Beach ambient
+## bsh_beac
 *    amb_bsh_beach_qd.exa.wav
 
-## bsh_figh // Fight ambient
+## bsh_figh
 *    amb_bsh_fight_01.exa.wav
 
-## bsh_fire // Fire ambient
+## bsh_fire
 *    amb_bsh_fire_qd.exa.wav
 
-## bsh_ice_ // Ice ambient
+## bsh_ice_
 *    amb_bsh_ice_qd.exa.wav
 
-## bsh_vill // Village ambient
+## bsh_vill
 *    amb_bsh_village_qd.exa.wav
 
-## bsh__air // Airship ambient
+## bsh__air
 *    amb_bsh__airship_qd.exa.wav
 
 
-## che_cart // Cart ambient
+## che_cart
 *    amb_che_cart_qd.exa.wav
 
-## che_cent // Central ambient
+## che_cent
 *    amb_che_central_qd.exa.wav
  ### 
 *    amb_che_central_top_qd.exa.wav
 
-## che_mark // Market ambient
+## che_mark
 *    amb_che_market_qd.exa.wav
 
-## che_mo_b // Bloody ambient
+## che_mo_b
 *    amb_che_mo_bloody_qd.exa.wav
 
-## che_q_an // Q and A ambient
+## che_q_an
 *    amb_che_q_and_a_qd.exa.wav
 
 
-## dod_aqua // Aquarium ambient
+## dod_aqua
 *    amb_dod_aquarium_qd.exa.wav
 
-## dod_dock // Docks ambient
+## dod_dock
 *    amb_dod_docks_qd.exa.wav
 
 
-## gamehub_ // Gamehub ambient
+## gamehub_
 *    amb_gamehub_amb_qd.exa.wav
  ### 
 *    amb_gamehub_siegehouse_rev1_qd.exa.wav
 
 
-## gts_full // Full city ambient
+## gts_full
 *    amb_gts_fullcity_qd.exa.wav
 
-## gts_seas // Seaside ambient
+## gts_seas
 *    amb_gts_seaside_qd.exa.wav
 
-## gts_stat // Station ambient
+## gts_stat
 *    amb_gts_station_qd.exa.wav
 
-## gts_subu // Suburb ambient
+## gts_subu
 *    amb_gts_suburb_qd.exa.wav
 
-## gts_vent // Vents ambient
+## gts_vent
 *    amb_gts_vents_qd.exa.wav
 
-## gts_viol // Violent sea ambient
+## gts_viol
 *    amb_gts_violent_sea_qd.exa.wav
 
 
-## igc01.ex // IGC01 ambient
+## igc01.ex
 *    brt_igc01.exa.wav
  ### 
 *    moh_igc01.exa.wav
  ### 
 *    rwc_igc01.exa.wav
 
-## igc01b.e // IGC01b ambient
+## igc01b.e
 *    bsh_igc01b.exa.wav
 
-## igc02.ex // IGC02 ambient
+## igc02.ex
 *    80b_igc02.exa.wav
  ### 
 *    gts_igc02.exa.wav
@@ -603,20 +604,20 @@
  ### 
 *    sss_igc02.exa.wav
 
-## igc03.ex // IGC03 ambient
+## igc03.ex
 *    hug_igc03.exa.wav
  ### 
 *    mob_igc03.exa.wav
  ### 
 *    mtp_igc03.exa.wav
 
-## igc03a.e // IGC03a ambient
+## igc03a.e
 *    mob_igc03a.exa.wav
 
-## igc04.ex // IGC04 ambient
+## igc04.ex
 *    mtp_igc04.exa.wav
 
-## igc11.ex // IGC11 ambient
+## igc11.ex
 *    80b_igc11.exa.wav
  ### 
 *    brt_igc11.exa.wav
@@ -631,51 +632,51 @@
  ### 
 *    scd_igc11.exa.wav
 
-## igc12.ex // IGC12 ambient
+## igc12.ex
 *    bsh_igc12.exa.wav
  ### 
 *    moh_igc12.exa.wav
  ### 
 *    nvq_igc12.exa.wav
 
-## igc13.ex // IGC13 ambient
+## igc13.ex
 *    bsh_igc13.exa.wav
  ### 
 *    hug_igc13.exa.wav
  ### 
 *    nvq_igc13.exa.wav
 
-## igc15.ex // IGC15 ambient
+## igc15.ex
 *    bsh_igc15.exa.wav
 
-## igc16.ex // IGC16 ambient
+## igc16.ex
 *    bsh_igc16.exa.wav
  ### 
 *    che_igc16.exa.wav
 
-## igc_13.e // IGC_13 ambient
+## igc_13.e
 *    brt_igc_13.exa.wav
 
-## igc_14.e // IGC_14 ambient
+## igc_14.e
 *    bsh_igc_14.exa.wav
 
 
-## mtp_heav // Heaven ambient
+## mtp_heav
 *    amb_mtp_heaven_full_qd.exa.wav
  ### 
 *    amb_mtp_heaven_lite_qd.exa.wav
 
 
-## mus_simp // Simpsons theme song
+## mus_simp
 *    rwc_mus_simpsons_theme_song.exa.wav
 
 
-## sss_cont // Control room ambient
+## sss_cont
 *    amb_sss_control_room_qd.exa.wav
 
-## sss_lab_ // Lab ambient
+## sss_lab_
 *    amb_sss_lab_qd.exa.wav
 
-## sss_mall // Mall lot ambient
+## sss_mall
 *    amb_sss_mall_lot_qd.exa.wav
 
