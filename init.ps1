@@ -12,11 +12,11 @@ $gameSettingsSection = "GameSettings"
 
 # Define default tool locations (Windows specific - adjust as needed)
 $DefaultToolPaths = @{
-    "Blender"       = @("Tools\blender\exe\blender-4.0.2-windows-x64\blender.exe", "C:\Program Files\Blender Foundation\Blender 4.0\blender.exe", "C:\Program Files\Blender Foundation\Blender 4.1\blender.exe") # Add more versions as needed
-    "Noesis"        = @("Tools\noesis\exe\Noesis64.exe", "C:\Noesis\noesis.exe")
+    "Blender"       = @(".\Tools\blender\exe\blender-4.0.2-windows-x64\blender.exe", "C:\Program Files\Blender Foundation\Blender 4.0\blender.exe", "C:\Program Files\Blender Foundation\Blender 4.1\blender.exe") # Add more versions as needed
+    "Noesis"        = @(".\Tools\noesis\exe\Noesis64.exe", "C:\Noesis\noesis.exe")
     "FFmpeg"        = @("C:\ffmpeg\bin\ffmpeg.exe")
     "vgmstream-cli" = @("C:\vgmstream\vgmstream-cli.exe")
-    "QuickBMS"      = @("Tools\quickbms\exe\quickbms.exe", "C:\QuickBMS\quickbms.exe")
+    "QuickBMS"      = @(".\Tools\quickbms\exe\quickbms.exe", "C:\QuickBMS\quickbms.exe")
 }
 
 # Define tools that support auto-install and their install commands (Windows example using winget)
@@ -29,7 +29,7 @@ $AutoInstallTools = @{
 
 # Blender download information
 $BlenderDownloadUrl = "https://download.blender.org/release/Blender4.0/blender-4.0.2-windows-x64.zip"
-$BlenderDownloadPath = Join-Path -Path "." -ChildPath "Tools\blender\exe\blender-4.0.2-windows-x64.zip"
+$BlenderDownloadPath = Join-Path -Path "." -ChildPath ".\Tools\blender\exe\blender-4.0.2-windows-x64.zip"
 $BlenderExtractPath = Join-Path -Path "." -ChildPath ".\Tools\blender\exe"
 $BlenderExecutableNameLocal = "blender.exe"
 

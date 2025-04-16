@@ -44,7 +44,7 @@ $csxScriptPath = "Tools\Global\ConfigReader.csx"
 
 # Define the parameters to pass to the C# script
 $section = "ToolPaths"
-$key = "QuickBmsExePath"
+$key = "QuickBMSExePath"
 $defaultValue = "error"
 
 # Execute the C# script using dotnet-script, passing the parameters
@@ -56,14 +56,15 @@ Write-Host "path from config: $PathValue" -ForegroundColor Cyan
 # Ensure path exists
 if ($null -ne $PathValue) {
     if (-not (Test-Path -Path $PathValue)) {
-        Write-Error "QuickBmsExePath not found at: $PathValue"
-    }
+        Write-Error "QuickBMSExePath not found at: $PathValue"
+		exit 1
+	}
 }
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 # Set the paths for the BMS script and QuickBMS tool
-$quickBMS = "Tools\quickbms\quickbms.exe"
+$quickBMS = $PathValue  # Path to the QuickBMS executable
 $bmsScript = "Tools\quickbms\simpsons_str.bms"
 $sourceDirectory = $StrDirectory  # Directory containing .str files
 
