@@ -112,23 +112,6 @@ $menuOptions = @{
     }
 }
 
-# Function to display the menu with colors
-function DisplayMenu {
-    Write-Host "Select an option:"
-    foreach ($key in $menuOptions.Keys | Sort-Object) {
-        $optionName = $menuOptions[$key].Name
-        if ($key -eq "c") {
-            Write-Host -ForegroundColor Magenta "[$key] $optionName"
-        } elseif ($key -eq "0") {
-            Write-Host -ForegroundColor Yellow "[$key] $optionName"
-        } elseif ($key -eq "q") {
-            Write-Host -ForegroundColor Red "[$key] $optionName"
-        } else {
-            Write-Host -ForegroundColor Cyan "[$key] $optionName"
-        }
-    }
-}
-
 # Function to log messages to main.log
 function Log-Message {
     param (
@@ -143,7 +126,7 @@ function Log-Message {
 function Execute-Action ($action) {
     if ($action.ContainsKey("Path")) {
         $startTime = Get-Date
-        
+
         # Create a hashtable to hold named parameters
         $params = @{}
         if ($action.Args -is [array]) {
@@ -152,7 +135,7 @@ function Execute-Action ($action) {
                 $params[$($action.Args[$i].Trim("-"))] = $action.Args[$i+1]
             }
         }
-        
+
         Log-Message "Starting execution of $($action.Path) $($params)"
         Write-Host "Executing $($action.Path) $($params)"
         & $action.Path @params # Pass arguments as named parameters
@@ -172,40 +155,115 @@ function Execute-Action ($action) {
     }
 }
 
+function Show-InteractiveMenu {
+    param(
+        [Parameter(Mandatory=$true)]
+        [Hashtable]$Options,
+        [string]$Title = "Select an Option"
+    )
+
+    $OptionKeys = $Options.Keys | Sort-Object
+    $SelectedIndex = 0
+
+    function Draw-Menu {
+        Clear-Host # Always clear the screen before drawing the menu
+        Write-Host $Title -ForegroundColor Cyan
+        Write-Host "" # Add an initial empty line for spacing
+
+        for ($i = 0; $i -lt $OptionKeys.Count; $i++) {
+            $Key = $OptionKeys[$i]
+            $Option = $Options[$Key]
+            $Box = "[ ]"
+
+            if ($Key -eq "c") {
+                $ForegroundColor = "Magenta"
+            } elseif ($Key -eq "0") {
+                $ForegroundColor = "Yellow"
+            } elseif ($Key -eq "q") {
+                $ForegroundColor = "Red"
+            } else {
+                $ForegroundColor = "Cyan"
+            }
+
+            if ($i -eq $SelectedIndex) {
+                $Box = "[X]"
+            }
+
+            Write-Host "  $Box $($Option.Name)" -ForegroundColor $ForegroundColor
+        }
+        Write-Host "" # Add an empty newline after drawing the options
+    }
+
+    Draw-Menu
+
+    while ($true) {
+        $Key = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+
+        if ($Key.VirtualKeyCode -eq 38) { # Up Arrow
+            $SelectedIndex--
+            if ($SelectedIndex -lt 0) {
+                $SelectedIndex = $OptionKeys.Count - 1
+            }
+            Draw-Menu
+        } elseif ($Key.VirtualKeyCode -eq 40) { # Down Arrow
+            $SelectedIndex++
+            if ($SelectedIndex -ge $OptionKeys.Count) {
+                $SelectedIndex = 0
+            }
+            Draw-Menu
+        } elseif ($Key.VirtualKeyCode -eq 13) { # Enter Key
+            return $OptionKeys[$SelectedIndex]
+            break
+        } elseif ($Key.VirtualKeyCode -eq 27) { # Escape Key (optional exit)
+            Write-Host "`nMenu cancelled." -ForegroundColor Yellow
+            return $null
+            break
+        }
+    }
+}
+
 # Main loop
 while ($true) {
-    DisplayMenu
-    $selection = Read-Host "Enter your choice"
+    $selection = Show-InteractiveMenu -Options $menuOptions -Title "Select an option:"
 
-    if ($menuOptions.ContainsKey($selection)) {
-        $selectedOption = $menuOptions[$selection]
-        $action = $selectedOption.Action
+    if ($selection) {
+        if ($menuOptions.ContainsKey($selection)) {
+            $selectedOption = $menuOptions[$selection]
+            $action = $selectedOption.Action
 
-        switch ($action) {
-            "ClearTerminal" {
-                Clear-Host
-            }
-            "RunAll" {
-                Write-Host "Running all scripts..."
-                foreach ($key in $menuOptions.Keys | Sort-Object) {
-                    if ($key -notin "c", "0", "q") {
-                        Write-Host "Running $($menuOptions[$key].Name)..."
-                        Execute-Action $menuOptions[$key].Action
-                        Write-Host "Finished $($menuOptions[$key].Name)."
-                    }
+            switch ($action) {
+                "ClearTerminal" {
+                    Clear-Host
                 }
-                Write-Host "All scripts have been executed."
+                "RunAll" {
+                    Clear-Host
+                    Write-Host "Running all scripts..."
+                    foreach ($key in $menuOptions.Keys | Sort-Object) {
+                        if ($key -notin "c", "0", "q") {
+                            Write-Host "Running $($menuOptions[$key].Name)..."
+                            Execute-Action $menuOptions[$key].Action
+                            Write-Host "Finished $($menuOptions[$key].Name)."
+                        }
+                    }
+                    Write-Host "All scripts have been executed."
+                    Write-Host "`nPress any key to return to the menu..."
+                    $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown") | Out-Null
+                }
+                "Quit" {
+                    Write-Host "Exiting script."
+                    exit 0
+                }
+                default {
+                    Clear-Host # Clear screen before executing the selected action
+                    Execute-Action $action
+                    Write-Host "`nPress any key to return to the menu..."
+                    $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown") | Out-Null
+                }
             }
-            "Quit" {
-                Write-Host "Exiting script."
-                exit 0
-            }
-            default {
-                Execute-Action $action
-            }
+        } else {
+            Write-Warning "Invalid selection."
         }
     } else {
-        Write-Warning "Invalid selection. Please try again."
+        Write-Host "No option selected." -ForegroundColor Yellow
     }
-    Write-Host "" # Add an empty line for better readability
 }

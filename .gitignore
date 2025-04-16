@@ -11,6 +11,8 @@ Tools/quickbms/*.bat
 Tools/quickbms/*.ps1
 Tools/quickbms/*.txt
 
+Tools/blender/exe
+
 old
 
 texture_mapping

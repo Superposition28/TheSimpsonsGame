@@ -35,12 +35,7 @@ dotnet tool install -g dotnet-script
 *   **Noesis:** [Download Noesis](https://richwhitehouse.com/index.php?content=inc_projects.php&showproject=91) as required for textures.
 *   **Blender:** Download [Blender 4.0.2](https://download.blender.org/release/Blender4.0/). Blender 4.0 or older (down to 2.8) is required for the conversion to work.
 *   **Game Files:** You will need a copy of "The Simpsons Game" game files for the target platform.
-*   **ffmpeg:** This is used for conversion of proprietary video .vp6 into (.ogv, or any others). 
-Use:
-```pwsh
-winget install ffmpeg
-```
- from [https://www.gyan.dev/ffmpeg/builds/#libraries](https://www.gyan.dev/ffmpeg/builds/#libraries) or [https://www.ffmpeg.org/download.html](https://www.ffmpeg.org/download.html).
+*   **ffmpeg:** This is used for conversion of proprietary video .vp6 into (.ogv, or any others). from [https://www.gyan.dev/ffmpeg/builds/#libraries](https://www.gyan.dev/ffmpeg/builds/#libraries) or [https://www.ffmpeg.org/download.html](https://www.ffmpeg.org/download.html).
 *   **vgmstream-cli:** Download [vgmstream-cli r1980](https://github.com/vgmstream/vgmstream/releases/tag/r1980). This is used for conversion of proprietary audio .snu into (.wav, or any others).
 *   **WinRar:** Used by the initializer to automatically extract the ISO file.
 
@@ -52,6 +47,11 @@ install all prerequisites
 download this repo using the web or git clone
 web select ``<> Code`` button then ``Download Zip``
 open zip folder and copy contents of TheSimpsonsGame-main\ into your project folder
+
+or using git clone
+```pwsh
+git clone https:\\
+```
 
 open ``Windows Powershell`` and navigate to the project folder
 then run 

@@ -10,6 +10,29 @@ $ps3GameFolderName = "PS3_GAME\USRDIR"
 $toolPathsSection = "ToolPaths"
 $gameSettingsSection = "GameSettings"
 
+# Define default tool locations (Windows specific - adjust as needed)
+$DefaultToolPaths = @{
+    "Blender"       = @("Tools\blender\exe\blender-4.0.2-windows-x64\blender.exe", "C:\Program Files\Blender Foundation\Blender 4.0\blender.exe", "C:\Program Files\Blender Foundation\Blender 4.1\blender.exe") # Add more versions as needed
+    "Noesis"        = @("Tools\noesis\exe\Noesis64.exe", "C:\Noesis\noesis.exe")
+    "FFmpeg"        = @("C:\ffmpeg\bin\ffmpeg.exe")
+    "vgmstream-cli" = @("C:\vgmstream\vgmstream-cli.exe")
+    "QuickBMS"      = @("Tools\quickbms\exe\quickbms.exe", "C:\QuickBMS\quickbms.exe")
+}
+
+# Define tools that support auto-install and their install commands (Windows example using winget)
+$AutoInstallTools = @{
+    "FFmpeg"                = "winget install ffmpeg -s winget"
+    "vgmstream-cli"         = "winget install vgmstream -s winget" # May need a different package name
+    "Microsoft.DotNet.SDK.9" = "winget install Microsoft.DotNet.SDK.9 -s winget"
+    "dotnet-script"         = "dotnet tool install -g dotnet-script"
+}
+
+# Blender download information
+$BlenderDownloadUrl = "https://download.blender.org/release/Blender4.0/blender-4.0.2-windows-x64.zip"
+$BlenderDownloadPath = Join-Path -Path "." -ChildPath "Tools\blender\exe\blender-4.0.2-windows-x64.zip"
+$BlenderExtractPath = Join-Path -Path "." -ChildPath ".\Tools\blender\exe"
+$BlenderExecutableNameLocal = "blender.exe"
+
 #endregion
 
 #region Function: Get-ConfigValue
@@ -59,12 +82,106 @@ function Get-ToolPath {
         [string]$toolName,
         [Parameter(Mandatory=$true)]
         [string]$executableName,
-        [string]$expectedVersionPrefix = $null # Make version check optional
+        [string]$expectedVersionPrefix = $null, # Make version check optional
+        [string[]]$defaultPaths = @()
     )
 
     Write-Host "Checking for $($toolName) executable..." -ForegroundColor Cyan
 
-    # Prompt the user for the path
+    # 1. Check default paths
+    foreach ($path in $defaultPaths) {
+        if (Test-Path $path -PathType Leaf) {
+            Write-Host "$($toolName) found at default location: '$path'" -ForegroundColor Green
+            Save-Config -key ($toolName + "ExePath") -value $path -section $toolPathsSection
+            return $path
+        }
+    }
+
+    # 2. Check config file
+    $configuredPath = Get-ConfigValue -key ($toolName + "ExePath") -section $toolPathsSection
+    if ($configuredPath) {
+        if (Test-Path $configuredPath -PathType Leaf) {
+            Write-Host "$($toolName) path found in config: '$configuredPath'" -ForegroundColor Green
+            return $configuredPath
+        } else {
+            Write-Warning "Warning: Configured path for $($toolName) is invalid: '$configuredPath'. Will try other methods."
+        }
+    }
+
+    # Blender specific download and extract using native PowerShell
+    if ($toolName -ceq "Blender") {
+        $localBlenderExePath = Join-Path -Path $BlenderExtractPath -ChildPath $BlenderExecutableNameLocal
+        if (Test-Path $localBlenderExePath -PathType Leaf) {
+            Write-Host "Blender found at local path: '$localBlenderExePath'" -ForegroundColor Green
+            Save-Config -key ($toolName + "ExePath") -value $localBlenderExePath -section $toolPathsSection
+            return $localBlenderExePath
+        } else {
+            Write-Host "Blender not found in default locations or config. Attempting to download and extract..." -ForegroundColor Yellow
+            try {
+                # Ensure the download directory exists
+                $DownloadDirectory = Split-Path -Path $BlenderDownloadPath -Parent
+                if (-not (Test-Path $DownloadDirectory -PathType Container)) {
+                    Write-Host "Creating directory: '$DownloadDirectory'" -ForegroundColor DarkYellow
+                    New-Item -Path $DownloadDirectory -ItemType Directory -Force | Out-Null
+                }
+
+                Write-Host "Downloading Blender from '$BlenderDownloadUrl' to '$BlenderDownloadPath'..." -ForegroundColor DarkYellow
+                Invoke-WebRequest -Uri $BlenderDownloadUrl -OutFile $BlenderDownloadPath
+
+                # Extract using Expand-Archive
+                Write-Host "Extracting Blender to '$BlenderExtractPath' using Expand-Archive..." -ForegroundColor DarkYellow
+                if (Test-Path $BlenderDownloadPath) {
+                    try {
+                        Expand-Archive -Path $BlenderDownloadPath -DestinationPath $BlenderExtractPath -Force
+                        Write-Host "Blender extracted successfully to '$BlenderExtractPath'." -ForegroundColor Green
+                        Save-Config -key ($toolName + "ExePath") -value $localBlenderExePath -section $toolPathsSection
+                        return $localBlenderExePath
+                    } catch {
+                        Write-Warning "Error extracting Blender using Expand-Archive: $($_.Exception.Message)"
+                    } finally {
+                        # Clean up the downloaded zip file
+                        Remove-Item -Path $BlenderDownloadPath -Force -ErrorAction SilentlyContinue
+                    }
+                } else {
+                    Write-Warning "Error: Blender download ZIP file not found at '$BlenderDownloadPath'."
+                }
+            } catch {
+                Write-Warning "Error during Blender download or extraction: $($_.Exception.Message)"
+            }
+        }
+    }
+
+    # 3. Check system path for all tools
+    $pathFromEnv = Find-ToolInPath -toolName $toolName -executableName $executableName
+    if ($pathFromEnv) {
+        Save-Config -key ($toolName + "ExePath") -value $pathFromEnv -section $toolPathsSection
+        return $pathFromEnv
+    }
+
+    # 4. Auto-install option (for supported tools)
+    if ($AutoInstallTools.ContainsKey($toolName) -and $toolName -notin "Blender") {
+        $autoInstallChoice = Read-Host "Executable for $($toolName) not found. Do you want to attempt auto-install? (y/N)"
+        if ($autoInstallChoice -ceq "y") {
+            $installCommand = $AutoInstallTools[$toolName]
+            Write-Host "Attempting to auto-install $($toolName) using command: '$installCommand'" -ForegroundColor Yellow
+            try {
+                Invoke-Expression $installCommand
+                # Check if the tool is now in the PATH (most likely for winget installs)
+                $pathFromEnvAfterInstall = Find-ToolInPath -toolName $toolName -executableName $executableName
+                if ($pathFromEnvAfterInstall) {
+                    Write-Host "$($toolName) auto-installed and found in path: '$pathFromEnvAfterInstall'" -ForegroundColor Green
+                    Save-Config -key ($toolName + "ExePath") -value $pathFromEnvAfterInstall -section $toolPathsSection
+                    return $pathFromEnvAfterInstall
+                } else {
+                    Write-Warning "Auto-install of $($toolName) completed, but the executable was not found in the system path. You might need to add it manually or restart your terminal."
+                }
+            } catch {
+                Write-Warning "Error during auto-install of $($toolName): $($_.Exception.Message)"
+            }
+        }
+    }
+
+    # 5. Prompt the user for the path (if not found by any means)
     $toolExePath = Read-Host "Please enter the path to the $($toolName) executable (e.g., '$executableName')$([string]::IsNullOrEmpty($expectedVersionPrefix) -or " (expected version prefix: $($expectedVersionPrefix))")"
 
     # Check if the file exists
@@ -97,6 +214,7 @@ function Get-ToolPath {
                 # Check if the version starts with the expected prefix
                 if ($versionMatch -like "$($expectedVersionPrefix)*") {
                     Write-Host "$($toolName) version matches the expected prefix '$($expectedVersionPrefix)'." -ForegroundColor Green
+                    Save-Config -key ($toolName + "ExePath") -value $toolExePath -section $toolPathsSection
                     return $toolExePath
                 } else {
                     Write-Warning "Error: Detected $($toolName) version '$($versionMatch)' does not start with the expected prefix '$($expectedVersionPrefix)'."
@@ -109,6 +227,7 @@ function Get-ToolPath {
         } else {
             # No version check needed, just return the path
             Write-Host "$($toolName) executable found at: $($toolExePath)" -ForegroundColor Green
+            Save-Config -key ($toolName + "ExePath") -value $toolExePath -section $toolPathsSection
             return $toolExePath
         }
     } else {
@@ -157,12 +276,32 @@ function Save-Config {
         if (-not $keyExists) {
             Add-Content -Path $configPath -Value "$key=$value"
             Write-Host "Configuration saved: [$section] $key=$value" -ForegroundColor Green
+        } elseif ($keyExists -and $content -like "*`n$key=*") {
+            # Key exists, find and replace the value
+            for ($i = 0; $i -lt $content.Count; $i++) {
+                if ($content[$i] -like "$key=*") {
+                    $content[$i] = "$key=$value"
+                    break
+                }
+            }
+            Set-Content -Path $configPath -Value $content
+            Write-Host "Configuration updated: [$section] $key=$value" -ForegroundColor Green
         }
     } else {
         $keyExists = $content | Where-Object { $_ -like "$key=*" }
         if (-not $keyExists) {
             Add-Content -Path $configPath -Value "$key=$value"
             Write-Host "Configuration saved: $key=$value" -ForegroundColor Green
+        } elseif ($keyExists) {
+            # Key exists, find and replace the value
+            for ($i = 0; $i -lt $content.Count; $i++) {
+                if ($content[$i] -like "$key=*") {
+                    $content[$i] = "$key=$value"
+                    break
+                }
+            }
+            Set-Content -Path $configPath -Value $content
+            Write-Host "Configuration updated: $key=$value" -ForegroundColor Green
         }
     }
 }
@@ -218,22 +357,17 @@ function Initialize-Workspace {
 
 #endregion
 
-#region Function: Get-IsoFilePath
+#region Function: Get-IsoInputFolder
 
-function Get-IsoFilePath {
-    param(
-        [Parameter(Mandatory=$true)]
-        [string]$isoFileNameHint
-    )
+function Get-IsoInputFolder {
+    Write-Host "Please provide the path to the folder containing the game ISO file(s)..." -ForegroundColor Cyan
+    $inputFolderPath = Read-Host "Example: C:\ISOs"
 
-    Write-Host "Please provide the path to the game ISO file..." -ForegroundColor Cyan
-    $isoFilePath = Read-Host "Example filename: '$isoFileNameHint'"
-
-    if (Test-Path $isoFilePath -PathType Leaf) {
-        Write-Host "ISO file path confirmed: '$isoFilePath'" -ForegroundColor Green
-        return $isoFilePath
+    if (Test-Path $inputFolderPath -PathType Container) {
+        Write-Host "Input folder path confirmed: '$inputFolderPath'" -ForegroundColor Green
+        return $inputFolderPath
     } else {
-        Write-Warning "Error: The specified ISO file path is invalid or the file does not exist."
+        Write-Warning "Error: The specified input folder path is invalid or does not exist."
         return $null
     }
 }
@@ -245,62 +379,102 @@ function Get-IsoFilePath {
 function Extract-Iso {
     param(
         [Parameter(Mandatory=$true)]
-        [string]$isoFilePath,
+        [string]$inputFolderPath,
         [Parameter(Mandatory=$true)]
         [string]$outputPath,
         [string]$ps3GameFolderNameHint = $ps3GameFolderName
     )
 
-    Write-Host "Checking if '$($outputPath)\$($ps3GameFolderNameHint)' folder already exists..." -ForegroundColor Cyan
-    if (Test-Path -Path (Join-Path -Path $outputPath -ChildPath $ps3GameFolderNameHint) -PathType Container) {
-        Write-Host "'$($outputPath)\$($ps3GameFolderNameHint)' folder already exists. Skipping ISO extraction." -ForegroundColor Yellow
-        return $true # Indicate that the extraction was effectively "successful" in that the content is already there
-    }
+    Write-Host "Searching for ISO files in '$inputFolderPath'..." -ForegroundColor Cyan
+    $isoFiles = Get-ChildItem -Path $inputFolderPath -Filter "*.iso" -File
 
-    Write-Host "Attempting to extract ISO contents from '$isoFilePath' to '$outputPath' using WinRAR..." -ForegroundColor Cyan
-
-    # Check if WinRAR is available (you might need to adjust the path)
-    $winrarPath = Get-ConfigValue -key "WinRarExePath" -section $toolPathsSection
-    if (-not $winrarPath) {
-        Write-Warning "Warning: WinRAR executable path not found in config. Please configure it to extract ISO files."
+    if ($isoFiles.Count -eq 0) {
+        Write-Warning "Warning: No ISO files found in the specified folder '$inputFolderPath'."
         return $false
     }
 
-    if (-not (Test-Path $winrarPath)) {
-        Write-Warning "Error: WinRAR executable not found at '$winrarPath'."
-        return $false
+    $selectedIsoFile = $null
+
+    if ($isoFiles.Count -eq 1) {
+        $selectedIsoFile = $isoFiles[0]
+        Write-Host "Found one ISO file: '$($selectedIsoFile.Name)'" -ForegroundColor Green
+    } else {
+        Write-Host "Found multiple ISO files:" -ForegroundColor Yellow
+        for ($i = 0; $i -lt $isoFiles.Count; $i++) {
+            Write-Host "$($i + 1). $($isoFiles[$i].Name)" -ForegroundColor Yellow
+        }
+
+        while ($true) {
+            $selection = Read-Host "Please enter the number of the ISO file to extract"
+            if ($selection -match '^\d+$' -and $selection -ge 1 -and $selection -le $isoFiles.Count) {
+                $selectedIsoFile = $isoFiles[$selection - 1]
+                break
+            } else {
+                Write-Warning "Invalid selection. Please enter a number between 1 and $($isoFiles.Count)."
+            }
+        }
     }
 
-    # Ensure the output directory exists
+    $extractedFolderName = Join-Path -Path $outputPath -ChildPath $ps3GameFolderNameHint
+    Write-Host "Checking if '$($extractedFolderName)' folder already exists for '$($selectedIsoFile.Name)'..." -ForegroundColor Cyan
+    if (Test-Path -Path $extractedFolderName -PathType Container) {
+        Write-Host "'$($extractedFolderName)' folder already exists. Skipping ISO extraction for '$($selectedIsoFile.Name)'." -ForegroundColor Yellow
+        return $true # Indicate that the extraction was effectively "successful"
+    }
+
+    Write-Host "Attempting to extract ISO contents from '$($selectedIsoFile.FullName)' to '$outputPath' using drive mounting..." -ForegroundColor Cyan
+
+    $mountedDisk = $null
+    $mountedDriveLetter = $null
+
     try {
-        New-Item -Path $outputPath -ItemType Directory -Force | Out-Null
-        Write-Host "Output directory '$outputPath' ensured." -ForegroundColor DarkYellow
-    } catch {
-        Write-Warning "Error creating output directory '$outputPath': $($_.Exception.Message)"
-        return $false
-    }
+        $mountedDisk = Mount-DiskImage -ImagePath $selectedIsoFile.FullName -StorageType ISO -ErrorAction Stop
+        $mountedDriveLetter = $null
 
-    # Construct the WinRAR command
-    $arguments = "x", "`"$isoFilePath`"", "`"$outputPath`"", "-y"
+        if ($mountedDisk) {
+            $volumeInfo = Get-DiskImage -ImagePath $selectedIsoFile.FullName | Get-Volume
+            if ($volumeInfo -and $volumeInfo.DriveLetter) {
+                $mountedDriveLetter = $volumeInfo.DriveLetter
+                Write-Host "ISO mounted successfully to drive '$($mountedDriveLetter):'." -ForegroundColor Green
+            } else {
+                Write-Warning "Error: Failed to retrieve drive letter for the mounted ISO."
+                return $false
+            }
+        }
 
-    Write-Host "Executing WinRAR with arguments: '$($winrarPath) $($arguments -join ' ')'" -ForegroundColor DarkYellow
-
-    try {
-        $process = Start-Process -FilePath $winrarPath -ArgumentList $arguments -Wait -PassThru
-        $exitCode = $process.ExitCode
-
-        Write-Host "WinRAR process completed with exit code: $($exitCode)" -ForegroundColor DarkYellow
-
-        if ($exitCode -eq 0) {
-            Write-Host "ISO contents extracted successfully to '$outputPath' using WinRAR." -ForegroundColor Green
-            return $true
+        $sourcePath = "$($mountedDriveLetter):\"
+        if (Test-Path $sourcePath -PathType Container) {
+            Write-Host "Copying contents from '$sourcePath' to '$outputPath'..." -ForegroundColor DarkYellow
+            try {
+                Copy-Item -Path "$sourcePath\*" -Destination $outputPath -Recurse -Force -ErrorAction Stop
+                Write-Host "Contents copied successfully." -ForegroundColor Green
+                return $true
+            } catch {
+                Write-Warning "Error copying contents from mounted ISO: $($_.Exception.Message)"
+                return $false
+            }
         } else {
-            Write-Warning "Error during ISO extraction (WinRAR exit code: $($exitCode))."
-            return $false
+            Write-Warning "Warning: Folder '$ps3GameFolderNameHint' not found in the mounted ISO."
+            # Attempt to copy the entire ISO content if the specific folder is not found
+            Write-Host "Attempting to copy the entire ISO content to '$outputPath'..." -ForegroundColor DarkYellow
+            try {
+                Copy-Item -Path "$($mountedDriveLetter):\*" -Destination $outputPath -Recurse -Force -ErrorAction Stop
+                Write-Host "Entire ISO content copied successfully." -ForegroundColor Green
+                return $true
+            } catch {
+                Write-Warning "Error copying entire ISO content: $($_.Exception.Message)"
+                return $false
+            }
         }
     } catch {
-        Write-Warning "Error executing WinRAR: $($_.Exception.Message)"
+        Write-Warning "Error mounting ISO image: $($_.Exception.Message)"
         return $false
+    } finally {
+        if ($mountedDisk) {
+            Write-Host "Dismounting ISO image..." -ForegroundColor DarkYellow
+            Dismount-DiskImage -ImagePath $selectedIsoFile.FullName -ErrorAction SilentlyContinue | Out-Null
+            Write-Host "ISO image dismounted." -ForegroundColor DarkYellow
+        }
     }
 }
 
@@ -313,95 +487,79 @@ Write-Host "Starting initialization..." -ForegroundColor Cyan
 # Initialize Workspace
 Initialize-Workspace -workspacePath "."
 
-# Check for existing ISO file path
-$isoFilePathConfigured = Get-ConfigValue -key $isoFilePathKey -section $gameSettingsSection
-if (-not $isoFilePathConfigured) {
-    # Ask for ISO file path
-    $isoFilePath = Get-IsoFilePath -isoFileNameHint $isoFileNameHint
-    if ($isoFilePath) {
-        Save-Config -key $isoFilePathKey -value $isoFilePath -section $gameSettingsSection
+# Check for existing ISO input folder path
+$isoInputFolderPathConfigured = Get-ConfigValue -key "IsoInputFolderPath" -section $gameSettingsSection
+if (-not $isoInputFolderPathConfigured) {
+    # Ask for ISO input folder path
+    $isoInputFolderPath = Get-IsoInputFolder
+    if ($isoInputFolderPath) {
+        Save-Config -key "IsoInputFolderPath" -value $isoInputFolderPath -section $gameSettingsSection
         # Attempt to extract ISO immediately after getting the path
-        #Extract-Iso -isoFilePath $isoFilePath -outputPath $gameFilesMainPath
+        Extract-Iso -inputFolderPath $isoInputFolderPath -outputPath $gameFilesMainPath
+    } else {
+        Write-Warning "No valid ISO input folder provided. Skipping ISO extraction."
     }
 } else {
-    Write-Host "ISO file path found in config: $($isoFilePathConfigured)" -ForegroundColor Green
+    Write-Host "ISO input folder path found in config: $($isoInputFolderPathConfigured)" -ForegroundColor Green
     # Attempt to extract ISO if the path is already configured
-    Extract-Iso -isoFilePath $isoFilePathConfigured -outputPath $gameFilesMainPath
+    Extract-Iso -inputFolderPath $isoInputFolderPathConfigured -outputPath $gameFilesMainPath
 }
 
-# Check for existing configuration values for tools
-$winrarPathConfigured = Get-ConfigValue -key "WinRarExePath" -section $toolPathsSection
-$blenderExePathConfigured = Get-ConfigValue -key "BlenderExePath" -section $toolPathsSection
-$noesisExePathConfigured = Get-ConfigValue -key "NoesisExePath" -section $toolPathsSection
-$ffmpegExePathConfigured = Get-ConfigValue -key "FFmpegExePath" -section $toolPathsSection
-$vgmstreamExePathConfigured = Get-ConfigValue -key "vgmstreamExePath" -section $toolPathsSection
-$quickbmsExePathConfigured = Get-ConfigValue -key "QuickBmsExePath" -section $toolPathsSection
-
-# Initialize winrar path
-if (-not $winrarPathConfigured) {
-    $winrarExe = Get-ToolPath -toolName "WinRAR" -executableName "WinRAR.exe"
-    if ($winrarExe) {
-        Save-Config -key "WinRarExePath" -value $winrarExe -section $toolPathsSection
-        Extract-Iso -isoFilePath $isoFilePathConfigured -outputPath $gameFilesMainPath
-    }
+# Initialize Blender path with download and extract
+$blenderExe = Get-ToolPath -toolName "Blender" -executableName "blender.exe" -expectedVersionPrefix "4.0" -defaultPaths $DefaultToolPaths["Blender"]
+if ($blenderExe) {
+    Write-Host "Blender path found: $($blenderExe)" -ForegroundColor Green
 } else {
-    Write-Host "WinRAR path found in config: $($winrarPathConfigured)" -ForegroundColor Green
-}
-
-# Initialize Blender path
-if (-not $blenderExePathConfigured) {
-    $blenderExe = Get-ToolPath -toolName "Blender" -executableName "blender.exe" -expectedVersionPrefix "4.0"
-    if ($blenderExe) {
-        Save-Config -key "BlenderExePath" -value $blenderExe -section $toolPathsSection
-    }
-} else {
-    Write-Host "Blender path found in config: $($blenderExePathConfigured)" -ForegroundColor Green
+    Write-Host "Blender executable not found through default paths or config. Attempting download and extraction..." -ForegroundColor Yellow
+    # The download and extract logic is now within Get-ToolPath for Blender
 }
 
 # Initialize Noesis path
-if (-not $noesisExePathConfigured) {
-    $noesisExe = Get-ToolPath -toolName "Noesis" -executableName "noesis.exe"
-    if ($noesisExe) {
-        Save-Config -key "NoesisExePath" -value $noesisExe -section $toolPathsSection
-    }
+$noesisExe = Get-ToolPath -toolName "Noesis" -executableName "noesis.exe" -defaultPaths $DefaultToolPaths["Noesis"]
+if ($noesisExe) {
+    Write-Host "Noesis path found: $($noesisExe)" -ForegroundColor Green
 } else {
-    Write-Host "Noesis path found in config: $($noesisExePathConfigured)" -ForegroundColor Green
+    Write-Host "Noesis executable not found through default paths or config. Please provide the path manually when prompted." -ForegroundColor Yellow
 }
 
-# Initialize FFmpeg path
-if (-not $ffmpegExePathConfigured) {
-    $ffmpegExe = Find-ToolInPath -toolName "FFmpeg" -executableName "ffmpeg.exe"
-    if (-not $ffmpegExe) {
-        $ffmpegExe = Get-ToolPath -toolName "FFmpeg" -executableName "ffmpeg.exe"
-    }
-    if ($ffmpegExe) {
-        Save-Config -key "FFmpegExePath" -value $ffmpegExe -section $toolPathsSection
-    }
+# Initialize FFmpeg path with auto-install
+$ffmpegExe = Get-ToolPath -toolName "FFmpeg" -executableName "ffmpeg.exe" -defaultPaths $DefaultToolPaths["FFmpeg"]
+if ($ffmpegExe) {
+    Write-Host "FFmpeg path found: $($ffmpegExe)" -ForegroundColor Green
 } else {
-    Write-Host "FFmpeg path found in config: $($ffmpegExePathConfigured)" -ForegroundColor Green
+    Write-Host "FFmpeg executable not found through default paths, config, or system path." -ForegroundColor Yellow
 }
 
-# Initialize vgmstream-cli path
-if (-not $vgmstreamExePathConfigured) {
-    $vgmstreamExe = Find-ToolInPath -toolName "vgmstream-cli" -executableName "vgmstream-cli.exe"
-    if (-not $vgmstreamExe) {
-        $vgmstreamExe = Get-ToolPath -toolName "vgmstream-cli" -executableName "vgmstream-cli.exe"
-    }
-    if ($vgmstreamExe) {
-        Save-Config -key "vgmstreamExePath" -value $vgmstreamExe -section $toolPathsSection
-    }
+# Initialize vgmstream-cli path with auto-install
+$vgmstreamExe = Get-ToolPath -toolName "vgmstream-cli" -executableName "vgmstream-cli.exe" -defaultPaths $DefaultToolPaths["vgmstream-cli"]
+if ($vgmstreamExe) {
+    Write-Host "vgmstream-cli path found: $($vgmstreamExe)" -ForegroundColor Green
 } else {
-    Write-Host "vgmstream-cli path found in config: $($vgmstreamExePathConfigured)" -ForegroundColor Green
+    Write-Host "vgmstream-cli executable not found through default paths, config, or system path." -ForegroundColor Yellow
 }
 
 # Initialize QuickBMS path
-if (-not $quickbmsExePathConfigured) {
-    $quickbmsExe = Get-ToolPath -toolName "QuickBMS" -executableName "quickbms.exe"
-    if ($quickbmsExe) {
-        Save-Config -key "QuickBmsExePath" -value $quickbmsExe -section $toolPathsSection
-    }
+$quickbmsExe = Get-ToolPath -toolName "QuickBMS" -executableName "quickbms.exe" -defaultPaths $DefaultToolPaths["QuickBMS"]
+if ($quickbmsExe) {
+    Write-Host "QuickBMS path found: $($quickbmsExe)" -ForegroundColor Green
 } else {
-    Write-Host "QuickBMS path found in config: $($quickbmsExePathConfigured)" -ForegroundColor Green
+    Write-Host "QuickBMS executable not found through default paths or config. Please provide the path manually when prompted." -ForegroundColor Yellow
+}
+
+# Initialize Microsoft.DotNet.SDK.9 path (this might not be an executable path but rather ensures the SDK is installed)
+$dotnetSDK9Installed = Get-ToolPath -toolName "Microsoft.DotNet.SDK.9" -executableName "dotnet.exe" # Using dotnet.exe as a check
+if ($dotnetSDK9Installed) {
+    Write-Host "Microsoft.DotNet.SDK.9 seems to be installed." -ForegroundColor Green
+} else {
+    Write-Host "Microsoft.DotNet.SDK.9 not found. Auto-install will be attempted." -ForegroundColor Yellow
+}
+
+# Initialize dotnet-script path
+$dotnetScriptInstalled = Get-ToolPath -toolName "dotnet-script" -executableName "dotnet-script"
+if ($dotnetScriptInstalled) {
+    Write-Host "dotnet-script seems to be installed." -ForegroundColor Green
+} else {
+    Write-Host "dotnet-script not found. Auto-install will be attempted." -ForegroundColor Yellow
 }
 
 # Add more tool initializations here as needed
