@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project aims to automate the process of extracting and converting assets from the game "The Simpsons Game" (2007) PS3. It provides a step-by-step, automated workflow to take the raw game files and transform them into usable formats for hobby projects, learning purposes, and research.
+This project takes the files from the PS3 version of "The Simpsons Game" (2007) and converts them into formats usable for modern tools.
 
 ## Features
 
@@ -16,6 +16,9 @@ This project aims to automate the process of extracting and converting assets fr
 *   "Assets to Blender",          uses Blender to convert the assets to a usable format (.glb)
 *   "Noesis TXD extraction"       extracts textures from the .txd files using Noesis, broken for now
 
+## Getting Started
+
+
 ## Prerequisites
 
 Before you begin, ensure you have the following installed and set up:
@@ -23,19 +26,95 @@ Before you begin, ensure you have the following installed and set up:
 *   **Operating System:** only tested on Windows, should be possible on Mac/Linux with minimal changes
 *   **PowerShell:** only tested on PowerShell 7.5.0
 *   **.NET:** only tested on .NET 9.0.201
-*   **dotnet-script:** ```dotnet tool install -g dotnet-script```
+*   **dotnet-script:** needed for many processes to run
+```pwsh
+dotnet tool install -g dotnet-script
+```
 *   **Python:** Required for some Noesis plugins. Ensure Python is installed and added to your system's PATH.
 *   **QuickBMS:** [Download QuickBMS](https://aluigi.altervista.org/quickbms.htm) as it's a core dependency.
 *   **Noesis:** [Download Noesis](https://richwhitehouse.com/index.php?content=inc_projects.php&showproject=91) as required for textures.
 *   **Blender:** Download [Blender 4.0.2](https://download.blender.org/release/Blender4.0/). Blender 4.0 or older (down to 2.8) is required for the conversion to work.
 *   **Game Files:** You will need a copy of "The Simpsons Game" game files for the target platform.
-*   **ffmpeg:** This is used for conversion of proprietary video .vp6 into (.ogv, or any others). Use ```winget install ffmpeg``` from [https://www.gyan.dev/ffmpeg/builds/#libraries](https://www.gyan.dev/ffmpeg/builds/#libraries) or [https://www.ffmpeg.org/download.html](https://www.ffmpeg.org/download.html).
+*   **ffmpeg:** This is used for conversion of proprietary video .vp6 into (.ogv, or any others). 
+Use:
+```pwsh
+winget install ffmpeg
+```
+ from [https://www.gyan.dev/ffmpeg/builds/#libraries](https://www.gyan.dev/ffmpeg/builds/#libraries) or [https://www.ffmpeg.org/download.html](https://www.ffmpeg.org/download.html).
 *   **vgmstream-cli:** Download [vgmstream-cli r1980](https://github.com/vgmstream/vgmstream/releases/tag/r1980). This is used for conversion of proprietary audio .snu into (.wav, or any others).
 *   **WinRar:** Used by the initializer to automatically extract the ISO file.
 
-50GB of free space
 
-## Getting Started
+## Setup
+
+install all prerequisites
+
+download this repo using the web or git clone
+web select ``<> Code`` button then ``Download Zip``
+open zip folder and copy contents of TheSimpsonsGame-main\ into your project folder
+
+open ``Windows Powershell`` and navigate to the project folder
+then run 
+```pwsh
+.\main.ps1
+```
+
+### Your likely to encounter this error
+```pwsh
+PS C:\Users\WDAGUtilityAccount\Desktop\test> .\main.ps1
+.\main.ps1 : File C:\Users\WDAGUtilityAccount\Desktop\test\main.ps1 cannot be loaded because running scripts is
+disabled on this system. For more information, see about_Execution_Policies at
+https:/go.microsoft.com/fwlink/?LinkID=135170.
+At line:1 char:1
++ .\main.ps1
++ ~~~~~~~~~~
+    + CategoryInfo          : SecurityError: (:) [], PSSecurityException
+    + FullyQualifiedErrorId : UnauthorizedAccess
+```
+
+### To fix this, you can temporarily or permanently change the execution policy:
+# Option 1: Temporarily Allow Scripts (for current session only)
+
+Run this in your PowerShell window as Administrator:
+```Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process```
+
+Then try running your script again:
+```pwsh
+.\main.ps1
+```
+
+This method is safe and doesn't change system-wide settings.
+
+# Option 2: Permanently Allow Scripts (for current user)
+If you want scripts to always run for your user:
+
+```pwsh
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope
+```
+
+RemoteSigned allows local scripts to run, but requires downloaded scripts to be unblocked.
+
+to unblock run 
+```pwsh
+Get-ChildItem -Path "C:\Path To Your Project" -Recurse -Filter *.ps1 | 
+    ForEach-Object {
+        if ((Get-Content $_.FullName -Stream Zone.Identifier -ErrorAction SilentlyContinue) -ne $null) {
+            Write-Host "Still blocked: $($_.FullName)"
+        } else {
+            Write-Host "Unblocked: $($_.FullName)"
+        }
+    }
+```
+
+Then try running your script again:
+```pwsh
+.\main.ps1
+```
+
+#### 🔐 Always be cautious when allowing scripts to run, especially if you're unsure of their source.
+#### Never run random scripts from GitHub without reviewing them first. Always skim the contents to make sure it’s not doing anything sketchy.
+
+
 
 ## Usage
 
@@ -43,7 +122,7 @@ Place the QuickBMS files in `Tools\quickbms` and the Noesis files in `Tools\noes
 
 The project initialization, asset extraction, and conversion process are automated through a main script. To start the process, run:
 
-```powershell
+```pwsh
 .\main.ps1
 ```
 
@@ -109,6 +188,8 @@ To extract the PNG files from TXD dictionaries:
 7.  Then click Export.
 
 When complete, run option `10` in the main script menu, and all PNG files should now be in `TEXTURES_OUTPUT`.
+
+
 
 ## Obligatory Legal Disclaimer
 
