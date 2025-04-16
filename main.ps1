@@ -91,6 +91,13 @@ $menuOptions = @{
             "Args" = ""
         }
     }
+	"10" = @{
+		"Name" = "Noesis txd directory"
+		"Action" = @{
+			"Path" = ".\Tools\process\7_Texture\copy.ps1"
+			"Args" = "-Convert"
+		}
+	}
     "c" = @{
         "Name" = "Clear Terminal"
         "Action" = "ClearTerminal"
