@@ -1,4 +1,0 @@
-
-_3-03_AroundTheWorldIn80Bites\eighty_bites_global.str_-_eighty_bites_global_str\build_-_PS3_-_ntsc_en\assets_rws_-_eighty_bites_-_eighty_bites\texture_dictionary
-_3-04_LisaTheTreeHugger\tree_hugger_global.str _-_tree_hugger_global_str\build _-_PS3_-_ntsc_en\assets_rws_-_tree_hugger _-_tree_hugger\texture_dictionary
-_3-03_AroundTheWorldIn80Bites\eighty_bites_global.str++eighty_bites_global_str\build++PS3++ntsc_en\assets_rws++eighty_bites++eighty_bites\texture_dictionary"

@@ -85,9 +85,9 @@ $menuOptions = @{
         }
     }
     "9" = @{
-        "Name" = "Noesis txd extraction"
+        "Name" = "txd extraction initialization"
         "Action" = @{
-            "Path" = ".\Tools\process\7_Texture\main.ps1"
+            "Command" = "dotnet script Tools\process\7_Texture\init.csx"
             "Args" = ""
         }
     }

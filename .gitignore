@@ -12,8 +12,8 @@ Tools/quickbms/*.ps1
 Tools/quickbms/*.txt
 
 old
-test
 
+texture_mapping
 asset_mapping.json
 main.log
 config.ini
