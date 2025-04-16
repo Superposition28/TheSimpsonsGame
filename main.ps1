@@ -52,8 +52,8 @@ $menuOptions = @{
     "04" = @{
         "Name" = "Flatten Directories"
         "Action" = @{
-            "Path" = ".\Tools\process\4_Flat\Flatten.ps1"
-            "Args" = @("-RootDir", ".\GameFiles\Main\PS3_GAME\QuickBMS_STR_OUTPUT", "-DestinationDir", ".\GameFiles\Main\PS3_GAME\Flattened_OUTPUT")
+            "Command" = "dotnet script Tools\process\4_Flat\flat.csx"
+            "Args" = ".\GameFiles\Main\PS3_GAME\QuickBMS_STR_OUTPUT",".\GameFiles\Main\PS3_GAME\Flattened_OUTPUT"
         }
     }
     "05" = @{

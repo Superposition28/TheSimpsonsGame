@@ -1,6 +1,6 @@
-// Step2.2_Flatten_Universal_NoRootFolder.csx
+// flat.csx
 // Applies flattening universally from RootDir's *contents* directly into DestinationDir.
-// dotnet-script Step2.2_Flatten_Universal_NoRootFolder.csx -- ".\Source\RootDir" ".\Destination\Flattened"
+// dotnet-script flat.csx -- ".\Source\RootDir" ".\Destination\Flattened"
 
 #r "nuget: System.CommandLine, 2.0.0-beta4.22272.1" // Optional: For more advanced arg parsing if needed later.
 
@@ -16,7 +16,7 @@ using System.Text.RegularExpressions;
  * --- Argument Parsing & Validation ---
  */
 if (Args == null || Args.Count < 2) {
-    LogError("Usage: dotnet-script Step2.2_Flatten_Universal_NoRootFolder.csx -- <RootDir> <DestinationDir>");
+    LogError("Usage: dotnet-script flat.csx -- <RootDir> <DestinationDir>");
     Environment.Exit(1);
 }
 string rootDir = Args[0];
