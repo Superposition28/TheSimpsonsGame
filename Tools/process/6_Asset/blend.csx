@@ -4,11 +4,15 @@
 // #r "System.Diagnostics.Process"
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading;
 using System.Text.Json;
 using System.Diagnostics;
+using System.Collections.Generic;
+using System.Security.Cryptography;
+
 
 // Add this line to define args for the script
 string[] args = Environment.GetCommandLineArgs();
@@ -26,7 +30,7 @@ foreach (string arg in args) {
 }
 
 string pythonScriptPath = "Tools\\blender\\main.py";
-string pythonExtensionFile = "Tools\\blender\\io_import_simpson_game_ScriptMode.py";
+string pythonExtensionFile = "Tools\\blender\\io_import_simpson_game_fork.py";
 string assetMappingFile = "Tools\\process\\6_Asset\\asset_mapping.json";
 string configFile = "config.ini";
 
@@ -101,74 +105,57 @@ void BlenderProcessing() {
                 Console.WriteLine();
 
                 var assetInfo = property.Value;
-                if (assetInfo.ValueKind == JsonValueKind.Object) {
+
+				Print($"assetInfo: {assetInfo}", ConsoleColor.Cyan);
+
+				if (assetInfo.ValueKind == JsonValueKind.Object) {
                     if (assetInfo.TryGetProperty("preinstanced_symlink", out var preinstancedSymlinkElement) &&
                         assetInfo.TryGetProperty("blend_symlink", out var blendSymlinkElement) &&
-                        assetInfo.TryGetProperty("predicted_glb_symlink", out var predictedGlbSymlinkElement)) {
+						assetInfo.TryGetProperty("filename", out var filenameElement) &&
+                        assetInfo.TryGetProperty("glb_symlink", out var glbSymlinkElement)) {
 
-                        string preinstancedSymlink = preinstancedSymlinkElement.GetString();
-                        string blendSymlink = blendSymlinkElement.GetString();
-                        string predictedGlbSymlink = predictedGlbSymlinkElement.GetString();
+						string filename = filenameElement.GetString();
 
-                        Console.WriteLine();
-                        Print($"Preinstanced Symlink: {preinstancedSymlink}", ConsoleColor.DarkCyan);
-                        Print($"Blend Symlink: {blendSymlink}", ConsoleColor.DarkCyan);
-                        Print($"Predicted GLB Symlink: {predictedGlbSymlink}", ConsoleColor.DarkCyan);
-                        Console.WriteLine();
+						string blendSymlinkPath = blendSymlinkElement.GetString();
+						string blendSymlinkFile = Path.Combine(blendSymlinkPath, filename + ".blend");
+						string glbSymlinkPath = glbSymlinkElement.GetString();
+                        string glbSymlinkFile = Path.Combine(glbSymlinkPath, filename + ".glb");
+                        string preinstancedSymlinkPath = preinstancedSymlinkElement.GetString();
+                        string preinstancedSymlinkFile = Path.Combine(preinstancedSymlinkPath, filename + ".preinstanced");
 
                         // Check if the corresponding .blend symlink exists
-                        if (File.Exists(blendSymlink)) {
-                            Print($"Processing: {preinstancedSymlink}", ConsoleColor.Green);
-                            Print($"Blend File (Symlink): {blendSymlink}", ConsoleColor.Green);
-                            Console.WriteLine();
-
-                            // Construct the output .glb file path (using the predicted symlink)
-                            string glbFilePath = predictedGlbSymlink;
-                            Print($"Output GLB File (Symlink): {glbFilePath}", ConsoleColor.DarkGreen);
-                            Console.WriteLine();
-
+                        if (File.Exists(blendSymlinkFile)) {
                             try {
-                                // Construct the paths for Blender arguments (using symlinks)
-                                string blendFilePath = blendSymlink;
-                                Print($"Blend File Path (Symlink): {blendFilePath}", ConsoleColor.DarkMagenta);
-                                Print($"Preinstanced File Path (Symlink): {preinstancedSymlink}", ConsoleColor.DarkMagenta);
-                                Console.WriteLine();
-
-                                // Extract the directory path from preinstancedSymlink (using symlinks)
-                                Print($"Preinstanced Directory Path (Full): {preinstancedSymlink}", ConsoleColor.DarkBlue);
-                                Console.WriteLine();
-
-                                // Extract the directory path from glb file path (using symlinks)
-                                string glbDirectoryPath = Path.GetDirectoryName(glbFilePath);
-                                Print($"GLB Directory Path: {glbDirectoryPath}", ConsoleColor.DarkBlue);
-                                Console.WriteLine();
-
                                 // Check if the .glb symlink (target) does not exist
-                                if (!File.Exists(glbFilePath)) {
+                                if (!File.Exists(glbSymlinkFile)) {
                                     // Check if the corresponding .preinstanced symlink exists
-                                    if (File.Exists(preinstancedSymlink)) {
+                                    if (File.Exists(preinstancedSymlinkFile)) {
                                         // Construct the command to run Blender in background mode using symlinks
                                         string verboseStr = verbose ? "true" : "false";
                                         string debugSleepStr = debugSleep ? "true" : "false";
-                                        string blenderCommand = $"\"{blenderExePath}\" -b \"{blendFilePath}\" --python \"{pythonScriptPath}\" -- \"{blendFilePath}\" \"{preinstancedSymlink}\" \"{glbFilePath}\" \"{pythonExtensionFile}\" \"{verboseStr}\" \"{debugSleepStr}\"";
-
-                                        Print($"Blender command --> {blenderCommand}", ConsoleColor.Magenta);
 
                                         // Execute the command
                                         Print("# Start Blender Output", ConsoleColor.Gray);
                                         ProcessStartInfo psi = new ProcessStartInfo {
                                             FileName = blenderExePath,
-                                            Arguments = $"-b \"{blendFilePath}\" --python \"{pythonScriptPath}\" -- \"{blendFilePath}\" \"{preinstancedSymlink}\" \"{glbFilePath}\" \"{pythonExtensionFile}\" \"{verboseStr}\" \"{debugSleepStr}\"",
+                                            Arguments = $"-b \"{blendSymlinkFile}\" --python \"{pythonScriptPath}\" -- \"{blendSymlinkFile}\" \"{preinstancedSymlinkFile}\" \"{glbSymlinkFile}\" \"{pythonExtensionFile}\" \"{verboseStr}\" \"{debugSleepStr}\"",
                                             RedirectStandardOutput = true,
                                             RedirectStandardError = true,
                                             UseShellExecute = false,
                                             CreateNoWindow = true
                                         };
 
+                                        string blenderCommand = $"\"{blenderExePath}\" {psi.Arguments}";
+
+                                        Print($"Blender command --> {blenderCommand}", ConsoleColor.Magenta);
+										//Thread.Sleep(10000); // Sleep for 10 second
+
+
                                         using (Process process = new Process()) {
                                             process.StartInfo = psi;
                                             process.Start();
 
+											string fullOutput = process.
                                             string output = process.StandardOutput.ReadToEnd();
                                             string error = process.StandardError.ReadToEnd();
 
@@ -180,9 +167,9 @@ void BlenderProcessing() {
                                         Print("# End Blender Output", ConsoleColor.Gray);
 
                                         // Check if an error occurred
-                                        if (File.Exists(glbFilePath) && (File.ReadAllText(glbFilePath).Contains("Error:", StringComparison.OrdinalIgnoreCase) || File.ReadAllText(glbFilePath).Contains("Exception:", StringComparison.OrdinalIgnoreCase))) {
+                                        if (File.Exists(glbSymlinkFile) && (File.ReadAllText(glbSymlinkFile).Contains("Error:", StringComparison.OrdinalIgnoreCase) || File.ReadAllText(glbSymlinkFile).Contains("Exception:", StringComparison.OrdinalIgnoreCase))) {
                                             Print("Blender encountered an error:", ConsoleColor.Red);
-                                            foreach (var line in File.ReadAllLines(glbFilePath)) {
+                                            foreach (var line in File.ReadAllLines(glbSymlinkFile)) {
                                                 if (line.Contains("Error:", StringComparison.OrdinalIgnoreCase) || line.Contains("Exception:", StringComparison.OrdinalIgnoreCase)) {
                                                     Console.WriteLine($"  {line}");
                                                 }
@@ -198,24 +185,24 @@ void BlenderProcessing() {
                                         }
 
                                         // Check if the output file was created successfully (target of the symlink)
-                                        if (File.Exists(glbFilePath)) {
-                                            Print($"Output file created successfully: {glbFilePath}", ConsoleColor.Green);
+                                        if (File.Exists(glbSymlinkFile)) {
+                                            Print($"Output file created successfully: {glbSymlinkFile}", ConsoleColor.Green);
                                         } else {
-                                            Print($"Failed to create output file: {glbFilePath}", ConsoleColor.Red);
+                                            Print($"Failed to create output file: {glbSymlinkFile}", ConsoleColor.Red);
                                         }
                                     } else {
-                                        Print($"Error: No corresponding .preinstanced symlink for: {blendFilePath}", ConsoleColor.Red);
+                                        Print($"Error: No corresponding .preinstanced symlink for: {blendSymlinkPath}", ConsoleColor.Red);
                                         Environment.Exit(1); // break on missing input
                                     }
                                 } else {
-                                    Print($"Skipping: .glb exists for: {blendFilePath}", ConsoleColor.Yellow);
+                                    Print($"Skipping: .glb exists for: {blendSymlinkPath}", ConsoleColor.Yellow);
                                 }
                             } catch (Exception ex) {
                                 Print($"Error message: {ex.Message}", ConsoleColor.Red);
                                 Environment.Exit(1); // Exit script on error
                             }
                         } else {
-                            Print($"Error: 404 Blend symlink not found: {blendSymlink}", ConsoleColor.Red);
+                            Print($"Error: 404 Blend symlink not found: {blendSymlinkFile}", ConsoleColor.Red);
                             Environment.Exit(1); // break on missing input
                         }
                     } else {

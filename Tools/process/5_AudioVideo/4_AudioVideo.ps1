@@ -4,7 +4,7 @@
 # Start audio conversion
 
 # Execute two PowerShell scripts in their own visible terminal windows
-#Start-Process -FilePath "powershell.exe" -ArgumentList " . '.\tools\step3.1_Audio.ps1'" -WindowStyle Normal
+#Start-Process -FilePath "powershell.exe" -ArgumentList " . '.\Tools\step3.1_Audio.ps1'" -WindowStyle Normal
 
 # Set the source and target directories
 $AudioSourceDir = ".\GameFiles\Main\PS3_GAME\USRDIR\Assets_Audio_Streams_3"
@@ -45,7 +45,7 @@ foreach ($file in $snuFiles) {
 #
 # Start video conversion
 
-#Start-Process -FilePath "powershell.exe" -ArgumentList ". '.\tools\step3.2_Video.ps1'" -WindowStyle Normal
+#Start-Process -FilePath "powershell.exe" -ArgumentList ". '.\Tools\step3.2_Video.ps1'" -WindowStyle Normal
 
 # Set the source and target directories
 $MovSourceDir = ".\GameFiles\Main\PS3_GAME\USRDIR\Assets_Video_Movies_3"

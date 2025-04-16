@@ -40,7 +40,7 @@ Before you begin, ensure you have the following installed and set up:
 ## Usage
 
 place the quickbms files in Tools\quickbms
-place noeises files in Tools\noeises\exe
+place noesis files in Tools\noesis\exe
 
 The project initialization, asset extraction and conversion process is automated through a main script. To start the process, run:
 
@@ -105,10 +105,10 @@ currently only 5337 of 5533 assets are converted successfully, error unknown
 
 [9] Texture Dictionary extraction
 cannot be automated yet, due to issues with Noesis cli mode
-and Noesis is the only tool i have that can extract the .txd files made possible by the python extension [Tools\noeises\tex_TheSimpsonsGame_PS3_txd.py]
+and Noesis is the only tool i have that can extract the .txd files made possible by the python extension [Tools\noesis\tex_TheSimpsonsGame_PS3_txd.py]
 
 so to manually extract the files
-copy `Tools\noeises\tex_TheSimpsonsGame_PS3_txd.py` into `Tools\noeises\exe\plugins\python\`
+copy `Tools\noesis\tex_TheSimpsonsGame_PS3_txd.py` into `Tools\noesis\exe\plugins\python\`
 open Noesis
 then click 'Tools', 'Batch Process'
 in the batch process window
@@ -146,12 +146,12 @@ Extension       | Percent   | Size          | Allocated     | Files   | File Typ
 After running the `[2] QuickBMS STR`, this directory will be populated with the contents extracted from the game's `.str` archive files.
 These archives contain a wide variety of game assets, and extracting them is a crucial step in accessing the individual files.
 
-|Extension|        | Percent | Size          | Allocated     | Files | Initial Label / Hypothesis | Known Purpose                 | Further Research Recommendations                               |
+|Extension|        | Percent | Size          | Allocated     | Files | Initial Label / Hypothesis | Known Purpose                 | Further Research                                               |
 | --------------- | -------  | ------------- | ------------- | ----- | -------------------------- | ----------------------------- | ---------------------------------------------------------------|-|
 | .vfb            || 0.390   | 7,079,628     | 10,629,120    | 8,770 | RenderWare Visual Effects  | —                             | Examine headers, consult RenderWare/PS3 communities.           |
 | .preinstanced   || 40.562  | 1,095,487,331 | 1,106,362,368 | 5,533 | Compressed 3D Assets       | 3D Assets                     | Investigate RenderWare compression methods, use Blender plugin.|
-|| .rws.ps3.preinstanced |   |               |               | 3,499 | Compressed 3D Assets       | 3D Assets                     | Investigate RenderWare compression methods, use Blender plugin.|
-|| .dff.ps3.preinstanced |   |               |               | 2,034 | Compressed 3D Assets       | 3D Assets                     | Investigate RenderWare compression methods, use Blender plugin.|
+|| .rws.ps3.preinstanced |   |               |               | 3,499 | Compressed 3D Assets       | 3D Assets                     | Likely refers to RenderWare Stream files, which are used to store 3D model data, textures, and other game assets in a serialized format.|
+|| .dff.ps3.preinstanced |   |               |               | 2,034 | Compressed 3D Assets       | 3D Assets                     | Refers to RenderWare's "Dynamic Fragment Format," which is used to store 3D geometry, including meshes, vertex data, and material information.|
 | .ps3            || 12.351  | 328,796,260   | 336,875,520   | 4,962 | Unknown (Asset/Metadata)   | —                             | Examine headers, compare content.                              |
 || .rcb.ps3       |          |               |               | 1226  |                            |                               |                                                                |
 || .bnk.ps3       |          |               |               | 1213  |                            |                               |                                                                |
@@ -165,7 +165,7 @@ These archives contain a wide variety of game assets, and extracting them is a c
 || .cec.ps3       |          |               |               | 1     |                            |                               |                                                                |
 | .xml            || 0.092   | 1,751,756     | 2,519,040     | 2,617 | Configuration Data         | —                             | Inspect content for recognizable structures.                   |
 || .meta.xml      |          |               |               | 2,616 |                            |                               |                                                                |
-| .txd            || 26.034  | 708,266,804   | 710,103,040   | 858   | Texture Dictionaries       | Texture Dictionaries          | Use Noesis with Python script.                                 |
+| .txd            || 26.034  | 708,266,804   | 710,103,040   | 858   | Texture Dictionaries       | Texture Dictionaries          | Use Noesis with Python plugin.                                 |
 | .lh2            || 0.242   | 5,698,228     | 6,590,464     | 594   | Game Text Strings          | —                             | Try LHA decompression tools.                                   |
 || .en.lh2        |          |               |               | 20    |                            |                               |                                                                |
 || .ss.lh2        |          |               |               | 20    |                            |                               |                                                                |
@@ -243,7 +243,7 @@ This directory contains the final output of the asset conversion pipeline. The `
 
 
 
-### `tools\blender`
+### `Tools\blender`
 
 This directory houses the Blender-related python scripts that automate the 3D model conversion process.
 The `main.py` script manages the import, processing, and export of a `.preinstanced` file as .glb file.
@@ -251,14 +251,14 @@ The `io_import_simpson_game_ScriptMode.py` script provides the functionality to 
 
 
 
-### `tools\process`
+### `Tools\process`
 
 This directory contains the PowerShell scripts that automate the various steps of the asset extraction and conversion pipeline. The `main.ps1` script serves as the central control point, allowing you to select and execute the individual steps. The other scripts in this directory handle specific tasks, such as renaming folders, extracting files from archives, and preparing assets for import into Blender.
 
 
 
-### `Tools\noeises\tex_TheSimpsonsGame_PS3_txd.py`
-this python plugin enables noeises to extract the textures from the .txd files 
+### `Tools\noesis\tex_TheSimpsonsGame_PS3_txd.py`
+this python plugin enables noesis to extract the textures from the .txd files 
 i don't know who made it, as the original host site is gone, and this may be one of the few copies left
 
 
@@ -266,10 +266,10 @@ i don't know who made it, as the original host site is gone, and this may be one
 ## `Tools\blender\io_import_simpson_game_ScriptMode.py`
 this python extension for blender enables the import of .preinstanced assets
 
-i got this from [\[github\]](https://github.com/Turk645/Simpsons-Game-PS3-Blender-Plugin)
+i got this from [\[Turk645\]](https://github.com/Turk645/Simpsons-Game-PS3-Blender-Plugin)
+and the _fork version from [\[misternebula\]](https://github.com/misternebula/Simpsons-Game-PS3-Blender-Plugin)
 made for blender 2.8
-i made some small changes to enhance it for my purposes, i may have broken it a bit
-but there was one line that needs to be removed to work in blender 4.0
+but works up to 4.0
 
 ---
 

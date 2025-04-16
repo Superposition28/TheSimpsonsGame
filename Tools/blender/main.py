@@ -9,29 +9,18 @@ import os
 import time
 
 try:
-
-    # example command to run the script:
-    # A:\blender-4.0.2-windows-x64\blender.exe" -b "A:\TMP_TSG_LNKS\cc07225ea3a876253ae1dce564aba1f2_blend\play_sound.dff.PS3.blend" --python "Tools\blender\main.py" 
-    # -- 
-    #    "A:\TMP_TSG_LNKS\cc07225ea3a876253ae1dce564aba1f2_blend\play_sound.dff.PS3.blend"
-    #    "A:\TMP_TSG_LNKS\cc07225ea3a876253ae1dce564aba1f2_preinstanced\play_sound.dff.PS3.preinstanced"
-    #    "A:\TMP_TSG_LNKS\cc07225ea3a876253ae1dce564aba1f2_glb\play_sound.dff.PS3.glb"
-    #    "Tools\blender\io_import_simpson_game_ScriptMode.py"
-    #    "false"
-    #    "false"
-
     print("")
     # Get file paths from arguments
-    base_blend_file_index = sys.argv.index('--') + 1                           # example value "A:\TMP_TSG_LNKS\cc07225ea3a876253ae1dce564aba1f2_blend\play_sound.dff.PS3.blend"
+    base_blend_file_index = sys.argv.index('--') + 1 # example value "A:\TMP_TSG_LNKS\cc07225ea3a876253ae1dce564aba1f2_blend\play_sound.dff.PS3.blend"
     base_blend_file = sys.argv[base_blend_file_index]  # Full path to the base blend file
     print(f"1: \033[32mOpening blend file: {base_blend_file}\033[0m")
 
-    input_preinstanced_file_index = sys.argv.index('--') + 2                # example value "A:\TMP_TSG_LNKS\cc07225ea3a876253ae1dce564aba1f2_preinstanced\play_sound.dff.PS3.preinstanced"
+    input_preinstanced_file_index = sys.argv.index('--') + 2 # example value "A:\TMP_TSG_LNKS\cc07225ea3a876253ae1dce564aba1f2_preinstanced\play_sound.dff.PS3.preinstanced"
     input_preinstanced_file_name = sys.argv[input_preinstanced_file_index]
     input_preinstanced_file = input_preinstanced_file_name  # Full path to the input preinstanced file
     print(f"2: \033[32mImporting preinstanced file: {input_preinstanced_file}\033[0m")
 
-    output_glb_index = sys.argv.index('--') + 3                             # example value "A:\TMP_TSG_LNKS\cc07225ea3a876253ae1dce564aba1f2_glb\play_sound.dff.PS3.glb"
+    output_glb_index = sys.argv.index('--') + 3 # example value "A:\TMP_TSG_LNKS\cc07225ea3a876253ae1dce564aba1f2_glb\play_sound.dff.PS3.glb"
     output_glb_name = sys.argv[output_glb_index]
     output_glb = output_glb_name  # Full path to the output glb file
     print(f"3: \033[32mExporting to GLB file: {output_glb}\033[0m")
@@ -43,7 +32,7 @@ try:
     print("")
 
     verbose_index = sys.argv.index('--') + 5
-    verbose = sys.argv[verbose_index]  # example value "false"
+    verbose = sys.argv[verbose_index]
     if verbose == "true":
         print("Verbose mode enabled. Debugging information will be printed.")
 
@@ -72,7 +61,7 @@ try:
 
     # Get the directory for output_glb and check if it exists
     output_dir = os.path.dirname(output_glb)
-    
+
     if output_dir and not os.path.exists(output_dir):
         print(f"Creating output directory: {output_dir}")
         #os.makedirs(output_dir, exist_ok=True)
@@ -101,10 +90,10 @@ try:
 
     #try:
     # Ensure your extension is enabled
-    addon_module_name = 'io_import_simpson_game_ScriptMode'
+    addon_module_name = 'io_import_simpson_game_fork'
 
     if not bpy.context.preferences.addons.get(addon_module_name):
-        print(f"20: \033[32mEnabling {addon_module_name} addon\033[0m")  # Green text for enabling addon
+        print(f"20: \033[32mEnabling {addon_module_name} addon\033[0m")
         # Path to the addon file
         pythonextension_file = os.path.abspath(pythonextension_file)
         print(f"Addon path: {pythonextension_file}")
@@ -147,9 +136,44 @@ try:
                 time.sleep(5)
             raise Exception(f"27: Error enabling addon {addon_module_name}: {e}")
     else:
-        print(f"28: \033[32m{addon_module_name} addon is already enabled\033[0m")  # Green text for addon already enabled
-        bpy.ops.preferences.addon_disable(module=addon_module_name)
-        bpy.ops.preferences.addon_install(filepath=pythonextension_file, overwrite=True)
+        print(f"28: \033[32m{addon_module_name} addon is already enabled\033[0m")
+        ### previously removed and reinstalled the addon to ensure it was working, but currently disabled
+
+        #try:
+        #    bpy.ops.preferences.addon_disable(module=addon_module_name)
+        #    bpy.ops.preferences.addon_remove(module=addon_module_name)
+        #    print(f"29: Addon {addon_module_name} disabled and removed.")
+        #except Exception as e:
+        #    print(f"30: Error disabling/removing addon: {e}")
+
+        #try:
+        #    # Install the addon
+        #    bpy.ops.preferences.addon_install(filepath=pythonextension_file, overwrite=True)
+        #    print(f"31: Addon re-installed from: {pythonextension_file}")
+        #    bpy.ops.preferences.addon_enable(module=addon_module_name)
+        #except Exception as e:
+        #    if debugsleep == "true":
+        #        print("Debug sleep mode enabled. The script will pause for debugging.")
+        #        time.sleep(5)
+        #    print(f"32: Error re-installing addon: {e}")
+
+        #try:
+        #    # Enable the addon
+        #    bpy.ops.preferences.addon_enable(module=addon_module_name)
+        #    print(f"33: Addon {addon_module_name} enabled.")
+
+        #    # Attempt to re-import the module
+        #    import importlib
+        #    importlib.invalidate_caches()  # Clear any cached module information
+        #    addon_module = importlib.import_module(addon_module_name)
+        #    print(f"33.1: Addon {addon_module_name} re-imported successfully.")
+        #except ModuleNotFoundError as e:
+        #    print(f"34: Error enabling addon {addon_module_name}: {e}. " f"Ensure the addon file is correctly installed and named.")
+        #except Exception as e:
+        #    if debugsleep == "true":
+        #        print("Debug sleep mode enabled. The script will pause for debugging.")
+        #        time.sleep(5)
+        #    raise Exception(f"35: Error enabling addon {addon_module_name}: {e}")
 
     print(f"\033[32mImporting preinstanced file: {input_preinstanced_file}\033[0m")  # Green text for importing file
 

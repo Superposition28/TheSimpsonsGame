@@ -335,6 +335,7 @@ $blenderExePathConfigured = Get-ConfigValue -key "BlenderExePath" -section $tool
 $noesisExePathConfigured = Get-ConfigValue -key "NoesisExePath" -section $toolPathsSection
 $ffmpegExePathConfigured = Get-ConfigValue -key "FFmpegExePath" -section $toolPathsSection
 $vgmstreamExePathConfigured = Get-ConfigValue -key "vgmstreamExePath" -section $toolPathsSection
+$quickbmsExePathConfigured = Get-ConfigValue -key "QuickBmsExePath" -section $toolPathsSection
 
 # Initialize winrar path
 if (-not $winrarPathConfigured) {
@@ -391,6 +392,16 @@ if (-not $vgmstreamExePathConfigured) {
     }
 } else {
     Write-Host "vgmstream-cli path found in config: $($vgmstreamExePathConfigured)" -ForegroundColor Green
+}
+
+# Initialize QuickBMS path
+if (-not $quickbmsExePathConfigured) {
+    $quickbmsExe = Get-ToolPath -toolName "QuickBMS" -executableName "quickbms.exe"
+    if ($quickbmsExe) {
+        Save-Config -key "QuickBmsExePath" -value $quickbmsExe -section $toolPathsSection
+    }
+} else {
+    Write-Host "QuickBMS path found in config: $($quickbmsExePathConfigured)" -ForegroundColor Green
 }
 
 # Add more tool initializations here as needed

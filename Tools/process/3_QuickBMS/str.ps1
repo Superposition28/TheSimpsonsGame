@@ -37,9 +37,34 @@ if (-not (Test-Path -Path $logFilePath)) {
     Write-Host "Log file already exists at $logFilePath" -ForegroundColor Yellow
 }
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+# Path to the C# script
+$csxScriptPath = "Tools\Global\ConfigReader.csx"
+
+# Define the parameters to pass to the C# script
+$section = "ToolPaths"
+$key = "QuickBmsExePath"
+$defaultValue = "error"
+
+# Execute the C# script using dotnet-script, passing the parameters
+$PathValue = & dotnet-script $csxScriptPath $section $key $defaultValue
+
+# Output the result from the script
+Write-Host "path from config: $PathValue" -ForegroundColor Cyan
+
+# Ensure path exists
+if ($null -ne $PathValue) {
+    if (-not (Test-Path -Path $PathValue)) {
+        Write-Error "QuickBmsExePath not found at: $PathValue"
+    }
+}
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
 # Set the paths for the BMS script and QuickBMS tool
-$quickBMS = "A:\Dev\Games\The_Simpsons_Game\tools\quickbms\quickbms.exe"
-$bmsScript = "A:\Dev\Games\The_Simpsons_Game\tools\quickbms\simpsons_str.bms"
+$quickBMS = "Tools\quickbms\quickbms.exe"
+$bmsScript = "Tools\quickbms\simpsons_str.bms"
 $sourceDirectory = $StrDirectory  # Directory containing .str files
 
 Write-Host "Starting QuickBMS processing..." -ForegroundColor Green

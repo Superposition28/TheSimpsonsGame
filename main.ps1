@@ -84,14 +84,13 @@ $menuOptions = @{
             "Args" = ""
         }
     }
-    # temporarily disabled due to issues with Noesis CLI mode
-    #"9" = @{
-    #    "Name" = "Noesis txd extraction"
-    #    "Action" = @{
-    #        "Path" = ".\Tools\process\7_Texture\TextureDics.ps1"
-    #        "Args" = '-InputFolder ".\GameFiles\Main\PS3_GAME\Flattened_OUTPUT" -OutputFolder ".\GameFiles\Main\PS3_GAME\ExtractedTextures" -NoesisPath "' + (Get-ConfigValue -Section "ToolPaths" -Key "NoesisExePath") + '" -ToolName "&Batch Export"'
-    #    }
-    #}
+    "9" = @{
+        "Name" = "Noesis txd extraction"
+        "Action" = @{
+            "Path" = ".\Tools\process\7_Texture\main.ps1"
+            "Args" = ""
+        }
+    }
     "c" = @{
         "Name" = "Clear Terminal"
         "Action" = "ClearTerminal"

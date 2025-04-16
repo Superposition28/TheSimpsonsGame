@@ -124,7 +124,7 @@ void BlenderProcessingParallel() {
                 if (assetInfo.ValueKind == JsonValueKind.Object) {
                     if (assetInfo.TryGetProperty("preinstanced_symlink", out var preinstancedSymlinkElement) &&
                         assetInfo.TryGetProperty("blend_symlink", out var blendSymlinkElement) &&
-                        assetInfo.TryGetProperty("predicted_glb_symlink", out var predictedGlbSymlinkElement)) {
+                        assetInfo.TryGetProperty("glb_symlink", out var predictedGlbSymlinkElement)) {
 
                         string preinstancedSymlink = preinstancedSymlinkElement.GetString();
                         string blendSymlink = blendSymlinkElement.GetString();
