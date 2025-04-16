@@ -76,7 +76,9 @@ At line:1 char:1
 # Option 1: Temporarily Allow Scripts (for current session only)
 
 Run this in your PowerShell window as Administrator:
-```Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process```
+```pwsh
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
+```
 
 Then try running your script again:
 ```pwsh
@@ -89,14 +91,17 @@ This method is safe and doesn't change system-wide settings.
 If you want scripts to always run for your user:
 
 ```pwsh
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
+if a message ``Do you want to change the execution policy?`` appears,
+select [A] or [Y]
 
 RemoteSigned allows local scripts to run, but requires downloaded scripts to be unblocked.
 
 to unblock run 
 ```pwsh
-Get-ChildItem -Path "C:\Path To Your Project" -Recurse -Filter *.ps1 | 
+Get-ChildItem -Path "./" -Recurse -Filter *.ps1 | Unblock-File
+Get-ChildItem -Path "./" -Recurse -Filter *.ps1 | 
     ForEach-Object {
         if ((Get-Content $_.FullName -Stream Zone.Identifier -ErrorAction SilentlyContinue) -ne $null) {
             Write-Host "Still blocked: $($_.FullName)"

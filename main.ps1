@@ -28,63 +28,63 @@ if ($null -ne $exampleResponsePathValue) {
 
 # Define the menu options and their corresponding actions
 $menuOptions = @{
-    "1" = @{
+    "01" = @{
         "Name" = "Initializes"
         "Action" = @{
             "Path" = ".\init.ps1"
             "Args" = ""
         }
     }
-    "2" = @{
+    "02" = @{
         "Name" = "Rename USRDIR Folders"
         "Action" = @{
             "Path" = ".\Tools\process\2_RenameDirs\RenameFolders.ps1"
             "Args" = ""
         }
     }
-    "3" = @{
+    "03" = @{
         "Name" = "QuickBMS STR"
         "Action" = @{
             "Path" = ".\Tools\process\3_QuickBMS\str.ps1"
             "Args" = "-OverwriteOption ""s"""
         }
     }
-    "4" = @{
+    "04" = @{
         "Name" = "Flatten Directories"
         "Action" = @{
             "Path" = ".\Tools\process\4_Flat\Flatten.ps1"
             "Args" = @("-RootDir", ".\GameFiles\Main\PS3_GAME\QuickBMS_STR_OUTPUT", "-DestinationDir", ".\GameFiles\Main\PS3_GAME\Flattened_OUTPUT")
         }
     }
-    "5" = @{
+    "05" = @{
         "Name" = "Video Conversion"
         "Action" = @{
             "Path" = ".\Tools\process\5_AudioVideo\4_Video.ps1"
             "Args" = ""
         }
     }
-    "6" = @{
+    "06" = @{
         "Name" = "Audio Conversion"
         "Action" = @{
             "Path" = ".\Tools\process\5_AudioVideo\4_Audio.ps1"
             "Args" = ""
         }
     }
-    "7" = @{
+    "07" = @{
         "Name" = "init Blender"
         "Action" = @{
             "Command" = "dotnet script Tools\process\6_Asset\init.csx"
             "Args" = ""
         }
     }
-    "8" = @{
+    "08" = @{
         "Name" = "Blender Conversion"
         "Action" = @{
             "Command" = "dotnet script Tools\process\6_Asset\blend.csx"
             "Args" = ""
         }
     }
-    "9" = @{
+    "09" = @{
         "Name" = "txd extraction initialization"
         "Action" = @{
             "Command" = "dotnet script Tools\process\7_Texture\init.csx"
