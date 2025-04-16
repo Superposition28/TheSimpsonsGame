@@ -155,7 +155,6 @@ void BlenderProcessing() {
                                             process.StartInfo = psi;
                                             process.Start();
 
-											string fullOutput = process.
                                             string output = process.StandardOutput.ReadToEnd();
                                             string error = process.StandardError.ReadToEnd();
 

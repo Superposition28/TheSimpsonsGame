@@ -350,3 +350,49 @@ try { // Wrap main logic in a try-catch block
 }
 
 Print("Script finished.", ConsoleColor.White);
+
+// Helper to log to main.log with timestamp
+void LogToFile(string message) {
+	string logPath = Path.Combine(Directory.GetCurrentDirectory(), "main.log");
+	string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+	File.AppendAllText(logPath, $"[{timestamp}] {message}{Environment.NewLine}");
+}
+
+// Open Noesis executable and provide batch instructions
+var noesisPath = "./Tools/noesis/exe/Noesis64.exe";
+if (File.Exists(noesisPath)) {
+	Print($"Opening Noesis: {noesisPath}", ConsoleColor.Cyan);
+	
+	// Launch Noesis
+	System.Diagnostics.Process.Start(noesisPath);
+	Print("Noesis launched. Please complete the batch export process manually.", ConsoleColor.Green);
+
+	// Print instructions for batch processing in Noesis
+	Print("=== Noesis Batch Processing Instructions ===", ConsoleColor.DarkCyan);
+	Print("1. Click 'Tools' > 'Batch Process'.", ConsoleColor.DarkCyan);
+	Print("2. In the batch process window, set the following:", ConsoleColor.DarkCyan);
+	Print("   - Input extension:      txd", ConsoleColor.DarkCyan);
+	Print("   - Output extension:     png", ConsoleColor.DarkCyan);
+	Print("   - Output path:          $inpath$\\$inname$.txd_files\\$inname$out.$outext$", ConsoleColor.DarkCyan);
+	Print("   - Check 'Recursive'.", ConsoleColor.DarkCyan);
+	Print("3. Click 'Folder Batch' and select the folder:", ConsoleColor.DarkCyan);
+	Print($"   {Path.Combine(Path.GetPathRoot(Directory.GetCurrentDirectory()), "TMP_TSG_LNKS_TXD")}", ConsoleColor.Cyan);
+	Print("4. Click 'Export' to begin the conversion process.", ConsoleColor.DarkCyan);
+	Print("============================================", ConsoleColor.DarkCyan);
+
+	// Prompt: Wait for user to confirm they're ready to start batch process
+	Print("Press ENTER once you've configured the settings and are ready to start the batch process in Noesis...", ConsoleColor.White);
+	Console.ReadLine(); // Wait for confirmation to begin
+	LogToFile("User confirmed start of batch process in Noesis.");
+
+	// Prompt: Wait for user to confirm batch process is finished
+	Print("Press ENTER once the batch processing in Noesis is completed...", ConsoleColor.White);
+	Console.ReadLine(); // Wait for confirmation that batch export is done
+	LogToFile("User confirmed completion of batch process in Noesis.");
+
+	Print("Batch processing confirmed complete.", ConsoleColor.Green);
+
+} else {
+	Print($"Noesis executable not found at: {noesisPath}", ConsoleColor.Red);
+	LogToFile($"ERROR: Noesis executable not found at: {noesisPath}");
+}

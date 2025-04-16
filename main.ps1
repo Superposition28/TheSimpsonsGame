@@ -87,14 +87,14 @@ $menuOptions = @{
     "09" = @{
         "Name" = "txd extraction initialization"
         "Action" = @{
-            "Command" = "dotnet script Tools\process\7_Texture\init.csx"
+            "Command" = "dotnet script Tools\process\9_Texture\init.csx"
             "Args" = ""
         }
     }
 	"10" = @{
 		"Name" = "Noesis txd directory"
 		"Action" = @{
-			"Path" = ".\Tools\process\7_Texture\copy.ps1"
+			"Path" = ".\Tools\process\9_Texture\copy.ps1"
 			"Args" = "-Convert"
 		}
 	}

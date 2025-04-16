@@ -20,7 +20,7 @@ $csxScriptPath = "Tools\Global\ConfigReader.csx"
 
 # Define the parameters to pass to the C# script
 $section = "ToolPaths"
-$key = "vgmstreamExePath"
+$key = "vgmstream-cliExePath"
 $defaultValue = "vgmstream-cli"
 
 # Execute the C# script using dotnet-script, passing the parameters
