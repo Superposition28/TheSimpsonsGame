@@ -6,33 +6,32 @@ This project aims to automate the process of extracting and converting assets fr
 
 ## Features
 
-* **Automated Initialization:** Sets up the necessary environment and tools for the extraction process.
-* **Asset Conversion:** Converts extracted files (audio, video, textures, 3D models) into modern compatible formats.
-
-"Initializes",            # gets everything ready
-"QuickBMS STR",           # extracts content from STR archive files
-"Rename Folders",         # renames the main output folders to be more human-readable
-"Flatten Directories",    # flattens the directory structure
-"Audio/Video Conversion", # converts audio and video files to a usable format
-"Assets to Blender",      # uses Blender to convert the assets to a usable format (.glb)
-"Noesis TXD extraction"   # extracts textures from the .txd files using Noesis, broken for now
+*   **Automated Initialization:** Sets up the necessary environment and tools for the extraction process.
+*   **Asset Conversion:**         Converts extracted files (audio, video, textures, 3D models) into modern compatible formats.
+*   "Initializes",                gets everything ready
+*   "QuickBMS STR",               extracts content from STR archive files
+*   "Rename Folders",             renames the main output folders to be more human-readable
+*   "Flatten Directories",        flattens the directory structure
+*   "Audio/Video Conversion",     converts audio and video files to a usable format
+*   "Assets to Blender",          uses Blender to convert the assets to a usable format (.glb)
+*   "Noesis TXD extraction"       extracts textures from the .txd files using Noesis, broken for now
 
 ## Prerequisites
 
 Before you begin, ensure you have the following installed and set up:
 
-* **Operating System:** only tested on Windows, should be possible on Mac/Linux with minimal changes
-* **PowerShell:** only tested on PowerShell 7.5.0
-* **.NET:** only tested on .NET 9.0.201
-* **dotnet-script:** ```dotnet tool install -g dotnet-script```
-* **Python:** good question
-* **QuickBMS:** [\[Download QuickBMS as it's a core dependency\]](https://aluigi.altervista.org/quickbms.htm)
-* **Noesis:** [\[Download Noesis as required for textures\]](https://richwhitehouse.com/index.php?content=inc_projects.php&showproject=91)
-* **Blender:** must Download [Blender 4.0.2](https://download.blender.org/release/Blender4.0/), Blender 4.0 or older, to 2.8, is required for the conversion to work.
-* **Game Files:** You will need a copy of "The Simpsons Game" game files for the target platform.
-* **ffmpeg:** this is used for conversion of proprietary video .vp6 into (.ogv, or any others), use ```winget install ffmpeg``` from https://www.gyan.dev/ffmpeg/builds/#libraries, https://www.ffmpeg.org/download.html
-* **vgmstream-cli:** Download [\[r1980\]](https://github.com/vgmstream/vgmstream/releases/tag/r1980) this is used for conversion of proprietary audio .snu into (.wav, or any others)
-* **WinRar:** used by the initializer to automatically extract the ISO file
+*   **Operating System:** only tested on Windows, should be possible on Mac/Linux with minimal changes
+*   **PowerShell:** only tested on PowerShell 7.5.0
+*   **.NET:** only tested on .NET 9.0.201
+*   **dotnet-script:** ```dotnet tool install -g dotnet-script```
+*   **Python:** Required for some Noesis plugins. Ensure Python is installed and added to your system's PATH.
+*   **QuickBMS:** [Download QuickBMS](https://aluigi.altervista.org/quickbms.htm) as it's a core dependency.
+*   **Noesis:** [Download Noesis](https://richwhitehouse.com/index.php?content=inc_projects.php&showproject=91) as required for textures.
+*   **Blender:** Download [Blender 4.0.2](https://download.blender.org/release/Blender4.0/). Blender 4.0 or older (down to 2.8) is required for the conversion to work.
+*   **Game Files:** You will need a copy of "The Simpsons Game" game files for the target platform.
+*   **ffmpeg:** This is used for conversion of proprietary video .vp6 into (.ogv, or any others). Use ```winget install ffmpeg``` from [https://www.gyan.dev/ffmpeg/builds/#libraries](https://www.gyan.dev/ffmpeg/builds/#libraries) or [https://www.ffmpeg.org/download.html](https://www.ffmpeg.org/download.html).
+*   **vgmstream-cli:** Download [vgmstream-cli r1980](https://github.com/vgmstream/vgmstream/releases/tag/r1980). This is used for conversion of proprietary audio .snu into (.wav, or any others).
+*   **WinRar:** Used by the initializer to automatically extract the ISO file.
 
 50GB of free space
 
@@ -52,13 +51,14 @@ Then, select each option in order:
 
 **[0] Run all scripts**
 
-**[1] Initializes (PowerShell, `init.ps1`)**
+**[1] Initialize (PowerShell, `init.ps1`)**
 
 This step ensures all programs exist. It generates `config.ini` and the `GameFiles\Main\` directory. It registers all programs needed in the config file to be accessed by subsequent scripts (currently, only the Blender script uses this). It extracts the ISO contents using WinRar into `GameFiles\Main\`. The ISO file should contain `\PS3_GAME\USRDIR\` and other unimportant files (`\PS3_UPDATE`, `PS3_DISC.SFB`).
 
 **[2] Rename USRDIR Folders (PowerShell, `RenameFolders.ps1`)**
 
 This renames the directories in the game's root folder, as their original names are not descriptive. There are two kinds of folders: Levels and Assets.
+
 *   4 asset folders: video, audio, characters, frontend
 *   18 Map folders: For some reason, a number of Game Levels are separated as more than one root Map folder.
 
@@ -100,6 +100,7 @@ To extract the PNG files from TXD dictionaries:
 2.  Open `Noesis64.exe`.
 3.  Click 'Tools', then 'Batch Process'.
 4.  In the batch process window, set:
+
     *   Input extension: `txd`
     *   Output extension: `png`
     *   Output path: `$inpath\$inname$.txd_files\$inname$out.$outext$`
@@ -109,8 +110,6 @@ To extract the PNG files from TXD dictionaries:
 
 When complete, run option `10` in the main script menu, and all PNG files should now be in `TEXTURES_OUTPUT`.
 
-
-
 ## Obligatory Legal Disclaimer
 
 **Please read this disclaimer carefully before using this software.**
@@ -119,10 +118,10 @@ This project provides code that automates the process of extracting assets (3D m
 
 **Key Points to Understand:**
 
-* **Requires Ownership of the Game:** This tool requires you to possess your own legally obtained ISO copy of "The Simpsons Game" for the PlayStation 3. It does not provide access to the game files themselves.
-* **Respect Copyright:** The assets extracted from "The Simpsons Game" are copyrighted by Electronic Arts (EA) and Disney. This tool is provided solely to facilitate personal exploration and modification of assets from a game you legally own. You are solely responsible for ensuring your use of these assets complies with all applicable copyright laws and the game's End User License Agreement (EULA) or Terms of Service.
-* **No Distribution of Assets:** This project does not involve the distribution of any copyrighted game assets. It only provides the code to automate the extraction process from your own game files.
-* **Compliance with Takedown Requests:** The developer of this project respects the intellectual property rights of EA and Disney. If either Electronic Arts or Disney (or their legal representatives) requests the removal of this code, the developer will promptly comply.
+*   **Requires Ownership of the Game:** This tool requires you to possess your own legally obtained ISO copy of "The Simpsons Game" for the PlayStation 3. It does not provide access to the game files themselves.
+*   **Respect Copyright:** The assets extracted from "The Simpsons Game" are copyrighted by Electronic Arts (EA) and Disney. This tool is provided solely to facilitate personal exploration and modification of assets from a game you legally own. You are solely responsible for ensuring your use of these assets complies with all applicable copyright laws and the game's End User License Agreement (EULA) or Terms of Service.
+*   **No Distribution of Assets:** This project does not involve the distribution of any copyrighted game assets. It only provides the code to automate the extraction process from your own game files.
+*   **Compliance with Takedown Requests:** The developer of this project respects the intellectual property rights of EA and Disney. If either Electronic Arts or Disney (or their legal representatives) requests the removal of this code, the developer will promptly comply.
 
 **By using this software, you acknowledge that you have read and understood this disclaimer and agree to use it responsibly and in accordance with all applicable laws and terms of service.**
 
