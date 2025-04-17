@@ -1,5 +1,3 @@
-
-
 ### `GameFiles\Main\PS3_GAME\USRDIR`
 
 This directory mirrors the `USRDIR` directory from the PS3 game's file structure, extracted from the ISO. It contains the original game assets, including audio, video, character models, and level data, all stored in various proprietary formats.
@@ -20,50 +18,50 @@ Extension       | Percent   | Size          | Allocated     | Files   | File Typ
 After running the `[2] QuickBMS STR`, this directory will be populated with the contents extracted from the game's `.str` archive files.
 These archives contain a wide variety of game assets, and extracting them is a crucial step in accessing the individual files.
 
-|Extension|        | Percent | Size          | Allocated     | Files | Initial Label / Hypothesis | Known Purpose                 | Further Research                                               |
-| --------------- | -------  | ------------- | ------------- | ----- | -------------------------- | ----------------------------- | ---------------------------------------------------------------|-|
-| .vfb            || 0.390   | 7,079,628     | 10,629,120    | 8,770 | RenderWare Visual Effects  | —                             | Examine headers, consult RenderWare/PS3 communities.           |
-| .preinstanced   || 40.562  | 1,095,487,331 | 1,106,362,368 | 5,533 | Compressed 3D Assets       | 3D Assets                     | Investigate RenderWare compression methods, use Blender plugin.|
-|| .rws.ps3.preinstanced |   |               |               | 3,499 | Compressed 3D Assets       | 3D Assets                     | Likely refers to RenderWare Stream files, which are used to store 3D model data, textures, and other game assets in a serialized format.|
-|| .dff.ps3.preinstanced |   |               |               | 2,034 | Compressed 3D Assets       | 3D Assets                     | Refers to RenderWare's "Dynamic Fragment Format," which is used to store 3D geometry, including meshes, vertex data, and material information.|
-| .ps3            || 12.351  | 328,796,260   | 336,875,520   | 4,962 | Unknown (Asset/Metadata)   | —                             | Examine headers, compare content.                              |
-|| .rcb.ps3       |          |               |               | 1226  |                            |                               |                                                                |
-|| .bnk.ps3       |          |               |               | 1213  |                            |                               |                                                                |
-|| .hko.ps3       |          |               |               | 1021  |                            |                               |                                                                |
-|| .hkt.ps3       |          |               |               | 878   |                            |                               |                                                                |
-|| .acs.ps3       |          |               |               | 267   |                            |                               |                                                                |
-|| .xml.ps3       |          |               |               | 153   |                            |                               |                                                                |
-|| .bbn.ps3       |          |               |               | 110   |                            |                               |                                                                |
-|| .tox.ps3       |          |               |               | 77    |                            |                               |                                                                |
-|| .shk.ps3       |          |               |               | 16    |                            |                               |                                                                |
-|| .cec.ps3       |          |               |               | 1     |                            |                               |                                                                |
-| .xml            || 0.092   | 1,751,756     | 2,519,040     | 2,617 | Configuration Data         | —                             | Inspect content for recognizable structures.                   |
-|| .meta.xml      |          |               |               | 2,616 |                            |                               |                                                                |
-| .txd            || 26.034  | 708,266,804   | 710,103,040   | 858   | Texture Dictionaries       | Texture Dictionaries          | Use Noesis with Python plugin.                                 |
-| .lh2            || 0.242   | 5,698,228     | 6,590,464     | 594   | Game Text Strings          | —                             | Try LHA decompression tools.                                   |
-|| .en.lh2        |          |               |               | 20    |                            |                               |                                                                |
-|| .ss.lh2        |          |               |               | 20    |                            |                               |                                                                |
-| .alb            || 0.031   | 348,224       | 843,776       | 529   | Unknown (Likely Audio)     | —                             | Broaden search for PS3 audio formats.                          |
-| .ctb            || 0.042   | 518,464       | 1,134,592     | 528   | Unknown                    | —                             | Consider RenderWare plugins or custom data.                    |
-| .dat            || 0.240   | 6,320,692     | 6,537,216     | 435   | Unknown (Generic Data)     | —                             | Examine headers, try generic archive tools.                    |
-| .graph          || 0.577   | 15,260,938    | 15,749,120    | 425   | Unknown (Graph Data)       | —                             | Explore RenderWare scene graph documentation.                  |
-| .rcm_b          || 0.000   | 63,376        | 4,096         | 346   | Unknown                    | —                             | Continue searching PS3 file format databases.                  |
-| .sbk            || 15.300  | 416,991,600   | 417,337,344   | 156   | Unknown (Likely Audio)     | —                             | Research sound data formats in PS3 games.                      |
-| .bsp            || 0.080   | 1,973,507     | 2,191,360     | 113   | Unknown (Level Geometry?)  | —                             | Investigate RenderWare support for .bsp or similar formats.    |
-| .smb            || 0.057   | 1,440,576     | 1,560,576     | 99    | Unknown (Model Data?)      | —                             | Research game model formats on PS3.                            |
-| .mib            || 0.013   | 221,652       | 348,160       | 89    | Unknown (Likely Audio)     | —                             | Research audio formats recognized by VGMStream.                |
-| .amb            || 3.551   | 96,751,848    | 96,849,920    | 58    | Unknown (Likely Audio)     | —                             | Research ambient sound formats.                                |
-| .uix            || 0.360   | 9,719,256     | 9,830,400     | 54    | Unknown (UI Related)       | —                             | Investigate UI middleware used in PS3 games.                   |
-| (No Extension)  || 0.001   | 9,911         | 16,384        | 47    | Unknown                    | —                             | Examine headers, use file identification tools.                |
-| .imb            || 0.026   | 615,440       | 720,896       | 44    | Unknown                    | —                             | Broaden search for PS3 game asset formats.                     |
-| .toc            || 0.003   | 51,288        | 94,208        | 25    | Unknown (Index)            | —                             | Analyze content for file offsets or names.                     |
-| .str.occ.toc    |          |               |               | 5     |                            |                               |                                                                |
-| .msb            || 0.007   | 136,140       | 180,224       | 19    | Unknown (Likely Audio)     | —                             | Confirm association with EA Redwood Shores' audio format.      |
-| .inf            || 0.003   | 75,525        | 90,112        | 12    | Unknown (Information)      | —                             | Examine content for metadata or setup instructions.            |
-| .aub            || 0.001   | 14,664        | 16,384        | 2     | Unknown                    | —                             | Broaden search for PS3 game asset formats.                     |
-| .bin            || 0.038   | 1,025,512     | 1,028,096     | 2     | Unknown                    | —                             | Explore generic binary format tools.                           |
-| .hud.bin        |          |               |               | 2     |                            |                               |                                                                |
-| .txt            || 0.000   | 158           | 0             | 2     | Unknown                    | —                             | Likely placeholder or leftover debug text.                     |
+|Extension|        | Percent | Files | Initial Label / Hypothesis | Known Purpose                 | Summary                                                        |
+| --------------- | -------  | ------------- | ----- | -------------------------- | ----------------------------- | ---------------------------------------------------------------|-|
+| .vfb            || 0.390   | 8,770 | RenderWare Visual Effects  | —                             | Examine headers, consult RenderWare/PS3 communities.           |
+| .preinstanced   || 40.562  | 5,533 | Compressed 3D Assets       | 3D Assets                     | Investigate RenderWare compression methods, use Blender plugin.|
+|| .rws.ps3.preinstanced |   | 3,499 | Compressed 3D Assets       | 3D Assets                     | RenderWare Scene, static assets ie: world chunks or props      |
+|| .dff.ps3.preinstanced |   | 2,034 | Compressed 3D Assets       | 3D Assets                     | Dynamic Fragment Format, dynamic assets ie: Character models or complex props |
+| .ps3            || 12.351  | 4,962 | Unknown (Asset/Metadata)   | —                             | Examine headers, compare content.                              |
+|| .rcb.ps3       |          | 1226  |                            |                               |                                                                |
+|| .bnk.ps3       |          | 1213  |                            |                               |                                                                |
+|| .hko.ps3       |          | 1021  |                            |                               |                                                                |
+|| .hkt.ps3       |          | 878   |                            |                               |                                                                |
+|| .acs.ps3       |          | 267   |                            |                               |                                                                |
+|| .xml.ps3       |          | 153   |                            |                               |                                                                |
+|| .bbn.ps3       |          | 110   |                            |                               |                                                                |
+|| .tox.ps3       |          | 77    |                            |                               |                                                                |
+|| .shk.ps3       |          | 16    |                            |                               |                                                                |
+|| .cec.ps3       |          | 1     |                            |                               |                                                                |
+| .xml            || 0.092   | 2,617 | Configuration Data         | —                             | Inspect content for recognizable structures.                   |
+|| .meta.xml      |          | 2,616 |                            |                               |                                                                |
+| .txd            || 26.034  | 858   | Texture Dictionaries       | Texture Dictionaries          | Use Noesis with Python plugin.                                 |
+| .lh2            || 0.242   | 594   | Game Text Strings          | —                             | Try LHA decompression tools.                                   |
+|| .en.lh2        |          | 20    |                            |                               |                                                                |
+|| .ss.lh2        |          | 20    |                            |                               |                                                                |
+| .alb            || 0.031   | 529   | Unknown (Likely Audio)     | —                             | Broaden search for PS3 audio formats.                          |
+| .ctb            || 0.042   | 528   | Unknown                    | —                             | Consider RenderWare plugins or custom data.                    |
+| .dat            || 0.240   | 435   | Unknown (Generic Data)     | —                             | Examine headers, try generic archive tools.                    |
+| .graph          || 0.577   | 425   | Unknown (Graph Data)       | —                             | Explore RenderWare scene graph documentation.                  |
+| .rcm_b          || 0.000   | 346   | Unknown                    | —                             | Continue searching PS3 file format databases.                  |
+| .sbk            || 15.300  | 156   | Unknown (Likely Audio)     | —                             | Research sound data formats in PS3 games.                      |
+| .bsp            || 0.080   | 113   | Unknown (Level Geometry?)  | —                             | Investigate RenderWare support for .bsp or similar formats.    |
+| .smb            || 0.057   | 99    | Unknown (Model Data?)      | —                             | Research game model formats on PS3.                            |
+| .mib            || 0.013   | 89    | Unknown (Likely Audio)     | —                             | Research audio formats recognized by VGMStream.                |
+| .amb            || 3.551   | 58    | Unknown (Likely Audio)     | —                             | Research ambient sound formats.                                |
+| .uix            || 0.360   | 54    | Unknown (UI Related)       | —                             | Investigate UI middleware used in PS3 games.                   |
+| (No Extension)  || 0.001   | 47    | Unknown                    | —                             | Examine headers, use file identification tools.                |
+| .imb            || 0.026   | 44    | Unknown                    | —                             | Broaden search for PS3 game asset formats.                     |
+| .toc            || 0.003   | 25    | Unknown (Index)            | —                             | Analyze content for file offsets or names.                     |
+| .str.occ.toc    |          | 5     |                            |                               |                                                                |
+| .msb            || 0.007   | 19    | Unknown (Likely Audio)     | —                             | Confirm association with EA Redwood Shores' audio format.      |
+| .inf            || 0.003   | 12    | Unknown (Information)      | —                             | Examine content for metadata or setup instructions.            |
+| .aub            || 0.001   | 2     | Unknown                    | —                             | Broaden search for PS3 game asset formats.                     |
+| .bin            || 0.038   | 2     | Unknown                    | —                             | Explore generic binary format tools.                           |
+| .hud.bin        |          | 2     |                            |                               |                                                                |
+| .txt            || 0.000   | 2     | Unknown                    | —                             | Likely placeholder or leftover debug text.                     |
 
 
 ### `GameFiles\Main\PS3_GAME\Flattened_OUTPUT`

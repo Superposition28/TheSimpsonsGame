@@ -73,7 +73,7 @@ $menuOptions = @{
     "07" = @{
         "Name" = "init Blender"
         "Action" = @{
-            "Command" = "dotnet script Tools\process\6_Asset\init.csx"
+            "Command" = "dotnet script .\Tools\process\6_Asset\init.csx"
             "Args" = ""
         }
     }

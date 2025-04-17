@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
-using System.Text.Encodings.Web;
 
 // This script automates the process of mapping game assets (preinstanced, blend, and glb files)
 // and creating symbolic links to these assets in a structured directory.
@@ -471,10 +470,7 @@ try { // Wrap main logic in a try-catch block
 
     // Save the initial asset map to a JSON file (optional, could be removed if only final map is needed)
     Print($"--- Saving initial asset map to: {outputFile} ---", ConsoleColor.DarkYellow);
-    var options = new JsonSerializerOptions { 
-        WriteIndented = true,
-        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping // Prevent Unicode escaping
-    }; // Define options here
+    var options = new JsonSerializerOptions { WriteIndented = true }; // Define options here
     try {
         var initialJsonString = JsonSerializer.Serialize(assetMap, options);
         File.WriteAllText(outputFile, initialJsonString);

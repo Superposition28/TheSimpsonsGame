@@ -13,28 +13,28 @@ $renameMap = @{
     "frontend"                  = "Assets_2_Frontend"
     "simpsons_chars"            = "Assets_2_Characters_Simpsons"
 
-    "spr_hub"                   = "Maps_3-00_SprHub"                    # Springfield ?
+    "spr_hub"                   = "Map_3-00_SprHub"                    # Springfield ?
 
-    "loc"                       = "Maps_3-01_LandOfChocolate"           # 2.1 The Land of Chocolate
-    "brt"                       = "Maps_3-02_BartmanBegins"             # 2.2 Bartman Begins
-    "eighty_bites"              = "Maps_3-03_HungryHungryHomer"         # 2.3 Around the World in 80 Bites
-    "tree_hugger"               = "Maps_3-04_TreeHugger"                # 2.4 Lisa the Tree Hugger
-    "mob_rules"                 = "Maps_3-05_MobRules"                  # 2.5 Mob Rules
-    "cheater"                   = "Maps_3-06_EnterTheCheatrix"          # 2.6 Enter the Cheatrix
-    "dayofthedolphins"          = "Maps_3-07_DayOfTheDolphin"           # 2.7 The Day of the Dolphin
-    "colossaldonut"             = "Maps_3-08_TheColossalDonut"          # 2.8 Shadow of the Colossal Donut
-    "dayspringfieldstoodstill"  = "Maps_3-09_Invasion"                  # 2.9 Invasion of the Yokel-Snatchers ?
-    "bargainbin"                = "Maps_3-10_BargainBin"                # 2.10 Bargain Bin
+    "loc"                       = "Map_3-01_LandOfChocolate"           # 2.1 The Land of Chocolate
+    "brt"                       = "Map_3-02_BartmanBegins"             # 2.2 Bartman Begins
+    "eighty_bites"              = "Map_3-03_HungryHungryHomer"         # 2.3 Around the World in 80 Bites
+    "tree_hugger"               = "Map_3-04_TreeHugger"                # 2.4 Lisa the Tree Hugger
+    "mob_rules"                 = "Map_3-05_MobRules"                  # 2.5 Mob Rules
+    "cheater"                   = "Map_3-06_EnterTheCheatrix"          # 2.6 Enter the Cheatrix
+    "dayofthedolphins"          = "Map_3-07_DayOfTheDolphin"           # 2.7 The Day of the Dolphin
+    "colossaldonut"             = "Map_3-08_TheColossalDonut"          # 2.8 Shadow of the Colossal Donut
+    "dayspringfieldstoodstill"  = "Map_3-09_Invasion"                  # 2.9 Invasion of the Yokel-Snatchers ?
+    "bargainbin"                = "Map_3-10_BargainBin"                # 2.10 Bargain Bin
 
-    "gamehub"                   = "Maps_3-00_GameHub"                   # Game Engine ? The Game Hub is a place in The Simpsons Game after completing the level Bargain Bin. It is where you go into the new and old simpsons games that are been/being created 
+    "gamehub"                   = "Map_3-00_GameHub"                   # Game Engine ? The Game Hub is a place in The Simpsons Game after completing the level Bargain Bin. It is where you go into the new and old simpsons games that are been/being created 
     
-    "neverquest"                = "Maps_3-11_NeverQuest"                # 2.11 NeverQuest
-    "grand_theft_scratchy"      = "Maps_3-12_GrandTheftScratchy"        # 2.12 Grand Theft Scratchy
-    "medal_of_homer"            = "Maps_3-13_MedalOfHomer"              # 2.13 Medal of Homer
-    "bigsuperhappy"             = "Maps_3-14_BigSuperHappy"             # 2.14 Big Super Happy Fun Fun Game
+    "neverquest"                = "Map_3-11_NeverQuest"                # 2.11 NeverQuest
+    "grand_theft_scratchy"      = "Map_3-12_GrandTheftScratchy"        # 2.12 Grand Theft Scratchy
+    "medal_of_homer"            = "Map_3-13_MedalOfHomer"              # 2.13 Medal of Homer
+    "bigsuperhappy"             = "Map_3-14_BigSuperHappy"             # 2.14 Big Super Happy Fun Fun Game
 
-    "rhymes"                    = "Maps_3-15_Rhymes"                    # 2.15 Five Characters in Search of an Author ?
-    "meetthyplayer"             = "Maps_3-16_MeetThyPlayer"             # 2.16 Game Over ?
+    "rhymes"                    = "Map_3-15_Rhymes"                    # 2.15 Five Characters in Search of an Author ?
+    "meetthyplayer"             = "Map_3-16_MeetThyPlayer"             # 2.16 Game Over ?
 }
 
 # Initialize counters for debugging
