@@ -39,16 +39,7 @@ TBA
 
 ## Setup
 
-install all prerequisites
 
-download this repo using the web or git clone
-web select ``<> Code`` button then ``Download Zip``
-open zip folder and copy contents of TheSimpsonsGame-main\ into your project folder
-
-or using git clone
-```pwsh
-git clone https:\\
-```
 
 open ``Windows Powershell`` and navigate to the project folder
 then run 
