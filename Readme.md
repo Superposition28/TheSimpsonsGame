@@ -173,6 +173,7 @@ To extract the PNG files from TXD dictionaries:
     *   Input extension: `txd`
     *   Output extension: `png`
     *   Output path: `$inpath$\$inname$.txd_files\$inname$out.$outext$`
+	*            or: `$inpath$\$inname$.txd_file_$inname$out.$outext$`
 5.  Enable Recursive.
 6.  Click 'Folder batch' and select the `TMP_TSG_LNKS_TXD` folder located at the root of your drive, where the prior script was executed.
 7.  Then click Export.
