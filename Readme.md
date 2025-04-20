@@ -18,6 +18,18 @@ This project takes the files from the PS3 version of "The Simpsons Game" (2007) 
 
 ## Getting Started
 
+Clone the repo with submodules:
+
+```pwsh
+git clone --recurse-submodules https://github.com/your-username/my-main-repo.git
+```
+
+Or if you've already cloned it:
+
+```pwsh
+git submodule update --init --recursive
+```
+
 
 ## Prerequisites
 
