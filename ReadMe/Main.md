@@ -3,15 +3,15 @@
 The GameFiles
 stored as:
 
-| Extension       | Percent   | Files   | Assumed Purpose                                   | Known Purpose                                     | Summary |
-| --------------- | --------- | ------- | ------------------------------------------------- | ------------------------------------------------- |         |
+| Extension       | Percent   | Files   | Assumed Purpose                                   | Known Purpose                                     | Summary                                                    |
+| --------------- | --------- | ------- | ------------------------------------------------- | ------------------------------------------------- | ---------------------------------------------------------- |
 | .exa.snu        | 20.778    | 29,430  | Audio files                                       | Audio files                                       | Size: 2,379,597,360 bytes (Allocated: 2,439,372,800 bytes) |
 | .str            | 10.459    | 550     | Archive format                                    | archive containing main game assets/files         | Size: 1,197,807,616 bytes (Allocated: 1,198,415,872 bytes) |
 | .vp6            | 50.835    | 172     | Videos for pre-animated cutscenes                 | "Movies"                                          | Size: 5,821,886,960 bytes (Allocated: 5,822,251,008 bytes) |
 | .mus            | 17.805    | 17      | Unknown                                           |                                                   | Size: 2,039,098,368 bytes (Allocated: 2,039,132,160 bytes) |
-| .lua            | 0.001     | 3       | Lua source file                                   |                                                   | Size: 87,824 bytes (Allocated: 94,208 bytes)              |
-| .bin            | 0.123     | 1       | BIN file                                          |                                                   | Size: 14,073,144 bytes (Allocated: 14,073,856 bytes)      |
-| .txt            | 0.000     | 1       |                                                   |                                                   | Size: 128 bytes (Allocated: 0 bytes)                      |
+| .lua            | 0.001     | 3       | Lua source file                                   |                                                   | Size: 87,824 bytes (Allocated: 94,208 bytes)               |
+| .bin            | 0.123     | 1       | BIN file                                          |                                                   | Size: 14,073,144 bytes (Allocated: 14,073,856 bytes)       |
+| .txt            | 0.000     | 1       |                                                   |                                                   | Size: 128 bytes (Allocated: 0 bytes)                       |
 
 
 ### `GameFiles\Main\PS3_GAME\QuickBMS_STR_OUTPUT`
