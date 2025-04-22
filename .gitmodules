@@ -13,3 +13,6 @@
 [submodule "Modules/Texture"]
 	path = Modules/Texture
 	url = https://github.com/Superposition28/Texture_Assets.git
+[submodule "Modules/Godot"]
+	path = Modules/Godot
+	url = https://github.com/Superposition28/Godot_Game.git
