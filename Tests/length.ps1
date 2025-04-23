@@ -18,7 +18,7 @@ Get-ChildItem -Path $rootPath -Recurse -Filter *.txd -File | ForEach-Object {
         $results += [PSCustomObject]@{
             Length    = $length
             ShortPath = "...\$shortPath"
-		}
+        }
     }
 }
 
