@@ -1,24 +1,36 @@
-GameFiles
+# Build/Game artifacts
+GameFiles/
+Game/
+
+# Configuration/History
 *.ini
 .history
+config.ini
 
-.vscode
-.VSCodeCounter
+# IDE/Editor specific
+.vscode/
+.VSCodeCounter/
+
+# Logs
 *.log
+main.log
 
+# Tools executables/scripts/temp
 Tools/quickbms/*.exe
 Tools/quickbms/*.bat
 Tools/quickbms/*.ps1
 Tools/quickbms/*.txt
+Tools/blender/exe/
 
-Tools/blender/exe
+# Temporary/Backup
+old/
 
-old
-
+# Asset/Texture mapping
 texture_mapping.json
 asset_mapping.json
 
-main.log
-config.ini
+# Python cache
+__pycache__/
+*.pyc
 
-AssetHandlerMini
+
