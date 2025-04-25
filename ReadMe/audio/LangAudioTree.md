@@ -1,7 +1,7 @@
 
 `\GAMEFILES\USRDIR\ASSETS_1_AUDIO_STREAMS\EN`
 
-# English Voice Lines
+# All Voice Lines
 
 ## 01_xxx_0
  ### Name: Unidentified Alien, Level: TBD, Note: ''
@@ -49,9 +49,9 @@
 *    d_dman_xxx_#######.exa.snu
 
 ## ar_xxx_0
- ### Name: Charlie (SNPP, Level: TBD, Note: '' ?, Level: TBD, Note: ''
+ ### Name: Charlie SNPP, Level: TBD, Note: ''
 *    d_char_xxx_#######.exa.snu
- ### Name: Maze Announcer voice, Level: TBD, Note: '' from NeverQuest in topdown view dungeon section
+ ### Name: Maze Announcer voice, Level: NeverQuest - Dungeon, Note: 'from NeverQuest in topdown view dungeon section'
 *    d_gnar_xxx_#######.exa.snu
 
 ## av_xxx_0
@@ -63,27 +63,27 @@
 *    d_jmbo_xxx_#######.exa.snu
 
 ## cb_xxx_0
- ### Name: Chocolate Bunny, Level: TBD, Note: ''
+ ### Name: Chocolate Bunny, Level: Land_Of_Chocolate, Note: ''
 *    d_chcb_xxx_#######.exa.snu
 
 ## cg_xxx_0
- ### Name: Itchy the Mouse, Level: TBD, Note: '' from Grand Theft Scratchy?
+ ### Name: Itchy the Mouse, Level: TBD, Note: 'from Grand Theft Scratchy?'
 *    d_itcg_xxx_#######.exa.snu
 
 ## ch_xxx_0
- ### Name: Poochie the Dog, Level: TBD, Note: '' from Grand Theft Scratchy?
+ ### Name: Poochie the Dog, Level: TBD, Note: 'from Grand Theft Scratchy?'
 *    d_poch_xxx_#######.exa.snu
 
 ## cl_xxx_0
- ### Name: Horatio Peter McCallister, Level: TBD, Note: '' sea captain
+ ### Name: Horatio Peter McCallister, Level: TBD, Note: 'sea captain'
 *    d_mccl_xxx_#######.exa.snu
 
 ## co_xxx_0
-### Name: Stu Discothèque, Level: TBD, Note: '' Disco Stu
+### Name: Stu Discothèque, Level: TBD, Note: 'Disco Stu'
 *    d_dsco_xxx_#######.exa.snu
 
 ## cp_xxx_0
- ### Name: Itchy the Mouse, Level: TBD, Note: '' from Grand Theft Scratchy?
+ ### Name: Itchy the Mouse, Level: TBD, Note: 'from Grand Theft Scratchy?'
 *    d_itcp_xxx_#######.exa.snu
 
 ## df_xxx_0
@@ -185,13 +185,13 @@
 ## igc01.ex
  ### Name: CUTSCENE, Level: Bartman_Begins, Note: 'Cutscene where Bart and Homer encounter bullies robbing museum'
 *    brt_igc01.exa.snu
- ### Name: CUTSCENE, Level: , Note: ''
+
 *    moh_igc01.exa.snu
- ### Name: CUTSCENE, Level: , Note: ''
+
 *    rwc_igc01.exa.snu
 
 ## igc01b.e
- ### Name: CUTSCENE, Level: Big_Super_Happy_Fun_Fun_Game, Note: 'realease of mr sparkle'
+ ### Name: CUTSCENE, Level: Big_Super_Happy_Fun_Fun_Game, Note: 'release of mr sparkle'
 *    bsh_igc01b.exa.snu
 
 ## igc02.ex
@@ -327,6 +327,7 @@
 *    d_grmp_xxx_#######.exa.snu
 
 ## mr_xxx_0
+ ### Name: Homer Simpsons, Level: Global, Note: 'contains 668 voice lines for Homer'
 *    d_homr_xxx_#######.exa.snu
 
 ## ms_xxx_0
@@ -469,7 +470,7 @@
 
 ## wm_xxx_0
 *    d_frwm_xxx_#######.exa.snu
-\---yr_xxx_0
-        d_lwyr_xxx_#######.exa.snu
-        d_mayr_xxx_#######.exa.snu
-        
+
+## yr_xxx_0
+*    d_lwyr_xxx_#######.exa.snu
+*    d_mayr_xxx_#######.exa.snu
