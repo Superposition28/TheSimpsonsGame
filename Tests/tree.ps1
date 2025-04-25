@@ -4,6 +4,10 @@ function Show-Tree {
         [Parameter(Mandatory=$true, Position=0)]
         [string]$Path,
 
+        # Optional parameter to filter by file extension
+        [Parameter(Mandatory=$false)]
+        [string]$Extension,
+
         # Internal use parameters for recursion
         [string]$IndentPrefix = "",
         [switch]$IsRoot = $true
@@ -50,16 +54,27 @@ function Show-Tree {
         if ($item.PSIsContainer) {
             # Print directory line
             $outputLines.Add($IndentPrefix + $itemConnector + $item.Name)
-            # Recurse using the standard child prefix
-            $childLinesResult = @(Show-Tree -Path $item.FullName -IndentPrefix $recursiveChildPrefix -IsRoot:$false)
+            # Recurse using the standard child prefix, passing the extension filter
+            $childLinesResult = @(Show-Tree -Path $item.FullName -IndentPrefix $recursiveChildPrefix -Extension $Extension -IsRoot:$false)
             if ($null -ne $childLinesResult -and $childLinesResult.Count -gt 0) {
                 $outputLines.AddRange([string[]]$childLinesResult)
             }
         } else {
-            # It's a file.
-            # Construct the specific prefix for file lines using spaces '    ' for the last segment.
-            $fileLinePrefix = $IndentPrefix + '    '
-            $outputLines.Add($fileLinePrefix + $item.Name)
+            # It's a file. Check if we need to filter by extension.
+            $shouldAddFile = $true # Assume we add the file by default
+            if (-not [string]::IsNullOrEmpty($Extension)) {
+                # Ensure the provided extension starts with a dot for comparison
+                $filterExt = if ($Extension.StartsWith('.')) { $Extension } else { ".$Extension" }
+                if ($item.Extension -ne $filterExt) {
+                    $shouldAddFile = $false # Don't add if extension doesn't match
+                }
+            }
+
+            if ($shouldAddFile) {
+                # Construct the specific prefix for file lines using spaces '    ' for the last segment.
+                $fileLinePrefix = $IndentPrefix + '    '
+                $outputLines.Add($fileLinePrefix + $item.Name)
+            }
         }
     }
 
@@ -69,15 +84,48 @@ function Show-Tree {
 
 # --- How to Use ---
 
+# Check for help request first
+if ($args -contains '-help' -or $args -contains '/h' -or $args -contains '/?') {
+    Write-Host @"
+Usage: .\tree.ps1 [Path] [Extension]
+
+Arguments:
+  Path       (Optional) The directory path to display the tree for.
+             Defaults to the current directory if omitted.
+  Extension  (Optional) Filter the output to only show files with this extension.
+             Include the leading dot (e.g., .txt) or omit it (e.g., txt).
+
+Examples:
+  .\tree.ps1                  # Show tree for current directory
+  .\tree.ps1 C:\Users         # Show tree for C:\Users
+  .\tree.ps1 C:\Windows .log  # Show tree for C:\Windows, only .log files
+  .\tree.ps1 . ps1            # Show tree for current directory, only .ps1 files
+  .\tree.ps1 -help            # Display this help message
+"@
+    exit # Exit after showing help
+}
+
 # Get the path from the command line arguments, or use current directory if none provided
-if ($args.Count -gt 0) {
+# Simple argument parsing: assumes first arg is path, second (if present) is extension
+$rootPath = $null
+$fileExtension = $null
+
+if ($args.Count -ge 1) {
     $rootPath = $args[0]
 } else {
     $rootPath = (Get-Location).Path # Use current location
 }
+if ($args.Count -ge 2) {
+    $fileExtension = $args[1]
+}
 
 # Execute the function and capture the output
-$treeOutput = Show-Tree -Path $rootPath
+# Pass the extension if provided
+$treeOutput = if ($fileExtension) {
+    Show-Tree -Path $rootPath -Extension $fileExtension
+} else {
+    Show-Tree -Path $rootPath
+}
 
 # Display output to console
 if ($treeOutput) {

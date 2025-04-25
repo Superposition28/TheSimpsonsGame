@@ -59,5 +59,25 @@ if os.path.exists('Modules'):
         else:
             print("Model output already exists. Skipping init and run.")
 
+    if os.path.exists('Modules\\Video'):
+        import Modules.Video.run as run_video
+        import Modules.Video.init as init_video
 
+        if not os.path.exists('Modules\\Video\\GameFiles\\Assets_1_Video_Movies'):
+            print("Running init_video")
+            init_video.main()
+
+            print("Running run_video")
+            run_video.main()
+        else:
+            print("Video output already exists. Skipping init and run.")
+
+
+    if os.path.exists('Modules\\Audio'):
+        import Modules.Audio.run as run_audio
+        if not os.path.exists('Modules\\Audio\\GameFiles\\Assets_1_Audio'):
+            print("Running run_audio")
+            run_audio.main()
+        else:
+            print("Video output already exists. Skipping init and run.")
 
