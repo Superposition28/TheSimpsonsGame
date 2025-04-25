@@ -166,6 +166,7 @@
 *    d_cbgy_xxx_#######.exa.snu
 
 ## hr_xxx_0
+ ### Name: White Chocolate Rabbit, Level: Land_Of_Chocolate, Note: ''
 *    d_wchr_xxx_#######.exa.snu
 
 ## ht_xxx_0
@@ -182,7 +183,7 @@
 *    d_edie_xxx_#######.exa.snu
 
 ## igc01.ex
- ### Name: CUTSCENE, Level: Bartman Begins, Note: 'Cutscene where Bart and Homer encounter bullies robbing museum'
+ ### Name: CUTSCENE, Level: Bartman_Begins, Note: 'Cutscene where Bart and Homer encounter bullies robbing museum'
 *    brt_igc01.exa.snu
  ### Name: CUTSCENE, Level: , Note: ''
 *    moh_igc01.exa.snu
@@ -190,6 +191,7 @@
 *    rwc_igc01.exa.snu
 
 ## igc01b.e
+ ### Name: CUTSCENE, Level: Big_Super_Happy_Fun_Fun_Game, Note: 'realease of mr sparkle'
 *    bsh_igc01b.exa.snu
 
 ## igc02.ex
@@ -239,9 +241,11 @@
 *    che_igc16.exa.snu
 
 ## igc_13.e
+ ### Name: CUTSCENE, Level: Bartman_Begins, Note: 'when bart traps a bully in a dino skeleton'
 *    brt_igc_13.exa.snu
 
 ## igc_14.e
+ ### Name: CUTSCENE, Level: Big_Super_Happy_Fun_Fun_Game, Note: 'when the airship appears'
 *    bsh_igc_14.exa.snu
 
 ## ig_xxx_0
