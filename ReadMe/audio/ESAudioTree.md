@@ -1,6 +1,7 @@
-Folder PATH listing for volume Dev A:
-Volume serial number is 560F-B8F0
-A:\DEV\GAMES\THESIMPSONSGAME\PAL\MODULES\QBMS_TSG\GAMEFILES\USRDIR\ASSETS_1_AUDIO_STREAMS\ES
+
+`\GAMEFILES\USRDIR\ASSETS_1_AUDIO_STREAMS\ES`
+
+
 +---01_xxx_0
 |       d_as01_xxx_#######.exa.snu
 |       d_fr01_xxx_#######.exa.snu
