@@ -33,4 +33,17 @@ asset_mapping.json
 __pycache__/
 *.pyc
 
+# no no files
+*.dff.PS3.preinstanced
+*.rws.PS3.preinstanced
+*.PS3.preinstanced
+*.preinstanced
+*.preinstanced
+*.*.PS3.*
+*.*.PS3
+*.PS3
+
+
+
+
 

@@ -6,22 +6,38 @@ This project takes the files from the PS3 version of "The Simpsons Game" (2007) 
 
 ## Features
 
-*   **Automated Initialization:** Sets up the necessary environment and tools for the extraction process.
-*   **Asset Conversion:**         Converts extracted files (audio, video, textures, 3D models) into modern compatible formats.
-*   "Initializes",                gets everything ready
-*   "QuickBMS STR",               extracts content from STR archive files
-*   "Rename Folders",             renames the main output folders to be more human-readable
-*   "Flatten Directories",        flattens the directory structure
-*   "Audio/Video Conversion",     converts audio and video files to a usable format
-*   "Assets to Blender",          uses Blender to convert the assets to a usable format (.glb)
-*   "Noesis TXD extraction"       extracts textures from the .txd files using Noesis, broken for now
+*   **Automated Initialization:** Attempts to Sets up the necessary environment and tools for the extraction processes.
+*   **Asset Conversion:**         Converts extracted files (audio, video, textures, 3D models) into more compatible modern formats.
+## "Tools" - Module,
+*   "STR Archive Extraction" - QBMS_TSG,    Extracts Asset files, 3d, texture, etc from .str archives using [QuickBMS](https://aluigi.altervista.org/quickbms.htm) with [Simpsons Str - Simpsons Game STR . dk2 . SToc . 0x10fb \[simpsons_str.bms\]](https://aluigi.altervista.org/bms/simpsons_str.bms)
+*   "Directory restructuring"               changes base folder names and directory structure to be more human.
+*   "Audio Conversion" - Audio,             converts .snu audio files into .wav using [vgmstream-cli r1980](https://github.com/vgmstream/vgmstream/releases/tag/r1980)
+*   "Video Conversion" - Video,             converts .vp6 movie files into .ogv using [FFmpeg](https://www.ffmpeg.org/download.html)
+*   "Blender" - Model,                      converts .rws.PS3.preinstanced & .dff.PS3.preinstanced 3D models into .blend files, optionally generates .glb or .fbx assets
+*   "Texture Extraction" - Texture,         extracts textures from the .txd files using Noesis, requires some manual input.
+*   "Godot test" - Godot                    generates basic godot game with .blend assets imported and auto assigned to nodes to make a game world preview, no textures
+*   "Asset Registry"                        indexes all assets and attempts to define relation ships between files, like textures and models
+*   "Auto Repair"                           uses preset fix files and manually created maps to fix issues like broken UV maps in assets, and better define relation ships
+
+## prerequisites
+
+ensure windows long paths are enabled
+
+
+
+## Dependencies
+
+* python
+* ffmpeg
+* vgmstream-cli
+
 
 ## Getting Started
 
 Clone the repo with submodules:
 
 ```pwsh
-git clone --recurse-submodules https://github.com/your-username/my-main-repo.git
+git clone --recurse-submodules https://github.com/Superposition28/TheSimpsonsGame.git
 ```
 
 Or if you've already cloned it:
@@ -30,164 +46,15 @@ Or if you've already cloned it:
 git submodule update --init --recursive
 ```
 
+# how to
 
-## Prerequisites
-
-Before you begin, ensure you have the following installed and set up:
-
-TBA
-
-## Setup
-
-
-
-open ``Windows Powershell`` and navigate to the project folder
-then run 
-```pwsh
-.\main.ps1
-```
-
-### Your likely to encounter this error
-```pwsh
-PS C:\Users\WDAGUtilityAccount\Desktop\test> .\main.ps1
-.\main.ps1 : File C:\Users\WDAGUtilityAccount\Desktop\test\main.ps1 cannot be loaded because running scripts is
-disabled on this system. For more information, see about_Execution_Policies at
-https:/go.microsoft.com/fwlink/?LinkID=135170.
-At line:1 char:1
-+ .\main.ps1
-+ ~~~~~~~~~~
-    + CategoryInfo          : SecurityError: (:) [], PSSecurityException
-    + FullyQualifiedErrorId : UnauthorizedAccess
-```
-
-### To fix this, you can temporarily or permanently change the execution policy:
-# Option 1: Temporarily Allow Scripts (for current session only)
-
-Run this in your PowerShell window as Administrator:
-```pwsh
-Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
-```
-
-Then try running your script again:
-```pwsh
-.\main.ps1
-```
-
-This method is safe and doesn't change system-wide settings.
-
-# Option 2: Permanently Allow Scripts (for current user)
-If you want scripts to always run for your user:
-
-```pwsh
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-```
-if a message ``Do you want to change the execution policy?`` appears,
-select [A] or [Y]
-
-RemoteSigned allows local scripts to run, but requires downloaded scripts to be unblocked.
-
-to unblock run 
-```pwsh
-Get-ChildItem -Path "./" -Recurse -Filter *.ps1 | Unblock-File
-Get-ChildItem -Path "./" -Recurse -Filter *.ps1 | 
-    ForEach-Object {
-        if ((Get-Content $_.FullName -Stream Zone.Identifier -ErrorAction SilentlyContinue) -ne $null) {
-            Write-Host "Still blocked: $($_.FullName)"
-        } else {
-            Write-Host "Unblocked: $($_.FullName)"
-        }
-    }
-```
-
-Then try running your script again:
-```pwsh
-.\main.ps1
-```
-
-#### 🔐 Always be cautious when allowing scripts to run, especially if you're unsure of their source.
-#### Never run random scripts from GitHub without reviewing them first. Always skim the contents to make sure it’s not doing anything sketchy.
-
-
-
-## Usage
-
-Place the QuickBMS files in `Tools\quickbms` and the Noesis files in `Tools\noesis\exe`.
-
-The project initialization, asset extraction, and conversion process are automated through a main script. To start the process, run:
-
-```pwsh
-.\main.ps1
-```
-
-Then, select each option in order:
-
-**[0] Run all scripts**  OPTIONAL
-
-**[1] Initialize (PowerShell, `init.ps1`)**
-
-This step ensures all programs exist. It generates `config.ini` and the `GameFiles\Main\` directory. It registers all programs needed in the config file to be accessed by subsequent scripts (currently, only the Blender script uses this). It extracts the ISO contents using WinRar into `GameFiles\Main\`. The ISO file should contain `\PS3_GAME\USRDIR\` and other unimportant files (`\PS3_UPDATE`, `PS3_DISC.SFB`).
-
-**[2] Rename USRDIR Folders (PowerShell, `RenameFolders.ps1`)**
-
-This renames the directories in the game's root folder, as their original names are not descriptive. There are two kinds of folders: Levels and Assets.
-
-*   4 asset folders: video, audio, characters, frontend
-*   18 Map folders: For some reason, a number of Game Levels are separated as more than one root Map folder.
-
-**[3] QuickBMS STR (PowerShell, `str.ps1`)**
-
-The game files are almost all stored in a proprietary archive folder format identified by `.str`. The `.str` extension is actually meaningless, a pattern for the RenderWare game files. The 490 STR files contain over 20,000 game files, so this step extracts these many files as a massive nested structure of folders.
-
-**[4] Flatten Directories (PowerShell, `Flatten.ps1`)**
-
-This slightly un-nests the STR output structure by combining folders. This step was made to fix errors with Blender not finding files in long paths, but even this only reduced the number of errors significantly.
-
-**[5] Video Conversion (PowerShell, `4_Video.ps1`)**
-
-Converts the weird video format to a less weird one.
-
-**[6] Audio Conversion (PowerShell, `4_Audio.ps1`)**
-
-Converts the weird audio format to a less weird one.
-
-**[7] init Blender (C#, `init.csx`)**
-
-Gets the Blender conversion process ready.
-
-Due to the length of the directory structure, Blender often fails to locate the files. I needed a fix, so I created symbolic links (advanced shortcuts) to each file's folder instead of removing unnecessary folders from the structure. Even this only reduced the reduced number of errors.
-
-Processes `.preinstanced` files in the nested structure and generates a 'map' of asset file paths. Creates duplicate directory structures for `.blend` and `.glb` files based on `.preinstanced` files. Copies a blank `.blend` template file into the blend structure matching the `.preinstanced` files. Creates symbolic links for `.preinstanced`, `.blend`, and `.glb` files at the root of the current drive. Saves the generated asset map to `asset_mapping.json`.
-
-**[8] Blender Conversion (C#, `blend.csx`)**
-
-Converts each `.preinstanced` asset into `.glb` using Blender 4.0. The plugin or script stops working with 4.4. Currently, only 5337 of 5533 assets are converted successfully; the reason for the failure is unknown.
-
-**[9] Texture Dictionary extraction (C#, `init.csx`), (PowerShell, `copy.ps1`)**
-
-Run option `9`, then, when completed, manually perform the following:
-
-To extract the PNG files from TXD dictionaries:
-
-1.  Ensure a copy of `Tools\noesis\tex_TheSimpsonsGame_PS3_txd.py` is present in `Tools\noesis\exe\plugins\python\`.
-2.  Open `Noesis64.exe`.
-3.  Click 'Tools', then 'Batch Process'.
-4.  In the batch process window, set:
-
-    *   Input extension: `txd`
-    *   Output extension: `png`
-    *   Output path: `$inpath$\$inname$.txd_files\$inname$out.$outext$`
-    *            or: `$inpath$\$inname$.txd_file_$inname$out.$outext$`
-5.  Enable Recursive.
-6.  Click 'Folder batch' and select the `TMP_TSG_LNKS_TXD` folder located at the root of your drive, where the prior script was executed.
-7.  Then click Export.
-
-When complete, run option `10` in the main script menu, and all PNG files should now be in `TEXTURES_OUTPUT`.
+just run main.py
 
 
 
 ## Obligatory Legal Disclaimer
 
-**Please read this disclaimer carefully before using this software.**
+**Please read this disclaimer carefully before using this project.**
 
 This project provides code that automates the process of extracting assets (3D models, sounds, and videos) from the PlayStation 3 version of "The Simpsons Game" (released in 2007). It is intended for personal use only, specifically for hobby projects, learning purposes, and research into the game.
 
@@ -198,7 +65,7 @@ This project provides code that automates the process of extracting assets (3D m
 *   **No Distribution of Assets:** This project does not involve the distribution of any copyrighted game assets. It only provides the code to automate the extraction process from your own game files.
 *   **Compliance with Takedown Requests:** The developer of this project respects the intellectual property rights of EA and Disney. If either Electronic Arts or Disney (or their legal representatives) requests the removal of this code, the developer will promptly comply.
 
-**By using this software, you acknowledge that you have read and understood this disclaimer and agree to use it responsibly and in accordance with all applicable laws and terms of service.**
+**By using this project, you acknowledge that you have read and understood this disclaimer and agree to use it responsibly and in accordance with all applicable laws and terms of service.**
 
 # DO NOT USE THIS FOR COMMERCIAL PURPOSES OR DISTRIBUTE ANY EXTRACTED ASSETS WITHOUT PERMISSION FROM THE COPYRIGHT HOLDERS.
 # NOTE: THERE'S NO CHANCE THEY WILL EVER GRANT PERMISSION

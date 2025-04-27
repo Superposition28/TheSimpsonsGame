@@ -1,0 +1,13 @@
+{
+	"texture_links": [
+		{
+			"texture_uuid": "f1ca067ce8e7bfb5_8ec0ae6088f0b46a", 
+			"asset_uuid": "1fce201666dbe2b4_be60c647fb749adc",
+			"mesh_name": "controller_mesh_1",
+			"texture_filename": "anim_ray1.png",
+			"mesh_index": 0, 
+			"fix_applied": false,
+			"notes": ""
+		}
+	]
+}
