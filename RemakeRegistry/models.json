@@ -1,1 +1,24 @@
-{}
+[
+	{
+		"uuid": "fd654ds6fh4s654h6_u4dg654cdx24jrj",
+		"dependant_assets": {
+			"textures": [
+				{
+					"uuid": "fd654ds6",
+					"meshName": "lodmodel1"
+				},
+				{
+					"uuid": "fd654ds6fh4s654h6_u4dg654cdx24jrj",
+					"meshName": "lodmodel1"
+				}
+			]
+		},
+		"UV_Map": [
+			{
+				"fileHash": "fd654ds6fh4s654h6",
+				"pathNameHashMD5": "u4dg654cdx24jrj",
+				"sourcePath": "RemakeRegistry/models/uv_export.csv"
+			}
+		]
+	}
+]

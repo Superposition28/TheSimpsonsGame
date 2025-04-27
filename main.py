@@ -57,27 +57,28 @@ if os.path.exists('Modules'):
 
             run_model.main(verbose, debug_sleep, export)
         else:
-            print("Model output already exists. Skipping init and run.")
+            print("Model output already exists.")
 
     if os.path.exists('Modules\\Video'):
         import Modules.Video.run as run_video
-        import Modules.Video.init as init_video
-
         if not os.path.exists('Modules\\Video\\GameFiles\\Assets_1_Video_Movies'):
-            print("Running init_video")
-            init_video.main()
-
             print("Running run_video")
             run_video.main()
         else:
-            print("Video output already exists. Skipping init and run.")
+            print("Video output already exists.")
 
 
     if os.path.exists('Modules\\Audio'):
         import Modules.Audio.run as run_audio
-        if not os.path.exists('Modules\\Audio\\GameFiles\\Assets_1_Audio'):
+        if not os.path.exists('Modules\\Audio\\GameFiles\\Assets_1_Audio_Streams'):
             print("Running run_audio")
             run_audio.main()
         else:
-            print("Video output already exists. Skipping init and run.")
+            print("Audio output already exists.")
+
+    if os.path.exists('Modules\\Texture'):
+        import Modules.Texture.run as run_texture
+
+        print("Running run_texture")
+        run_texture.main()
 
