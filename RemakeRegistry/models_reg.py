@@ -92,11 +92,11 @@ def process_model_entries(asset_index_path, uv_maps_path):
                 asset_uuid = uv_map.get("asset_uuid")
                 if asset_uuid:
                     uv_map_fixes[asset_uuid] = {
-						"uv_map_uuid": uv_map.get("uuid"),
+                        "uv_map_uuid": uv_map.get("uuid"),
                         "fileHash": uv_map.get("json", {}).get("fileHashSHA256"),
                         "pathNameHashMD5": uv_map.get("json", {}).get("pathNameHashMD5"),
                         "sourcePath": uv_map.get("json", {}).get("path"),
-						"asset_uuid": asset_uuid,
+                        "asset_uuid": asset_uuid,
                     }
             printc(f"Successfully loaded {uv_maps_path} with {len(uv_map_fixes)} fixes.", color="green")
     except FileNotFoundError:
@@ -253,6 +253,6 @@ def process_model_entries(asset_index_path, uv_maps_path):
 
 if __name__ == "__main__":
     asset_index_file = "RemakeRegistry/asset_index.json"
-    uv_maps_file = "RemakeRegistry/fixes/UV_Maps.json"
+    uv_maps_file = "RemakeRegistry/Manual_Repair/UV_Maps.json"
 
     process_model_entries(asset_index_file, uv_maps_file)

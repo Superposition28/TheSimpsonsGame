@@ -97,41 +97,41 @@ Analysis of `.hko.ps3` file internals shows it contains:
 
 *   **Physics Bodies**
 
-	`hkRigidBody`, `hkCollidable`, `hkShape`, `hkSphereShape`, `hkConvexShape`
+    `hkRigidBody`, `hkCollidable`, `hkShape`, `hkSphereShape`, `hkConvexShape`
 
-	Define the physical shapes and collision volumes for parts of the object (e.g., limbs, torso, props).
+    Define the physical shapes and collision volumes for parts of the object (e.g., limbs, torso, props).
 *   **Constraints & Joints**
 
-	`hkConstraintData`, `hkConstraintAtom`, `hkModifierConstraintAtom`, `hkConstraintInstance`
+    `hkConstraintData`, `hkConstraintAtom`, `hkModifierConstraintAtom`, `hkConstraintInstance`
 
-	Define joints (shoulders, elbows, knees) and rules for how connected bodies can move relative to each other.
+    Define joints (shoulders, elbows, knees) and rules for how connected bodies can move relative to each other.
 *   **Motion & Movement**
 
-	`hkMotion`, `hkKeyframedRigidMotion`, `hkMaxSizeMotion`, `hkMotionState`
+    `hkMotion`, `hkKeyframedRigidMotion`, `hkMaxSizeMotion`, `hkMotionState`
 
-	Describe how each body part moves, including keyframed (animated) motion or fully simulated physics motion (e.g., ragdolls).
+    Describe how each body part moves, including keyframed (animated) motion or fully simulated physics motion (e.g., ragdolls).
 *   **Physics Systems**
 
-	`hkPhysicsSystem`, `EAPhysicsSystem`
+    `hkPhysicsSystem`, `EAPhysicsSystem`
 
-	Group multiple bodies and constraints into complete physical "systems" (e.g., a character's full body or a destructible object).
+    Group multiple bodies and constraints into complete physical "systems" (e.g., a character's full body or a destructible object).
 
-	`EAPhysicsSystem` suggests custom EA extensions to base Havok functionality.
+    `EAPhysicsSystem` suggests custom EA extensions to base Havok functionality.
 *   **Materials**
 
-	`hkMaterial`, `EAMaterial`
+    `hkMaterial`, `EAMaterial`
 
-	Define physical properties like friction and bounciness (important for realism when surfaces interact).
+    Define physical properties like friction and bounciness (important for realism when surfaces interact).
 *   **Properties & Metadata**
 
-	`hkProperty`, `hkPropertyValue`
+    `hkProperty`, `hkPropertyValue`
 
-	Store additional settings for rigid bodies, shapes, and materials.
+    Store additional settings for rigid bodies, shapes, and materials.
 *   **Naming & Tagging**
 
-	Found strings like `CHARACTER`, `MODEL`, `reference`, `AITrajectory`, `JO_shoulder`, `JO_elbow`, `JO_wrist`, and `ignore_DynamicObject`
+    Found strings like `CHARACTER`, `MODEL`, `reference`, `AITrajectory`, `JO_shoulder`, `JO_elbow`, `JO_wrist`, and `ignore_DynamicObject`
 
-	These link physics parts to animation bones or AI systems and control behaviors like collision ignoring.
+    These link physics parts to animation bones or AI systems and control behaviors like collision ignoring.
 
 **Key Takeaways:**
 
