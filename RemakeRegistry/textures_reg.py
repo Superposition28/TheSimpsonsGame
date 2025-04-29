@@ -59,10 +59,12 @@ def create_texture_registry(asset_index_path="RemakeRegistry/asset_index.json", 
                             file_hash = generate_file_hash(png_file_path)
                             path_name_hash_md5 = generate_path_hash(relative_png_path)
                             png_uuid = f"{file_hash[:16]}_{path_name_hash_md5[:16]}" if file_hash else generate_uuid_from_path(relative_png_path)
+                            textures_path = os.path.relpath(png_dir_path, os.path.join(os.getcwd(), "Modules", "Texture", "GameFiles", "Textures_out"))
 
                             textures.append({
                                 "uuid": png_uuid, # uuid from the file hash and path hash
                                 "filename": filename, # Original filename
+                                "path": textures_path, # path with Modules\\Texture\\GameFiles\\Textures_out\\ removed
                                 "sourcePath": relative_png_path, # Relative path to the PNG file
                                 "fileHash": file_hash, # SHA256 hash of the file content
                                 "pathNameHashMD5": path_name_hash_md5, # MD5 hash of the file path

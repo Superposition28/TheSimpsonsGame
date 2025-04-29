@@ -19,11 +19,10 @@ def main():
     asset_uuid = input("Enter asset_uuid: ").strip()
 
     metadata_file = os.path.join(uv_map_dir, "blend_metadata.json")
-    csv_path = os.path.join(uv_map_dir, "uv_export.csv")
-    json_path = os.path.join(uv_map_dir, "uv_export.json")
+    buvd_path = os.path.join(uv_map_dir, "uv_export.buvd")
 
     # Check if files exist
-    for file_path in [metadata_file, csv_path, json_path]:
+    for file_path in [metadata_file, buvd_path]:
         if not os.path.isfile(file_path):
             print(f"Error: File not found - {file_path}")
             return
@@ -32,11 +31,8 @@ def main():
     metadata_file_hash = hash_file_sha256(metadata_file)
     metadata_path_hash = hash_string_md5(metadata_file)
 
-    csv_file_hash = hash_file_sha256(csv_path)
-    csv_path_hash = hash_string_md5(csv_path)
-    
-    json_file_hash = hash_file_sha256(json_path)
-    json_path_hash = hash_string_md5(json_path)
+    buvd_file_hash = hash_file_sha256(buvd_path)
+    buvd_path_hash = hash_string_md5(buvd_path)
 
     # uuid based on metadata_file's sha256 and path md5
     uuid = f"{metadata_file_hash[:16]}_{metadata_path_hash[:16]}"
@@ -47,15 +43,10 @@ def main():
         "metadata_file": metadata_file,
         "metadata_file_hash": metadata_file_hash,
         "metadata_path_hash": metadata_path_hash,
-        "csv": {
-            "path": csv_path,
-            "fileHashSHA256": csv_file_hash,
-            "pathNameHashMD5": csv_path_hash
-        },
-        "json": {
-            "path": json_path,
-            "fileHashSHA256": json_file_hash,
-            "pathNameHashMD5": json_path_hash
+        "buvd": {
+            "path": buvd_path,
+            "fileHashSHA256": buvd_file_hash,
+            "pathNameHashMD5": buvd_path_hash
         },
         "asset_uuid": asset_uuid
     }
