@@ -3,10 +3,10 @@ from collections import defaultdict
 
 # Replace these with your actual folder paths
 dirs = [
-    r"A:\Dev\Games\TheSimpsonsGame\PAL\Modules\QBMS_TSG\GameFiles\USRDIR\Assets_1_Audio_Streams\ES",
-    r"A:\Dev\Games\TheSimpsonsGame\PAL\Modules\QBMS_TSG\GameFiles\USRDIR\Assets_1_Audio_Streams\FR",
-    r"A:\Dev\Games\TheSimpsonsGame\PAL\Modules\QBMS_TSG\GameFiles\USRDIR\Assets_1_Audio_Streams\IT",
-    r"A:\Dev\Games\TheSimpsonsGame\PAL\Modules\QBMS_TSG\GameFiles\USRDIR\Assets_1_Audio_Streams\Main",
+    r"A:\Dev\Games\TheSimpsonsGame\PAL\Modules\Extract\GameFiles\USRDIR\Assets_1_Audio_Streams\ES",
+    r"A:\Dev\Games\TheSimpsonsGame\PAL\Modules\Extract\GameFiles\USRDIR\Assets_1_Audio_Streams\FR",
+    r"A:\Dev\Games\TheSimpsonsGame\PAL\Modules\Extract\GameFiles\USRDIR\Assets_1_Audio_Streams\IT",
+    r"A:\Dev\Games\TheSimpsonsGame\PAL\Modules\Extract\GameFiles\USRDIR\Assets_1_Audio_Streams\Main",
 ]
 
 # Map to track where each folder name appears

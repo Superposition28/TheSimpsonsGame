@@ -7,8 +7,8 @@
 [submodule "Modules/Video"]
     path = Modules/Video
     url = https://github.com/Superposition28/Video_Assets.git
-[submodule "Modules/QBMS_TSG"]
-    path = Modules/QBMS_TSG
+[submodule "Modules/Extract"]
+    path = Modules/Extract
     url = https://github.com/Superposition28/QBMS_TSG.git
 [submodule "Modules/Texture"]
     path = Modules/Texture

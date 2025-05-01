@@ -22,26 +22,26 @@ def predict_converted_path(source_path, asset_type, stage, source_name):
         if stage == ".preinstanced":
             return source_path  # No change
         elif stage == ".blend":
-            return os.path.join(r"Modules\Model\GameFiles\blend_out", os.path.relpath(source_dir, r"Modules\QBMS_TSG\GameFiles\quickbms_out"), f"{name}.blend")
+            return os.path.join(r"Modules\Model\GameFiles\blend_out", os.path.relpath(source_dir, r"Modules\Extract\GameFiles\quickbms_out"), f"{name}.blend")
         elif stage == ".glb":
-            return os.path.join(r"Modules\Model\GameFiles\blend_out_glb", os.path.relpath(source_dir, r"Modules\QBMS_TSG\GameFiles\quickbms_out"), f"{name}.glb")
+            return os.path.join(r"Modules\Model\GameFiles\blend_out_glb", os.path.relpath(source_dir, r"Modules\Extract\GameFiles\quickbms_out"), f"{name}.glb")
         elif stage == ".fbx":
-            return os.path.join(r"Modules\Model\GameFiles\blend_out_fbx", os.path.relpath(source_dir, r"Modules\QBMS_TSG\GameFiles\quickbms_out"), f"{name}.fbx")
+            return os.path.join(r"Modules\Model\GameFiles\blend_out_fbx", os.path.relpath(source_dir, r"Modules\Extract\GameFiles\quickbms_out"), f"{name}.fbx")
     elif asset_type == "textures":
         if stage == ".txd":
             # Create folder name based on the source TXD file
             return os.path.join(source_dir, f"{name}.txd_files")
         elif stage == ".txd_directory":
-            return os.path.join(r"Modules\QBMS_TSG\GameFiles\quickbms_out", os.path.relpath(source_dir, r"Modules\QBMS_TSG\GameFiles\quickbms_out"), f"{name}")
+            return os.path.join(r"Modules\Extract\GameFiles\quickbms_out", os.path.relpath(source_dir, r"Modules\Extract\GameFiles\quickbms_out"), f"{name}")
         elif stage == ".png_directory":
-            return os.path.join(r"Modules\Texture\GameFiles\Textures_out", os.path.relpath(source_dir, r"Modules\QBMS_TSG\GameFiles\quickbms_out"), f"{name}.txd_files")
+            return os.path.join(r"Modules\Texture\GameFiles\Textures_out", os.path.relpath(source_dir, r"Modules\Extract\GameFiles\quickbms_out"), f"{name}.txd_files")
 
     elif asset_type == "audio":
         if stage == ".wav":
-            return os.path.join(r"Modules\Audio\GameFiles", os.path.relpath(source_dir, r"Modules\QBMS_TSG\GameFiles\USRDIR"), f"{name}.wav")
+            return os.path.join(r"Modules\Audio\GameFiles", os.path.relpath(source_dir, r"Modules\Extract\GameFiles\USRDIR"), f"{name}.wav")
     elif asset_type == "video":
         if stage == ".ogv":
-            return os.path.join(r"A:\Dev\Games\TheSimpsonsGame\PAL\Modules\Video\GameFiles\Assets_1_Video_Movies", os.path.relpath(source_dir, r"Modules\QBMS_TSG\GameFiles\USRDIR"), f"{name}.ogv")
+            return os.path.join(r"A:\Dev\Games\TheSimpsonsGame\PAL\Modules\Video\GameFiles\Assets_1_Video_Movies", os.path.relpath(source_dir, r"Modules\Extract\GameFiles\USRDIR"), f"{name}.ogv")
     return None
 
 def scan_directories(directories):
@@ -115,7 +115,7 @@ def scan_directories(directories):
                             entry["stages"][".fbx"] = {"path": predicted_fbx}
                     elif asset_type == "textures":
                         # example path, txd dir is the path where the txd file is located and png files are generated
-                        # Modules\QBMS_TSG\GameFiles\quickbms_out\Assets_2_Characters_Simpsons\GlobalFolder\chars\bart_bc0_grp0_ss1_h0_str\EU_EN\ASSET_RWS\Textures\bart_bc0_grp0_ss1_h0.txd_files
+                        # Modules\Extract\GameFiles\quickbms_out\Assets_2_Characters_Simpsons\GlobalFolder\chars\bart_bc0_grp0_ss1_h0_str\EU_EN\ASSET_RWS\Textures\bart_bc0_grp0_ss1_h0.txd_files
                         txd_dir = predict_converted_path(relative_path, "textures", ".txd", source_name)
                         if txd_dir:
                             entry["stages"][".txd_directory"] = {"path": txd_dir}
@@ -143,11 +143,11 @@ def scan_directories(directories):
 
 if __name__ == "__main__":
     directories_to_scan = [
-        r"Modules\QBMS_TSG\GameFiles\quickbms_out",
-        r"Modules\QBMS_TSG\GameFiles\USRDIR\Assets_1_Audio_Streams\EN",
-        r"Modules\QBMS_TSG\GameFiles\USRDIR\Assets_1_Audio_Streams\Global",
-        r"Modules\QBMS_TSG\GameFiles\USRDIR\Assets_1_Video_Movies\en",
-        r"Modules\QBMS_TSG\GameFiles\USRDIR\Assets_1_Video_Movies\sf",
+        r"Modules\Extract\GameFiles\quickbms_out",
+        r"Modules\Extract\GameFiles\USRDIR\Assets_1_Audio_Streams\EN",
+        r"Modules\Extract\GameFiles\USRDIR\Assets_1_Audio_Streams\Global",
+        r"Modules\Extract\GameFiles\USRDIR\Assets_1_Video_Movies\en",
+        r"Modules\Extract\GameFiles\USRDIR\Assets_1_Video_Movies\sf",
     ]
 
     scan_directories(directories_to_scan)

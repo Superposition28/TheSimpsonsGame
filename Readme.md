@@ -9,7 +9,7 @@ This project takes the files from the PS3 version of "The Simpsons Game" (2007) 
 *   **Automated Initialization:** Attempts to Sets up the necessary environment and tools for the extraction processes.
 *   **Asset Conversion:**         Converts extracted files (audio, video, textures, 3D models) into more compatible modern formats.
 ## "Tools" - Module,
-*   "STR Archive Extraction" - QBMS_TSG,    Extracts Asset files, 3d, texture, etc from .str archives using [QuickBMS](https://aluigi.altervista.org/quickbms.htm) with [Simpsons Str - Simpsons Game STR . dk2 . SToc . 0x10fb \[simpsons_str.bms\]](https://aluigi.altervista.org/bms/simpsons_str.bms)
+*   "STR Archive Extraction" - Extract,    Extracts Asset files, 3d, texture, etc from .str archives using [QuickBMS](https://aluigi.altervista.org/quickbms.htm) with [Simpsons Str - Simpsons Game STR . dk2 . SToc . 0x10fb \[simpsons_str.bms\]](https://aluigi.altervista.org/bms/simpsons_str.bms)
 *   "Directory restructuring"               changes base folder names and directory structure to be more human.
 *   "Audio Conversion" - Audio,             converts .snu audio files into .wav using [vgmstream-cli r1980](https://github.com/vgmstream/vgmstream/releases/tag/r1980)
 *   "Video Conversion" - Video,             converts .vp6 movie files into .ogv using [FFmpeg](https://www.ffmpeg.org/download.html)

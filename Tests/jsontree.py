@@ -36,5 +36,5 @@ def save_key_value_pairs(base_folder, output_filename="output.json"):
     print(f"Key-value pairs saved to {output_filename}")
 
 # Provide the base folder path where your folders are located
-base_folder = r"Modules\QBMS_TSG\GameFiles\quickbms_out\Map_3-01_LandOfChocolate"
+base_folder = r"Modules\Extract\GameFiles\quickbms_out\Map_3-01_LandOfChocolate"
 save_key_value_pairs(base_folder)

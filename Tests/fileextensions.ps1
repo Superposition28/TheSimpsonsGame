@@ -1,5 +1,5 @@
 # Set the root directory
-$root = "A:\Dev\Games\TheSimpsonsGame\Modules\QBMS_TSG\GameFiles\quickbms_out"
+$root = "A:\Dev\Games\TheSimpsonsGame\Modules\Extract\GameFiles\quickbms_out"
 
 # Get all files recursively
 $allFiles = Get-ChildItem -Path $root -Recurse -File
