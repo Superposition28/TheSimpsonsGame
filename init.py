@@ -1,5 +1,5 @@
-import configparser
 import os
+import json
 
 def get_current_directory() -> str:
     """Returns the full path of the current directory."""
@@ -10,7 +10,7 @@ def detect_external_tools(base_directory: str) -> dict:
     blacklist = ["GameFiles"]
 
     tools = {
-        "QuickBMSini": "bmsConf.ini"
+        "QuickBMSjson": "Extract.json"
     }
 
     found_tools = {}
@@ -22,28 +22,24 @@ def detect_external_tools(base_directory: str) -> dict:
     return found_tools
 
 def generate_config_with_tools(file_path: str, tools: dict) -> None:
-    """Generates a configuration file pre-filled with detected external tool paths."""
-    config = configparser.ConfigParser()
-
-    config['FilePaths'] = {}
-    config['Tools'] = tools
+    """Generates a JSON configuration file pre-filled with detected external tool paths."""
+    config_data = {
+        'FilePaths': {},
+        'Tools': tools
+    }
 
     with open(file_path, 'w') as configfile:
-        config.write(configfile)
+        json.dump(config_data, configfile, indent=4)
     print(f"Configuration file generated with tool paths at {file_path}")
 
-def read_config(file_path: str) -> None:
-    """Reads and displays the contents of a configuration file."""
-    config = configparser.ConfigParser()
-    config.read(file_path)
-
-    for section in config.sections():
-        print(f"[{section}]")
-        for key, value in config.items(section):
-            print(f"{key} = {value}")
+def read_config(file_path: str) -> dict:
+    """Reads and returns the contents of a JSON configuration file."""
+    with open(file_path, 'r') as configfile:
+        config_data = json.load(configfile)
+    return config_data
 
 if __name__ == "__main__":
-    config_file_path = "project.ini"
+    config_file_path = "project.json"
     base_dir = get_current_directory()
 
     # Ensure GameFiles directory exists
@@ -57,9 +53,8 @@ if __name__ == "__main__":
         # Detect tools and generate the config
         tools = detect_external_tools(base_dir)
         generate_config_with_tools(config_file_path, tools)
-        # Read the existing config
-        #read_config(config_file_path)
     else:
         print(f"Configuration file {config_file_path} already exists. Reading the existing one.")
         # Read the existing config
-        #read_config(config_file_path)
+        config_data = read_config(config_file_path)
+        print(config_data)

@@ -1,0 +1,19 @@
+{
+    "Extract": {
+        "Config": {
+            "module_name": "Extract",
+            "module_path": "A:\\Dev\\Games\\TheSimpsonsGame\\PAL\\Modules\\Extract",
+            "project_path": "A:\\Dev\\Games\\TheSimpsonsGame\\PAL"
+        },
+        "Directories": {
+            "StrDirectory": "A:\\Dev\\Games\\TheSimpsonsGame\\PAL\\Source\\USRDIR",
+            "OutDirectory": "A:\\Dev\\Games\\TheSimpsonsGame\\PAL\\Modules\\Extract\\GameFiles\\QbmsOut",
+            "FlatDirectory": "A:\\Dev\\Games\\TheSimpsonsGame\\PAL\\Modules\\Extract\\GameFiles\\quickbms_out",
+            "LogFilePath": "A:\\Dev\\Games\\TheSimpsonsGame\\PAL\\Modules\\Extract\\qbms.log"
+        },
+        "Scripts": {
+            "BmsScriptPath": "A:\\Dev\\Games\\TheSimpsonsGame\\PAL\\Modules\\Extract\\Tools\\quickbms\\simpsons_str.bms",
+            "QuickBMSEXEPath": "A:\\Dev\\Games\\TheSimpsonsGame\\PAL\\Modules\\Extract\\Tools\\quickbms\\exe\\quickbms.exe"
+        }
+    }
+}
