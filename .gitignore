@@ -34,19 +34,37 @@ __pycache__/
 *.pyc
 
 # no no files
-*.dff.PS3.preinstanced
-*.rws.PS3.preinstanced
-*.PS3.preinstanced
+localereftableD4815ED6.txt
+LightTOC
+StreamSetConfig
 *.preinstanced
-*.preinstanced
-*.*.PS3.*
-*.*.PS3
-*.PS3
+*.ps3
 *.snu
 *.vp6
 *.mus
-Source/
-
+/Source/
+*.vfb
+*.xml
+*.dat
+*.txd
+*.lh2
+*.alb
+*.ctb
+*.graph
+*.rcm_b
+*.sbk
+*.bsp
+*.smb
+*.mib
+*.amb
+*.uix
+*.imb
+*.toc
+*.msb
+*.inf
+*.bin
+*.aub
+*.xml
 
 .test/
 test/
@@ -55,3 +73,5 @@ uv_map_extract/
 
 investigation_tools/blank.blend
 investigation_tools/blank.blend1
+
+*.blend1
