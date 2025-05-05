@@ -32,21 +32,17 @@ if Path('Modules').exists():
 # step B.2 convert .snu audio files to .wav audio files
 
 
-	# step A.2
+    # step A.2
     if Path('Modules\\Extract').exists():
         import Modules.Extract.run as run_qbms
-        import Modules.Extract.init as init_qbms
 
         if not Path('Modules\\Extract\\GameFiles\\quickbms_out').exists():
-            print("Running init_qbms")
-            init_qbms.main()
-
             print("Running run_qbms")
             run_qbms.main()
         else:
             print("QuickBMS output already exists. Skipping init and run.")
 
-	# step A.3
+    # step A.3
     if Path('Modules\\Model').exists():
         import Modules.Model.run as run_model
         import Modules.Model.init as init_model
@@ -91,14 +87,15 @@ if Path('Modules').exists():
         else:
             print("Model output already exists.")
 
-	# step A.4
+    # step A.4
     if Path('Modules\\Texture').exists():
         import Modules.Texture.run as run_texture
+        if not Path('Modules\\Texture\\GameFiles\\Textures_out').exists():
 
-        print("Running run_texture")
-        run_texture.main()
+            print("Running run_texture")
+            run_texture.main()
 
-	# step B.1
+    # step B.1
     if Path('Modules\\Video').exists():
         import Modules.Video.run as run_video
         if not Path('Modules\\Video\\GameFiles\\Assets_1_Video_Movies').exists():
@@ -107,7 +104,7 @@ if Path('Modules').exists():
         else:
             print("Video output already exists.")
 
-	# step B.2
+    # step B.2
     if Path('Modules\\Audio').exists():
         import Modules.Audio.run as run_audio
         if not Path('Modules\\Audio\\GameFiles\\Assets_1_Audio_Streams').exists():
