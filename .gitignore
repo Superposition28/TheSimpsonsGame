@@ -39,6 +39,7 @@ LightTOC
 StreamSetConfig
 *.preinstanced
 *.ps3
+*.ps3
 *.snu
 *.vp6
 *.mus
@@ -74,4 +75,5 @@ uv_map_extract/
 investigation_tools/blank.blend
 investigation_tools/blank.blend1
 
+*.blend1
 *.blend1
