@@ -70,7 +70,7 @@ StreamSetConfig
 .test/
 test/
 
-uv_map_extract/
+#uv_map_extract/
 
 investigation_tools/blank.blend
 investigation_tools/blank.blend1
