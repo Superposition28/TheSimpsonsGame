@@ -1,11 +1,13 @@
 # Build/Game artifacts
 GameFiles/
 Game/
+Modules/
 
 # Configuration/History
-*.ini
 .history
 config.ini
+project.json
+
 
 # IDE/Editor specific
 .vscode/
@@ -50,6 +52,7 @@ StreamSetConfig
 *.vp6
 *.mus
 /Source/
+/SourceData/
 *.vfb
 *.xml
 *.dat

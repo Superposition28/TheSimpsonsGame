@@ -1,4 +1,14 @@
 {
+    "RemakeEngine": {
+        "Config": {
+            "project_path": "A:\\Dev\\Games\\TheSimpsonsGame\\PAL\\init.py"
+        },
+        "Directories": {
+            "SourcePath": "A:\\Dev\\Games\\TheSimpsonsGame\\PAL\\Source\\USRDIR",
+            "MainSourcePath": "A:\\Dev\\Games\\ISO\\PS3\\The Simpsons Game\\Simpsons Game The (Europe) (EnFrEsIt)\\PS3_GAME"
+        },
+        "Tools": {}
+    },
     "Extract": {
         "Config": {
             "module_name": "Extract",
