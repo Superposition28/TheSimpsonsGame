@@ -25,5 +25,19 @@
             "BmsScriptPath": "A:\\Dev\\Games\\TheSimpsonsGame\\PAL\\Modules\\Extract\\Tools\\quickbms\\simpsons_str.bms",
             "QuickBMSEXEPath": "A:\\Dev\\Games\\TheSimpsonsGame\\PAL\\Modules\\Extract\\Tools\\quickbms\\exe\\quickbms.exe"
         }
+    },
+    "Video": {
+        "Config": {
+            "module_name": "Video",
+            "module_path": "Modules\\Video",
+            "project_path": "A:\\Dev\\Games\\TheSimpsonsGame\\PAL"
+        },
+        "Directories": {
+            "MOV_SOURCE_DIR": "Source/USRDIR/Assets_1_Video_Movies",
+            "MOV_TARGET_DIR": "Modules/Video/GameFiles/Assets_1_Video_Movies"
+        },
+        "Tools": {
+            "ffmpeg_path": "ffmpeg.exe"
+        }
     }
 }
