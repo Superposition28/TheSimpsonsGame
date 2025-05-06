@@ -188,7 +188,7 @@ if module_paths_exist:
                 output_dir_audio_check = Path('Modules\\Audio\\GameFiles\\Assets_1_Audio_Streams')
                 if not output_dir_audio_check.exists() or not any(f for f in output_dir_audio_check.glob('*.wav') if f.is_file()):
                     print(colours.CYAN, "Running Audio Conversion (run_audio)...")
-                    run_audio.main()
+                    run_audio.main(project_path=path_value)
                 else:
                     print(colours.CYAN, f"Audio output directory '{output_dir_audio_check}' appears to contain '.wav' files. Skipping audio conversion.")
             else:

@@ -39,5 +39,77 @@
         "Tools": {
             "ffmpeg_path": "ffmpeg.exe"
         }
+    },
+    "Audio": {
+        "Config": {
+            "module_name": "Audio",
+            "module_path": "Modules\\Audio",
+            "project_path": "A:\\Dev\\Games\\TheSimpsonsGame\\PAL"
+        },
+        "Directories": {
+            "AUDIO_SOURCE_DIR": "Source\\USRDIR\\Assets_1_Audio_Streams",
+            "AUDIO_TARGET_DIR": "Modules/Audio/GameFiles/Assets_1_Audio_Streams"
+        },
+        "Tools": {
+            "vgmstream-cli": "vgmstream-cli.exe"
+        },
+        "Extensions": {
+            "SOURCE_EXT": ".snu",
+            "TARGET_EXT": ".wav"
+        },
+        "LanguageBlacklist": {
+            "IT": "",
+            "ES": "",
+            "FR": ""
+        },
+        "GlobalDirs": {
+            "80b_crow": "",
+            "amb_airc": "",
+            "amb_chao": "",
+            "amb_cour": "",
+            "amb_dung": "",
+            "amb_ext_": "",
+            "amb_fore": "",
+            "amb_fren": "",
+            "amb_gara": "",
+            "amb_int_": "",
+            "amb_mans": "",
+            "amb_nort": "",
+            "amb_riot": "",
+            "amb_shir": "",
+            "amb_vent": "",
+            "bin_rev0": "",
+            "brt_dino": "",
+            "brt_dior": "",
+            "brt_myst": "",
+            "brt_plan": "",
+            "brt_temp": "",
+            "bsh_air_": "",
+            "bsh_beac": "",
+            "bsh_figh": "",
+            "bsh_fire": "",
+            "bsh_ice_": "",
+            "bsh_vill": "",
+            "bsh__air": "",
+            "che_cart": "",
+            "che_cent": "",
+            "che_mark": "",
+            "che_mo_b": "",
+            "che_q_an": "",
+            "dod_aqua": "",
+            "dod_dock": "",
+            "gamehub_": "",
+            "gts_full": "",
+            "gts_seas": "",
+            "gts_stat": "",
+            "gts_subu": "",
+            "gts_vent": "",
+            "gts_viol": "",
+            "mtp_heav": "",
+            "mus_simp": "",
+            "sss_cont": "",
+            "sss_lab_": "",
+            "sss_mall": ""
+        }
     }
 }
