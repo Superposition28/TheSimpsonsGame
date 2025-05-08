@@ -1,6 +1,7 @@
 # Build/Game artifacts
 GameFiles/
 Game/
+Modules/
 
 # Configuration/History
 .history
@@ -83,4 +84,5 @@ test/
 investigation_tools/blank.blend
 investigation_tools/blank.blend1
 
+*.blend1
 *.blend1
